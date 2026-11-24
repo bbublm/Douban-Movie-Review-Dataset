@@ -1,0 +1,38 @@
+# ============================================================
+# 电影盒子 · 后端运行时依赖（Docker 镜像专用子集）
+#
+# 与根目录 requirements.txt（开发/采集全量）的关系：
+#   · requirements.txt        = 全量：采集 + 分析 + 服务，本机开发用
+#   · 本文件                  = 运行服务所需的最小子集，打进 Docker 镜像
+#
+# 为什么要拆两份？
+#     全量里的 pandas / numpy / scikit-learn / pyarrow / kagglehub / snownlp
+#     只在采集与分析阶段用到，服务运行路径（backend/ + index/ + analysis/ 的
+#     insights 懒加载）一个都不 import —— grep 全库验证过。
+#     拆开后镜像从 ~1.2GB 降到 ~400MB，`docker compose pull/build` 更快。
+#
+# ★ 防漂移约定：新增服务端 import 时，记得同步加到这里。
+#   验证方法：docker build 后容器里能正常 import 即齐了。
+# ============================================================
+
+# ---------- Web 服务 ----------
+fastapi>=0.115.0
+uvicorn[standard]>=0.32.0
+pydantic>=2.9.0
+pydantic-settings>=2.6.0
+httpx>=0.27.0
+orjson>=3.10.0
+
+# ---------- 用户认证（JWT + bcrypt）----------
+bcrypt>=4.0.0
+PyJWT>=2.8.0
+
+# ---------- Elasticsearch ----------
+elasticsearch>=8.15.0,<9.0.0
+# AsyncElasticsearch 的异步 HTTP 后端，缺了会报 AiohttpHttpNode 错误
+aiohttp>=3.10.0
+
+# ---------- 中文分词（insights 影评洞察页的中文情感/主题接口）----------
+# 纯 Python 词典分词，无模型下载；缺失时 analysis/lexicon.py 会降级按字切，
+# 但装上是为中文检索质量。snownlp 不在运行时路径（--baseline 才用），不装。
+jieba>=0.42.1

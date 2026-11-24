@@ -1,0 +1,1282 @@
+/* ============================================================
+   电影盒子 · 深空电影宇宙大屏（全屏 HUD）
+   ------------------------------------------------------------
+   设计约束（硬性）：
+     1. 一屏 16:9 展示完毕 —— 100vw × 100vh，全局 overflow:hidden，
+        绝不出现上下/左右滚动条；
+     2. 结构 = 底层 3D 画布（z-index:0） + 上层悬浮 HUD（z-index:10），
+        HUD 层 pointer-events:none（鼠标可穿透去拖拽背后的星云），
+        仅面板与按钮 pointer-events:auto；
+     3. 三区五块绝对定位：顶部状态栏 / 左面板 / 右面板 / 底部数据流带
+        （+ 中央悬浮提示条），不使用 flex 纵向排列；
+     4. 玻璃拟态：深蓝玻璃 + blur + 彩色渐变边 + 切角；
+     5. 字体：数字/英文 Orbitron，正文思源黑体。
+
+   ★ 2026-10-19 视觉方向（用户两次反馈"不要全是深颜色" + 参照
+     knight-L/sc-datav）：深空底保留，但整体**提亮增彩**——
+     · 背景从近黑改为彩色星云（蓝/紫/金三段辉光），不再是"一片死黑"；
+     · 面板玻璃更亮、边框改金→青渐变并带流动光；
+     · 强调色从"金+蓝"双色扩为五色：暖金 / 暖橙(sc-datav 同款
+       #FF9100/#EA580C) / 青 / 天蓝 / 紫，图表与标签全部彩色化；
+     · 动效全面对齐 sc-datav：角标 hover 展开、SVG mask 扫光、
+       GSAP 方向性错峰入场、CatmullRom 流星粒子、星星闪烁、扫描线。
+   ============================================================ */
+
+/* ---------- 令牌 ---------- */
+/* 2026-10-19 浅色化（用户："整个这个页面还是改成浅色的"）：
+   深空宇宙 → 暖白纸感。底色暖米白、文字深咖、强调色整体加深一档
+   （原 #FF9100 亮橙在白底对比不足），保留 HUD 切角/渐变边/扫光结构 */
+:root {
+  --u-void: #F6F1E6;          /* 暖白纸（替代深空基色） */
+  --u-deep: #EEE6D6;          /* 暖米外围 */
+  --u-glass: rgba(255, 253, 247, 0.78);
+  --u-glass-strong: rgba(255, 253, 247, 0.92);
+  --u-line: rgba(154, 96, 40, 0.22);
+  --u-line-strong: rgba(154, 96, 40, 0.55);
+  --u-gold: #A67C2E;
+  --u-orange: #C2410C;        /* 白底可读的深橙（原 #FF9100 对比不足） */
+  --u-orange-deep: #9A3412;
+  --u-cyan: #0F766E;
+  --u-sky: #0369A1;
+  --u-violet: #6D28D9;
+  --u-blue: #4A7FB5;
+  --u-text: #3A2E20;          /* 深咖正文 */
+  --u-text-2: #7D6B52;        /* 中咖次要 */
+  /* 彩色渐变边（面板/标题通用）：金 → 橙 → 青（浅色版降饱和） */
+  --u-border-grad: linear-gradient(120deg, rgba(166,124,46,.5), rgba(194,65,12,.42) 45%, rgba(15,118,110,.38));
+  --u-cut: 14px;              /* 切角尺寸 */
+  /* 切角多边形：左上 + 右下 斜切（HUD 面板） */
+  --u-poly: polygon(
+    var(--u-cut) 0,
+    100% 0,
+    100% calc(100% - var(--u-cut)),
+    calc(100% - var(--u-cut)) 100%,
+    0 100%,
+    0 var(--u-cut)
+  );
+  --u-font-tech: 'Orbitron', 'DIN Alternate', 'Bahnschrift', 'Rajdhani', sans-serif;
+  --u-font-cn: 'Source Han Sans SC', 'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+}
+
+/* ---------- 全局锁滚动（仅本页挂载时给 body 加 .u-body-lock） ---------- */
+html.u-body-lock,
+body.u-body-lock {
+  overflow: hidden !important;
+  height: 100%;
+  margin: 0;
+  background: var(--u-void);
+  /* 彻底干掉滚动条占位 */
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+body.u-body-lock::-webkit-scrollbar { width: 0; height: 0; display: none; }
+
+/* 锁滚动时把外层壳也压成一屏（.app-shell 原本 min-height:100vh + flex 列，
+   大屏页 100vh 会与之叠加成 200vh；虽然被 overflow 裁掉，仍会让布局计算失真） */
+body.u-body-lock .app-shell {
+  min-height: 100vh;
+  height: 100vh;
+  overflow: hidden;
+}
+body.u-body-lock .app-main {
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+  display: flex;
+}
+body.u-body-lock .app-main > * { flex: 1; min-height: 0; }
+
+/* ============================================================
+   1. 容器：一屏到底
+   ------------------------------------------------------------
+   宽高不再写死 100vw/100vh：站点导航栏（--header-h 60px）常驻后，
+   本容器是 .app-main（body-lock 下 flex:1，高度 = 100vh - 导航）
+   里唯一的子元素，100% 撑满即是"扣除导航后的一屏"。
+   ============================================================ */
+.dashboard-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  /* 暖白纸底：四段淡彩辉光（暖金 / 青 / 紫 / 金）像水彩晕染，
+     不再是"一片死黑"—— 用户 2026-10-19：整个页面改成浅色的 */
+  background:
+    radial-gradient(46% 34% at 22% 18%, rgba(194, 65, 12, 0.07), transparent 70%),
+    radial-gradient(42% 36% at 80% 24%, rgba(3, 105, 161, 0.06), transparent 70%),
+    radial-gradient(52% 42% at 58% 74%, rgba(109, 40, 217, 0.05), transparent 70%),
+    radial-gradient(38% 30% at 86% 84%, rgba(166, 124, 46, 0.07), transparent 70%),
+    radial-gradient(120% 90% at 50% 42%, #FBF8F1 0%, #F3EDE0 46%, #EDE4D2 100%);
+  color: var(--u-text);
+  font-family: var(--u-font-cn);
+  -webkit-font-smoothing: antialiased;
+  user-select: none;
+}
+
+/* 底层星尘（纯 CSS，不占 JS；3D 画布就绪后会被 canvas 覆盖）。
+   浅色版：白点改淡咖微点（否则白纸上白点不可见） */
+.dashboard-container::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(1.4px 1.4px at 12% 22%, rgba(122, 92, 48, 0.34), transparent 100%),
+    radial-gradient(1.2px 1.2px at 78% 16%, rgba(166, 124, 46, 0.34), transparent 100%),
+    radial-gradient(1px 1px at 34% 74%, rgba(122, 92, 48, 0.26), transparent 100%),
+    radial-gradient(1.6px 1.6px at 62% 58%, rgba(15, 118, 110, 0.3), transparent 100%),
+    radial-gradient(1px 1px at 88% 82%, rgba(122, 92, 48, 0.22), transparent 100%),
+    radial-gradient(1px 1px at 22% 46%, rgba(122, 92, 48, 0.2), transparent 100%),
+    radial-gradient(1.2px 1.2px at 48% 88%, rgba(194, 65, 12, 0.26), transparent 100%);
+  opacity: 0.75;
+  /* 星星闪烁（错峰 delay，避免整片一起呼吸像灯坏） */
+  animation: u-twinkle 5.5s ease-in-out infinite;
+}
+@keyframes u-twinkle {
+  0%, 100% { opacity: 0.75; }
+  50% { opacity: 0.4; }
+}
+
+/* ============================================================
+   2. 底层 3D 画布
+   ============================================================ */
+.three-canvas-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  /* 3D 场景要能接鼠标：底层自身接收事件 */
+  pointer-events: auto;
+  cursor: grab;
+}
+.three-canvas-layer:active { cursor: grabbing; }
+/* canvas 需抬到深空背板（z-index:0）之上：position:relative 才参与层叠 */
+.three-canvas-layer canvas { display: block; width: 100%; height: 100%; position: relative; z-index: 1; }
+
+/* 深空背板（用户 2026-10-19："星图看不清楚了，加一个背景保证正常显示"）：
+   整页浅色化后 renderer 透明，粒子直接被暖白底洗没。这里在画布下方垫一块
+   椭圆深空盘（星系本是盘形）——中心浓、边缘羽化融入页面，不抢主视觉。
+   z-index：背板 0 / canvas 1（canvas 需 position:relative 才能压过背板） */
+.galaxy-bg {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: min(62%, 900px);
+  height: 72%;
+  border-radius: 50%;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    /* 盘内细星点（白点在深底上才显） */
+    radial-gradient(1.2px 1.2px at 18% 24%, rgba(255, 255, 255, 0.55), transparent 100%),
+    radial-gradient(1px 1px at 72% 18%, rgba(255, 255, 255, 0.45), transparent 100%),
+    radial-gradient(1.4px 1.4px at 44% 66%, rgba(255, 255, 255, 0.4), transparent 100%),
+    radial-gradient(1px 1px at 84% 62%, rgba(255, 255, 255, 0.5), transparent 100%),
+    radial-gradient(1.2px 1.2px at 30% 78%, rgba(255, 255, 255, 0.35), transparent 100%),
+    radial-gradient(1px 1px at 60% 36%, rgba(255, 255, 255, 0.4), transparent 100%),
+    radial-gradient(1px 1px at 88% 34%, rgba(255, 255, 255, 0.35), transparent 100%),
+    radial-gradient(1.3px 1.3px at 12% 52%, rgba(255, 255, 255, 0.3), transparent 100%),
+    /* 深空盘：中心浓、边缘羽化 */
+    radial-gradient(ellipse at 50% 50%,
+      rgba(22, 32, 60, 0.96) 0%,
+      rgba(20, 29, 55, 0.93) 42%,
+      rgba(18, 26, 50, 0.8) 62%,
+      rgba(16, 24, 46, 0.46) 78%,
+      rgba(16, 24, 46, 0) 92%);
+  box-shadow: inset 0 0 90px rgba(74, 127, 181, 0.16);
+}
+/* 一圈极淡的金色观测环：暗示"这是一块夜空取景框"，而非贴上去的圆纸片 */
+.galaxy-bg::after {
+  content: '';
+  position: absolute;
+  inset: 5%;
+  border-radius: 50%;
+  border: 1px solid rgba(201, 169, 110, 0.14);
+}
+
+/* 3D 就绪前的占位视觉：中央核心辉光 + 地平线 */
+.canvas-placeholder {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+}
+.canvas-placeholder__core {
+  width: min(46vw, 620px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 50% 50%,
+      rgba(201, 169, 110, 0.20) 0%,
+      rgba(201, 169, 110, 0.09) 26%,
+      rgba(74, 127, 181, 0.06) 48%,
+      transparent 68%);
+  filter: blur(6px);
+  animation: u-core-breathe 7s ease-in-out infinite;
+}
+@keyframes u-core-breathe {
+  0%, 100% { transform: scale(1); opacity: 0.85; }
+  50% { transform: scale(1.06); opacity: 1; }
+}
+.canvas-placeholder__tag {
+  position: absolute;
+  bottom: 22%;
+  font-family: var(--u-font-tech);
+  font-size: 11px;
+  letter-spacing: 3px;
+  color: rgba(125, 107, 82, 0.85);
+  text-transform: uppercase;
+}
+
+/* ============================================================
+   3. 上层 HUD
+   ============================================================ */
+.hud-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  pointer-events: none;   /* 默认穿透，让鼠标去操作底层 3D */
+}
+/* 只有真正需要交互的元素恢复命中 */
+.hud-layer .top-bar,
+.hud-layer .left-panel,
+.hud-layer .right-panel,
+.hud-layer .bottom-bar,
+.hud-layer .center-hud,
+.hud-layer button,
+.hud-layer a,
+.hud-layer .is-interactive {
+  pointer-events: auto;
+}
+
+/* ---------- 通用玻璃面板（切角 + 彩色渐变边 + 内发光 + 扫光） ---------- */
+/* 浅色版（用户 2026-10-19"整个页面改成浅色的"）：暖白纸玻璃 + blur，
+   1px 金→橙→青渐变边保留，内发光改暖橙低透。clip-path 会裁掉斜切边的 border，
+   由四角渐变角标补足 HUD 质感。 */
+.hud-panel {
+  position: relative;
+  background: var(--u-glass);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid transparent;
+  border-image: var(--u-border-grad) 1;
+  clip-path: var(--u-poly);
+  box-shadow:
+    inset 0 0 34px rgba(194, 65, 12, 0.05),
+    inset 0 1px 0 rgba(255, 255, 255, 0.7);
+}
+.hud-panel__body {
+  position: relative;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  overflow: hidden;
+}
+/* sc-datav 同款角标：默认只露左上/右下两只小角，hover 时展开罩住整框
+   （transition width/height 100% + 半透明，比"常驻粗边框"更灵动） */
+.hud-panel__body::before,
+.hud-panel__body::after {
+  content: '';
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  pointer-events: none;
+  transition: width .45s ease, height .45s ease, opacity .45s ease;
+  z-index: 3;
+}
+.hud-panel__body::before {
+  left: 8px; top: 8px;
+  border-top: 2px solid var(--u-orange);
+  border-left: 2px solid var(--u-orange);
+}
+.hud-panel__body::after {
+  right: 8px; bottom: 8px;
+  border-bottom: 2px solid var(--u-cyan);
+  border-right: 2px solid var(--u-cyan);
+}
+.hud-panel:hover .hud-panel__body::before,
+.hud-panel:hover .hud-panel__body::after {
+  width: calc(100% - 16px);
+  height: calc(100% - 16px);
+  opacity: 0.45;
+}
+/* 面板扫描光：一条斜向高光每 7s 扫过一次（sc-datav 侧边扫光的 CSS 版） */
+.hud-panel__scan {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2;
+  overflow: hidden;
+}
+.hud-panel__scan::after {
+  content: '';
+  position: absolute;
+  top: -60%;
+  bottom: -60%;
+  width: 26%;
+  left: -30%;
+  background: linear-gradient(105deg, transparent, rgba(255, 196, 120, 0.14) 45%, rgba(194, 65, 12, 0.1) 50%, transparent);
+  transform: skewX(-12deg);
+  animation: u-scan 7s ease-in-out infinite;
+}
+@keyframes u-scan {
+  0%, 62% { left: -30%; }
+  100% { left: 104%; }
+}
+
+/* ---------- 面板标题 ---------- */
+.hud-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 16px 10px;
+  flex: none;
+}
+.hud-title__bar {
+  width: 3px;
+  height: 14px;
+  background: linear-gradient(to bottom, var(--u-gold), rgba(201, 169, 110, 0.15));
+  box-shadow: 0 0 8px rgba(201, 169, 110, 0.6);
+}
+.hud-title__zh {
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  color: var(--u-text);
+}
+.hud-title__en {
+  font-family: var(--u-font-tech);
+  font-size: 9.5px;
+  letter-spacing: 1.6px;
+  color: rgba(125, 107, 82, 0.9);
+  text-transform: uppercase;
+}
+.hud-title__line {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(to right, var(--u-line), transparent);
+}
+
+/* ============================================================
+   4. 三区五块 · 绝对定位
+   ============================================================ */
+
+/* --- 顶部状态栏 --- */
+.top-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 0 24px;
+  background: linear-gradient(to bottom, rgba(255, 253, 247, 0.94), rgba(246, 241, 230, 0.76));
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--u-line);
+  box-shadow: 0 1px 0 rgba(194, 65, 12, 0.1), 0 8px 28px rgba(120, 90, 50, 0.12);
+}
+/* 顶栏下沿流光：金→橙→青 渐变条左右巡游（sc-datav 头部扫光的 CSS 版） */
+.top-bar::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -1px;
+  width: 34%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--u-orange) 30%, var(--u-gold) 50%, var(--u-cyan) 70%, transparent);
+  filter: blur(0.4px);
+  animation: u-edge-flow 6s linear infinite;
+}
+@keyframes u-edge-flow {
+  from { transform: translateX(-40%); }
+  to { transform: translateX(295%); }
+}
+.top-bar__brand { display: flex; align-items: baseline; gap: 10px; flex: none; }
+.top-bar__logo {
+  font-family: var(--u-font-tech);
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  /* sc-datav 同款渐变标题字：深橙→亮橙，浅底上要够深才可读 */
+  background: linear-gradient(to bottom, #7C2D12 15%, var(--u-orange-deep) 55%, var(--u-orange) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 0 10px rgba(194, 65, 12, 0.15));
+}
+.top-bar__sub {
+  font-size: 11px;
+  letter-spacing: 2px;
+  color: var(--u-text-2);
+}
+.top-bar__spacer { flex: 1; }
+.top-bar__meta {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  font-family: var(--u-font-tech);
+  font-size: 11px;
+  letter-spacing: 1.2px;
+  color: var(--u-text-2);
+}
+.top-bar__num { color: var(--u-text); font-weight: 600; }
+.top-bar__live {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  border: 1px solid rgba(255, 145, 0, 0.45);
+  clip-path: var(--u-poly);
+  --u-cut: 7px;
+  color: var(--u-orange-deep);
+  background: rgba(194, 65, 12, 0.08);
+}
+.top-bar__dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--u-orange);
+  box-shadow: 0 0 10px var(--u-orange);
+  animation: u-pulse 1.8s ease-in-out infinite;
+}
+@keyframes u-pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.35; transform: scale(0.78); }
+}
+.top-bar__btn {
+  height: 28px;
+  padding: 0 14px;
+  font-family: var(--u-font-tech);
+  font-size: 11px;
+  letter-spacing: 1.4px;
+  color: var(--u-text-2);
+  background: rgba(166, 124, 46, 0.08);
+  border: 1px solid var(--u-line);
+  clip-path: var(--u-poly);
+  --u-cut: 7px;
+  cursor: pointer;
+  transition: color .2s ease, background .2s ease;
+}
+.top-bar__btn:hover { color: #FFF8EC; background: var(--u-orange-deep); }
+
+/* --- 左 / 右面板 --- */
+.left-panel,
+.right-panel {
+  position: absolute;
+  top: 140px;   /* 下移到「回大厅」按钮之下（按钮钉在左上角 top:82），避免压住面板标题 */
+  bottom: 160px;
+  width: 340px;
+}
+.left-panel { left: 24px; }
+.right-panel { right: 24px; }
+
+/* --- 底部数据流带 --- */
+.bottom-bar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  /* 140px → 104px：把纵向空间还给数据房间（缓解"压缩"），
+     仍保留「影评流」标题 + 一行滚动影评。 */
+  height: 104px;
+  background: linear-gradient(to top, rgba(255, 253, 247, 0.96), rgba(250, 246, 236, 0.8) 62%, transparent);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-top: 1px solid var(--u-line);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+/* 底栏上沿流光（与顶栏呼应，反向巡游） */
+.bottom-bar::before {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: -1px;
+  width: 34%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--u-cyan) 30%, var(--u-orange) 55%, var(--u-gold) 70%, transparent);
+  animation: u-edge-flow-r 7s linear infinite;
+}
+@keyframes u-edge-flow-r {
+  from { transform: translateX(40%); }
+  to { transform: translateX(-295%); }
+}
+.bottom-bar__head {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 24px 6px;
+  font-family: var(--u-font-tech);
+  font-size: 10px;
+  letter-spacing: 2px;
+  color: rgba(125, 107, 82, 0.95);
+  text-transform: uppercase;
+}
+.bottom-bar__track {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  mask-image: linear-gradient(to right, transparent, #000 4%, #000 96%, transparent);
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 4%, #000 96%, transparent);
+}
+/* 横向滚动流：纯 CSS animation（JS 只在数据变化时填充内容）。
+   恒速由 JS 按轨道实测宽度反推 animation-duration（STREAM_PX_PER_SEC=45px/s），
+   内容增减速度恒定；兜底 160s/轮，用户 2026-10-22 反馈再慢一点 */
+.stream-track {
+  display: flex;
+  gap: 14px;
+  padding-left: 24px;
+  white-space: nowrap;
+  will-change: transform;
+  animation: u-stream 95s linear infinite;
+}
+.bottom-bar:hover .stream-track { animation-play-state: paused; }
+@keyframes u-stream {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+.stream-chip {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 34px;
+  padding: 0 14px;
+  background: rgba(255, 255, 255, 0.66);
+  border: 1px solid rgba(194, 65, 12, 0.2);
+  clip-path: var(--u-poly);
+  --u-cut: 8px;
+  font-size: 12px;
+  color: #4A3C2A;
+}
+.stream-chip__tag {
+  font-family: var(--u-font-tech);
+  font-size: 9.5px;
+  letter-spacing: 1px;
+  padding: 2px 6px;
+  color: var(--u-gold);
+  background: rgba(166, 124, 46, 0.12);
+}
+/* 中文片名：比正文稍亮，给长文一个视觉锚点 */
+.stream-chip__title {
+  font-weight: 600;
+  color: var(--u-text);
+  opacity: 0.92;
+}
+/* 好评=深橙、差评=深青（浅底上原浅金/浅青不可读，各加深一档） */
+.stream-chip__tag--pos {
+  color: #9A3412;
+  background: linear-gradient(120deg, rgba(194, 65, 12, 0.14), rgba(166, 124, 46, 0.12));
+  box-shadow: 0 0 10px rgba(194, 65, 12, 0.1);
+}
+.stream-chip__tag--neg {
+  color: #0F766E;
+  background: linear-gradient(120deg, rgba(15, 118, 110, 0.12), rgba(3, 105, 161, 0.1));
+  box-shadow: 0 0 10px rgba(3, 105, 161, 0.1);
+}
+
+/* --- 中央悬浮提示条（第五块） --- */
+.center-hud {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 168px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 8px 18px;
+  background: rgba(255, 253, 247, 0.82);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--u-line);
+  clip-path: var(--u-poly);
+  --u-cut: 10px;
+  font-family: var(--u-font-tech);
+  font-size: 10.5px;
+  letter-spacing: 1.6px;
+  color: rgba(58, 46, 32, 0.92);
+  text-transform: uppercase;
+}
+.center-hud i { width: 5px; height: 5px; border-radius: 50%; background: var(--u-gold); box-shadow: 0 0 8px var(--u-gold); }
+
+/* --- 星系读图指南（galaxy 视图常驻，占 center-hud 槽位） --- */
+.galaxy-legend {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 168px;
+  max-width: calc(100vw - 48px);
+  pointer-events: auto;
+  padding: 10px 18px 12px;
+  background: rgba(255, 253, 247, 0.86);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--u-line);
+  clip-path: var(--u-poly);
+  --u-cut: 10px;
+  text-align: center;
+}
+.galaxy-legend__head {
+  display: flex; align-items: baseline; justify-content: center; gap: 10px;
+  font-size: 12px; font-weight: 600; color: var(--u-orange-deep); letter-spacing: 1px;
+}
+.galaxy-legend__head i { font-style: normal; font-size: 10px; font-weight: 400; color: var(--u-text-2); }
+.galaxy-legend__row {
+  display: flex; flex-wrap: wrap; justify-content: center; gap: 7px 18px;
+  margin-top: 7px; font-size: 11.5px; color: #4A3C2A;
+}
+.gl-item { display: inline-flex; align-items: center; gap: 7px; }
+/* 口碑色带：与 GalaxyStage 的 COLD→MID→GOLD 三段色一致（浅底版金加深） */
+.gl-item__bar {
+  width: 46px; height: 8px; border-radius: 4px;
+  background: linear-gradient(90deg, #4A7FB5, #A78BFA 52%, #D99A3A);
+  box-shadow: 0 0 8px rgba(167, 139, 250, 0.18);
+}
+.galaxy-legend__stats {
+  margin-top: 7px; font-family: var(--u-font-tech);
+  font-size: 10px; letter-spacing: 1.2px; color: var(--u-text-2);
+}
+
+/* ============================================================
+   5. 面板内占位骨架（下一轮替换为真实图表/3D 内容）
+   ============================================================ */
+.panel-scroll {
+  flex: 1;
+  min-height: 0;
+  padding: 4px 16px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  overflow: hidden;      /* 面板内绝不出现滚动条：超出即省略 */
+}
+.slot {
+  flex: none;
+  border: 1px dashed rgba(166, 124, 46, 0.3);
+  background: rgba(120, 90, 50, 0.04);
+  clip-path: var(--u-poly);
+  --u-cut: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--u-font-tech);
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  color: rgba(125, 107, 82, 0.85);
+  text-transform: uppercase;
+}
+.slot--ring { height: 168px; }
+.slot--bars { height: 118px; }
+.slot--words { flex: 1; min-height: 76px; }
+.slot--step { height: 62px; }
+
+/* ============================================================
+   5. 中央图表剧场（Stage 3 · Flourish 式动态图表）
+   ------------------------------------------------------------
+   结构：stage-dock 夹在左右翼之间（left/right 避开面板），
+   顶部是视图切换 tab（星系 / 竞赛 / 排名 / 流向，常驻可见），
+   下面是一块玻璃面板，里面按视图切换 3D 星系 / 条形竞赛 /
+   口碑排名 / 桑基流向。3D 层用 opacity 压暗而非卸载 ——
+   频繁销毁重建 WebGL context 会掉显存，切换回来还要等重新编译 shader。
+
+   ★ 可读性优先（用户 2026-10-19 反馈"不要都是黑色/不要全是深颜色"）：
+     面板底 ~74% 不透明的深蓝，金→橙→青渐变边，图表在任何角度都看得清。
+   ============================================================ */
+.stage-dock {
+  position: absolute;
+  /* 左右两翼已废弃（各房改用专属舞台组件），不再留 388px 宽边距——
+     否则数据房间会缩在屏幕中央一条窄带里，四周大片留白（"太空旷"）。
+     这里直接占满中央区，只在边缘留少量呼吸位。 */
+  left: 44px;
+  right: 44px;
+  /* 顶栏 64px + 底部影评流 104px，把中间留给数据房间：
+     900 高屏下房间可得 ~710px（原 660px），缓解"压缩"。 */
+  top: 70px;
+  bottom: 116px;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  pointer-events: none;
+}
+.stage-dock > * { pointer-events: auto; }
+
+/* 视图切换 tab */
+.stage-tabs {
+  flex: none;
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+.stage-tab {
+  position: relative;
+  overflow: hidden;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  height: 28px;
+  padding: 0 14px;
+  font-family: var(--u-font-tech);
+  font-size: 10.5px;
+  letter-spacing: 1.6px;
+  color: #5D4E38;
+  background: rgba(255, 253, 247, 0.84);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(194, 65, 12, 0.28);
+  clip-path: var(--u-poly);
+  --u-cut: 8px;
+  cursor: pointer;
+  transition: color .22s ease, background .22s ease, border-color .22s ease, transform .22s ease;
+}
+.stage-tab:hover {
+  color: var(--u-text);
+  border-color: var(--u-line-strong);
+  transform: translateY(-1px);
+}
+/* 激活 tab：暖金橙渐变 + 呼吸光晕（浅底版：亮块深字，光晕收敛） */
+.stage-tab.is-on {
+  color: #3A2008;
+  background: linear-gradient(120deg, #FFD9A0, #F59E0B 60%, #EA580C);
+  border-color: transparent;
+  box-shadow: 0 0 14px rgba(217, 154, 58, 0.35), 0 0 28px rgba(217, 154, 58, 0.14);
+  animation: u-tab-breathe 2.6s ease-in-out infinite;
+}
+@keyframes u-tab-breathe {
+  0%, 100% { box-shadow: 0 0 14px rgba(217, 154, 58, 0.35), 0 0 28px rgba(217, 154, 58, 0.14); }
+  50% { box-shadow: 0 0 20px rgba(217, 154, 58, 0.5), 0 0 40px rgba(217, 154, 58, 0.22); }
+}
+.stage-tab__i { font-size: 12px; }
+/* 自动轮播进度条：走完一轮 tab 自动切下一个 */
+.stage-tab__prog {
+  position: absolute;
+  left: 0; bottom: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--u-gold), var(--u-orange));
+  box-shadow: 0 0 6px rgba(255, 145, 0, 0.9);
+}
+.stage-tab.is-on .stage-tab__prog { animation: u-tab-prog 16s linear forwards; }
+@keyframes u-tab-prog { from { width: 0; } to { width: 100%; } }
+
+/* 图表玻璃面板（浅色版：暖白近实底 + 金橙青渐变边） */
+.stage-panel {
+  /* 必须有定位：::after 扫描光是 absolute + top/bottom:-60%，
+     缺定位父级时会以 .stage-dock 为基准撑出 ~550px 幽灵滚动高度 */
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  padding: 16px 20px;
+  background: linear-gradient(155deg, rgba(255, 255, 255, 0.92), rgba(252, 248, 239, 0.88));
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid transparent;
+  border-image: var(--u-border-grad) 1;
+  clip-path: var(--u-poly);
+  box-shadow:
+    inset 0 0 40px rgba(194, 65, 12, 0.05),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8),
+    0 18px 46px rgba(120, 90, 50, 0.14);
+}
+/* 面板内扫描光（sc-datav 侧边扫光；浅底版暖金微光） */
+.stage-panel::after {
+  content: '';
+  position: absolute;
+  /* 只向上溢出（负方向不产生滚动条），不要 bottom:-60%——
+     否则扫描光会把可滚动高度多撑出一截，长页末尾出现大片空白 */
+  top: -20%;
+  bottom: 0;
+  width: 22%;
+  left: -28%;
+  background: linear-gradient(105deg, transparent, rgba(255, 196, 120, 0.12) 45%, rgba(194, 65, 12, 0.09) 50%, transparent);
+  transform: skewX(-12deg);
+  animation: u-scan 9s ease-in-out infinite;
+  pointer-events: none;
+}
+@keyframes u-scan {
+  0%, 60% { left: -28%; }
+  100% { left: 106%; }
+}
+.stage-panel__inner { flex: 1; min-height: 0; position: relative; }
+.stage-fade-enter-active, .stage-fade-leave-active { transition: opacity .35s ease; }
+.stage-fade-enter-from, .stage-fade-leave-to { opacity: 0; }
+
+/* ============================================================
+   6b. 浮动卡片（各展厅异形排版：手绘纸框 + 硬阴影，直接铺在暖白纸面）
+   ------------------------------------------------------------
+   参考 itomdev 的"墙上挂的纸卡" + A24 编辑式副栏：不再是统一玻璃面板，
+   而是每张图 / 每块说明牌各自一张手绘纸卡，错落陈列。
+   ============================================================ */
+.float-card {
+  position: relative;
+  background: linear-gradient(178deg, #FDFBF4 0%, #F7F1E3 60%, #F2EBDD 100%);
+  border: 1.4px solid rgba(139, 69, 19, 0.28);
+  /* 手绘抖边：不规则圆角让卡片像裁切的手工纸 */
+  border-radius: 255px 14px 225px 16px / 16px 225px 16px 255px;
+  box-shadow: 0 12px 28px rgba(120, 90, 50, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.85);
+  padding: 12px 14px;
+  min-height: 0;
+  overflow: hidden;
+}
+
+/* 裸面板：票房以外的展厅去掉玻璃背板，让手绘纸卡直接铺在暖白纸面上 */
+.stage-panel--bare {
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  clip-path: none;
+}
+.stage-panel--bare::after { display: none; }
+
+/* 3D 层在非星图模式下彻底隐去（仍保留渲染、不卸载，避免反复重建 WebGL 上下文；
+   图表类展厅用透明裸面板，若只压暗到 0.3 会在纸面背后露出星云雾，故直接隐藏） */
+.three-canvas-layer { transition: opacity .5s ease; }
+.three-canvas-layer.is-dim { opacity: 0; }
+
+/* 左右面板内的小切换 tab（回声室 ↔ 词云 / 时间轴 ↔ 口碑榜） */
+.panel-tabs {
+  flex: none;
+  display: flex;
+  gap: 4px;
+  padding: 0 16px 10px;
+}
+.panel-tab {
+  flex: 1;
+  height: 24px;
+  font-size: 11px;
+  letter-spacing: 1px;
+  color: #6B5B42;
+  background: rgba(120, 90, 50, 0.06);
+  border: 1px solid rgba(194, 65, 12, 0.24);
+  clip-path: var(--u-poly);
+  --u-cut: 6px;
+  cursor: pointer;
+  transition: color .2s ease, background .2s ease;
+}
+.panel-tab:hover { color: var(--u-text); }
+.panel-tab.is-on {
+  color: var(--u-orange-deep);
+  background: linear-gradient(120deg, rgba(194, 65, 12, 0.12), rgba(166, 124, 46, 0.1));
+  border-color: rgba(194, 65, 12, 0.5);
+  box-shadow: 0 0 12px rgba(194, 65, 12, 0.1);
+}
+
+/* ============================================================
+   6. 自适应：窄屏收缩两翼，中央 3D 始终留出
+   ============================================================ */
+@media (max-width: 1440px) {
+  .left-panel, .right-panel { width: 300px; }
+  .top-bar__meta { gap: 12px; font-size: 10px; }
+  .stage-dock { left: 36px; right: 36px; }
+}
+@media (max-width: 1180px) {
+  .left-panel, .right-panel { width: 264px; }
+  .top-bar__sub { display: none; }
+  .stage-dock { left: 28px; right: 28px; }
+}
+@media (max-width: 900px) {
+  /* 极窄屏：两侧面板收起（大屏本为 16:9 桌面场景），背景 3D 星图作主视觉 */
+  .left-panel, .right-panel { display: none; }
+  /* 保留顶部导航条（含「回大厅」按钮），仅隐藏中央图表剧场（无横向空间摆图表）；
+     这样窄屏/移动端进展厅后仍有返回入口，不会被整条 .stage-dock 收起而消失 */
+  .stage-dock { left: 0; right: 0; top: 72px; bottom: auto; height: auto; }
+  .stage-dock .stage-panel { display: none; }
+  /* 星图读图卡在窄屏随 3D 一起隐退（它不在 .stage-panel 内，需单独隐藏） */
+  .galaxy-float { display: none; }
+}
+
+/* 全宽展厅（如票房分析：无左右两翼，画廊占满整条舞台）。
+   高于 .stage-dock 基础规则与 1440/1180 媒体查询（多一个类，特异性更高）。 */
+.stage-dock.is-wide { left: 24px; right: 24px; }
+
+/* ============================================================
+   7. /analytics 第 07 章的「进入大屏」入口卡
+   ============================================================ */
+.screen-entry {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  width: 100%;
+  margin-top: 20px;
+  padding: 26px 28px;
+  text-align: left;
+  cursor: pointer;
+  color: var(--u-text);
+  background: linear-gradient(120deg, rgba(13, 17, 23, 0.9), rgba(5, 5, 10, 0.75));
+  border: 1px solid var(--u-line);
+  clip-path: var(--u-poly);
+  --u-cut: 18px;
+  overflow: hidden;
+  transition: border-color .25s ease, transform .25s ease;
+}
+.screen-entry:hover { border-color: var(--u-line-strong); transform: translateY(-2px); }
+.screen-entry__glow {
+  position: absolute;
+  inset: -40% -10% auto auto;
+  width: 420px;
+  height: 420px;
+  background: radial-gradient(circle, rgba(201, 169, 110, 0.16), transparent 70%);
+  pointer-events: none;
+}
+.screen-entry__tag {
+  font-family: var(--u-font-tech);
+  font-size: 10px;
+  letter-spacing: 2.4px;
+  color: var(--u-gold);
+}
+.screen-entry__title {
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+}
+.screen-entry__desc { font-size: 13px; color: var(--u-text-2); line-height: 1.7; }
+.screen-entry__go {
+  margin-top: 6px;
+  font-family: var(--u-font-tech);
+  font-size: 12px;
+  letter-spacing: 2px;
+  color: var(--u-gold);
+}
+
+/* 无障碍：尊重系统减弱动效偏好 */
+@media (prefers-reduced-motion: reduce) {
+  .stream-track { animation: none; }
+  .canvas-placeholder__core { animation: none; }
+  .top-bar__dot { animation: none; }
+}
+
+/* ============================================================
+   8. 展厅模式 · 数据页纵向加长（用户 2026-11-02）
+   ------------------------------------------------------------
+   诉求原话："还是被压缩了，你的数据页面可以加长，不用固定页面大小"。
+   原先本页是"100vh 一屏、零滚动"：.dashboard-container 死高，
+   .stage-dock 绝对定位夹在顶栏与底栏之间，173 部影片的分歧散点
+   被压成一条 ~40px 的细带，榜单也只能露几行。
+
+   这里把「展厅」改成可纵向滚动的长页（大厅 / 星图厅不受影响）：
+     · .is-scroll 容器自身成为滚动容器（body 仍锁滚动，页面只在本容器内滚）
+     · .hud-layer 由绝对覆盖层改为流式容器，高度随内容增长
+     · .stage-dock 取消绝对定位，数据舞台给足最小高度（不再挤一屏）
+     · 底栏影评流落到页面末尾（不再盖住数据）
+     · 左上「回大厅」改为 fixed，滚到任何位置都能一键返回
+   所有选择器都带 .is-scroll 前缀，特异性高于上面 1440/1180/900
+   的媒体查询，窄屏也不会被旧规则改回绝对定位。
+   ============================================================ */
+.dashboard-container.is-scroll {
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(139, 69, 19, 0.32) transparent;
+  scroll-behavior: smooth;
+}
+.dashboard-container.is-scroll::-webkit-scrollbar { width: 10px; }
+.dashboard-container.is-scroll::-webkit-scrollbar-track { background: rgba(139, 69, 19, 0.04); }
+.dashboard-container.is-scroll::-webkit-scrollbar-thumb {
+  background: rgba(139, 69, 19, 0.28);
+  border-radius: 5px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+.dashboard-container.is-scroll::-webkit-scrollbar-thumb:hover { background: rgba(139, 69, 19, 0.45); background-clip: padding-box; }
+
+/* HUD 层改为流式：高度随数据内容增长，整页滚动 */
+.dashboard-container.is-scroll .hud-layer {
+  position: relative;
+  z-index: 1;
+  inset: auto;
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* 跟随鼠标的暖光：复用父级已算好的 --mx/--my（viewport 坐标），
+   固定层、置于内容之下（z-index:0，hud-layer 为 1），只从纸卡缝隙透出，
+   形成"光标周围纸面发暖"的策展灯光——绝不盖住文字（soft-light 也只增亮）。 */
+.dashboard-container.is-scroll::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background: radial-gradient(380px circle at var(--mx, 50%) var(--my, 50%), rgba(255, 221, 150, 0.18), transparent 60%);
+  mix-blend-mode: soft-light;
+  transition: background-position .12s ease;
+}
+
+/* 顶栏吸顶：滚动看数据时状态栏始终在 */
+.dashboard-container.is-scroll .top-bar {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+}
+
+/* 数据舞台：不再绝对定位夹在上下栏之间，可以比一屏更高 */
+.dashboard-container.is-scroll .stage-dock {
+  position: relative;
+  left: auto;
+  right: auto;
+  top: auto;
+  bottom: auto;
+  width: 100%;
+  max-width: 1720px;
+  margin: 0 auto;
+  padding: 18px 40px 10px;
+  flex: 1 0 auto;
+  height: auto;
+  min-height: 0;
+}
+
+/* 房间内容给足高度：一屏放不下就滚动，绝不把图表压扁。
+   ★ 关键：各展厅根节点写的是 height:100%，而百分比高度只认父级的
+   height、不认 min-height。若只给 .stage-panel__inner 设 min-height，
+   房间会因为 height 解析成 auto 而塌成内容高度（实测 rank 侧栏只剩 88px）。
+   所以同时给「inner 的直接子元素（房间根节点）」设 min-height，
+   让它有确定高度，内部的 grid / flex 子项才会被撑满。 */
+.dashboard-container.is-scroll .stage-panel__inner {
+  min-height: clamp(860px, 100vh, 1100px);
+}
+.dashboard-container.is-scroll .stage-panel__inner > * {
+  min-height: clamp(860px, 100vh, 1100px);
+}
+
+/* 每间展厅按自己的内容量给不同最小高度：页面本来就能滚，
+   给足高度才不会把新加的数据块挤进老面板里（2026-11-02 加数据后调整）。 */
+/* 2026-11-04：每间展厅多挂一层「深度分析图」，页面随之再加长约 250px，
+   否则新层会把原有画廊 / 榜单挤扁（房间根节点是 height:100%，只认确定高度）。 */
+/* 2026-11-05 修复：Hero 加入后房间竖向内容变高，原 158vh 不够容纳
+   Hero(≈420) + 画廊(262) + 三节编号 + 榜单趋势(≈440) + 总账(250) + 深度(270)，
+   导致 flex:1 的 dock 被挤成 ~16px 细带、榜单/趋势几乎不可见。
+   改为 height:auto（内容定高，不再让 flex:1 子项在固定高度里塌缩），
+   并给足 min-height 兜底；dock 在 BoxOfficeStage 里同步改成 flex:0 0 auto。
+   2026-11-06 大调整：Hero 升级为编辑式封面（≈480）、章节标题放大（每节 +55px），
+   四间展厅统一再加高，避免放大后的版面被 flex 压扁。 */
+.dashboard-container.is-scroll .stage-panel__inner > .box-stage {
+  height: auto;
+  min-height: clamp(2380px, 258vh, 2680px);
+}
+.dashboard-container.is-scroll .stage-panel__inner > .rank-room {
+  min-height: clamp(1620px, 178vh, 1880px);
+}
+.dashboard-container.is-scroll .stage-panel__inner > .flow-room {
+  min-height: clamp(1780px, 196vh, 2060px);
+}
+.dashboard-container.is-scroll .stage-panel__inner > .diverge-room {
+  min-height: clamp(1830px, 200vh, 2100px);
+}
+/* 策展式展厅 = 一张连续的纸（2026-11-06）。
+   Hero 与章节标题之间的间隙原本会透出 fixed 海报墙（z-index:1），
+   形成一条模糊海报色带，章节文字压在其上发虚、看起来像"内容没加载完"。
+   给四间数据展厅根容器铺近乎实心的暖白纸面并抬到海报墙之上；
+   海报墙仍在大厅与星图展厅（WebGL 星系，不能盖）及纸面两侧留白处可见。 */
+.dashboard-container.is-scroll .stage-panel__inner > .box-stage,
+.dashboard-container.is-scroll .stage-panel__inner > .rank-room,
+.dashboard-container.is-scroll .stage-panel__inner > .flow-room,
+.dashboard-container.is-scroll .stage-panel__inner > .diverge-room {
+  position: relative;
+  z-index: 2;
+  background:
+    radial-gradient(130% 90% at 10% 0%, rgba(255, 252, 244, 0.98), rgba(250, 244, 231, 0.965) 55%, rgba(246, 238, 222, 0.975));
+  box-shadow: inset 0 0 0 1px rgba(139, 107, 71, 0.09);
+}
+
+.dashboard-container.is-scroll .stage-panel {
+  flex: none;
+}
+
+/* 底栏影评流：从固定覆盖层改为页面末尾的内容块 */
+.dashboard-container.is-scroll .bottom-bar {
+  position: relative;
+  bottom: auto;
+  left: auto;
+  width: 100%;
+  flex: none;
+  margin-top: auto;
+}
+
+/* 回大厅按钮：2026-11-02 起搬进吸顶状态栏（.top-bar 内联），
+   不再固定悬浮 —— 否则滚到数据卡上会压住榜单文字。 */
+.dashboard-container.is-scroll .room-nav__back {
+  position: static;
+}
+
+/* 纸卡略微透出背景海报：既保留"电影感"，又不影响深字阅读 */
+.dashboard-container.is-scroll .float-card {
+  background: linear-gradient(178deg, rgba(253, 251, 244, 0.94) 0%, rgba(247, 241, 227, 0.91) 60%, rgba(242, 235, 221, 0.93) 100%);
+  -webkit-backdrop-filter: blur(9px);
+  backdrop-filter: blur(9px);
+}
+
+@media (max-width: 900px) {
+  .dashboard-container.is-scroll .stage-dock { padding: 14px 14px 8px; }
+  .dashboard-container.is-scroll .stage-panel__inner { min-height: 640px; }
+  .dashboard-container.is-scroll .stage-panel__inner > * { min-height: 640px; }
+}
+
+/* 展厅卡片入场：错峰浮起（每次进房间组件都会重新挂载，动画自然重播）。
+   fill-mode 用 backwards —— 动画结束后立刻交还 transform，
+   否则 fill:both 会一直压着 hover 的抬升效果。 */
+.dashboard-container.is-scroll .stage-panel__inner .float-card {
+  animation: room-card-in .72s cubic-bezier(.16, .84, .44, 1) backwards;
+}
+.dashboard-container.is-scroll .stage-panel__inner .float-card:nth-child(2) { animation-delay: .07s; }
+.dashboard-container.is-scroll .stage-panel__inner .float-card:nth-child(3) { animation-delay: .14s; }
+.dashboard-container.is-scroll .stage-panel__inner .float-card:nth-child(4) { animation-delay: .21s; }
+@keyframes room-card-in {
+  from { opacity: 0; transform: translateY(22px) scale(.992); }
+  to { opacity: 1; transform: none; }
+}
+
+/* 滚动揭示：首屏以下的板块进入视口时，错峰淡入上移（useReveal.js 驱动）。
+   只挂在「非 float-card 的容器」上，和卡片自身进场动画互不抢 transform。
+   不支持 IntersectionObserver 时由 JS 直接 is-in；减弱动效偏好下恒可见。 */
+.u-reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition:
+    opacity .6s cubic-bezier(.16, .84, .44, 1) var(--d, 0s),
+    transform .6s cubic-bezier(.16, .84, .44, 1) var(--d, 0s);
+}
+.u-reveal.is-in { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: reduce) {
+  .u-reveal { opacity: 1 !important; transform: none !important; transition: none; }
+}
+
+/* 悬停微抬升：纸卡像被指尖掀起一点（A24 / itomdev 的纸质手感） */
+.dashboard-container.is-scroll .float-card {
+  transition: transform .32s ease, box-shadow .32s ease;
+}
+.dashboard-container.is-scroll .float-card:hover {
+  /* 克制的 3D 微倾斜：卡片像被指尖掀起一点点（透视 + 轻微抬升），
+     不挂 preserve-3d，子元素命中不受影响 */
+  transform: perspective(900px) rotateX(1.6deg) translateY(-3px);
+  box-shadow: 0 22px 46px rgba(120, 90, 50, .22), inset 0 1px 0 rgba(255, 255, 255, .85);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dashboard-container.is-scroll .stage-panel__inner .float-card { animation: none; }
+  .dashboard-container.is-scroll .float-card:hover { transform: none; }
+}
+
+/* ==================================================================
+   ★ 2026-11-06 展厅大调整 · 编辑式策展层（itomdev / A24 杂志跨页）
+   ------------------------------------------------------------------
+   背景：五间展厅原是「等分报表墙」——卡片密排、字号小、留白不足。
+   这一层把纸卡升级为贴在暖白墙上的手工展签，并加入 progressive blur
+   reveal（进入视口由模糊到清晰）。全部只改视觉，不动 DOM 结构与数据绑定，
+   所以回归脚本依赖的 .box-stage / .bog__frame / .float-card 类名保持不变。
+   ================================================================== */
+
+/* ---- 1. 展厅纸面：极淡纤维纹 + 上下留白，长页不再是密排报表 ---- */
+.dashboard-container.is-scroll .stage-dock {
+  padding-top: 26px;
+  padding-bottom: 24px;
+}
+.dashboard-container.is-scroll .stage-panel--bare {
+  background:
+    repeating-linear-gradient(0deg, rgba(139, 107, 71, 0.018) 0 1px, transparent 1px 5px),
+    radial-gradient(80% 40% at 50% 0%, rgba(255, 250, 238, 0.55), transparent 70%);
+}
+
+/* ---- 2. 纸卡升级：纸纹 + 手绘内框 + 更深硬阴影 + 顶部胶带角标 ---- */
+.dashboard-container.is-scroll .stage-panel__inner .float-card {
+  background:
+    repeating-linear-gradient(0deg, rgba(139, 107, 71, 0.022) 0 1px, transparent 1px 5px),
+    linear-gradient(178deg, #FDFBF4 0%, #F8F2E4 62%, #F1E8D6 100%);
+  border: 1.6px solid rgba(107, 78, 46, 0.42);
+  border-radius: 4px 22px 6px 20px / 20px 6px 22px 4px;
+  box-shadow:
+    0 16px 34px rgba(96, 68, 38, 0.18),
+    4px 5px 0 rgba(107, 78, 46, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.95),
+    inset 0 0 0 4px rgba(255, 253, 246, 0.55);
+  padding: 16px 18px;
+}
+/* 手绘胶带：每张卡左上角一小段半透明牛皮纸，像被贴上去的展签。
+   用 ::before 且 pointer-events:none —— 不挡图表交互、不参与命中测试。 */
+.dashboard-container.is-scroll .stage-panel__inner .float-card::before {
+  content: '';
+  position: absolute;
+  /* 卡片 overflow:hidden，胶带必须落在纸面内侧 */
+  top: 3px;
+  left: 26px;
+  width: 74px;
+  height: 20px;
+  background: linear-gradient(180deg, rgba(216, 189, 138, 0.5), rgba(193, 161, 106, 0.42));
+  border-left: 1px dashed rgba(255, 255, 255, 0.6);
+  border-right: 1px dashed rgba(255, 255, 255, 0.6);
+  transform: rotate(-7deg);
+  pointer-events: none;
+  z-index: 4;
+}
+/* 卡片错落：副栏卡片与主编排用不同的纸色/描边深浅拉开层次，
+   避免"整齐网格"感。不用 transform，和入场动画 / hover 互不抢。 */
+.dashboard-container.is-scroll .stage-panel__inner .rr__cell:nth-child(even),
+.dashboard-container.is-scroll .stage-panel__inner .fr__cell:nth-child(even),
+.dashboard-container.is-scroll .stage-panel__inner .dr__cell:nth-child(even) {
+  background:
+    repeating-linear-gradient(0deg, rgba(139, 107, 71, 0.022) 0 1px, transparent 1px 5px),
+    linear-gradient(178deg, #FBF7EC 0%, #F4ECDA 62%, #EDE2CC 100%);
+  border-color: rgba(107, 78, 46, 0.32);
+}
+/* 主图卡（跨栏大卡）压得更实，形成"主展品 vs 副展签"的视觉层级 */
+.dashboard-container.is-scroll .stage-panel__inner .rr__main,
+.dashboard-container.is-scroll .stage-panel__inner .fr__top,
+.dashboard-container.is-scroll .stage-panel__inner .dr__left {
+  box-shadow:
+    0 22px 48px rgba(90, 62, 34, 0.22),
+    5px 6px 0 rgba(107, 78, 46, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.95);
+}
+
+/* ---- 3. progressive blur reveal：itomdev 招牌「从模糊到清晰」 ----
+   叠加在原有 opacity/translate 之上，揭完后 JS 加 is-settled 把 filter 归零，
+   避免 filter 长期制造 containing block 影响卡片内绝对定位元素。 */
+.u-reveal {
+  filter: blur(10px);
+  transition:
+    opacity .72s cubic-bezier(.16, .84, .44, 1) var(--d, 0s),
+    transform .72s cubic-bezier(.16, .84, .44, 1) var(--d, 0s),
+    filter .72s cubic-bezier(.16, .84, .44, 1) var(--d, 0s);
+}
+.u-reveal.is-in { filter: blur(0); }
+.u-reveal.is-settled { filter: none; }
+@media (prefers-reduced-motion: reduce) {
+  .u-reveal { filter: none !important; transition: none; }
+}
+
+/* ---- 4. 板块之间的呼吸：章节标题上下再留白，主图与副栏拉开距离 ---- */
+.dashboard-container.is-scroll .stage-panel__inner .room-section { margin: 34px 0 18px; }
+.dashboard-container.is-scroll .stage-panel__inner .box-stage,
+.dashboard-container.is-scroll .stage-panel__inner .rank-room,
+.dashboard-container.is-scroll .stage-panel__inner .flow-room,
+.dashboard-container.is-scroll .stage-panel__inner .diverge-room { gap: 20px; }
+.dashboard-container.is-scroll .stage-panel__inner .rr__grid,
+.dashboard-container.is-scroll .stage-panel__inner .dr__grid { gap: 20px; }
+.dashboard-container.is-scroll .stage-panel__inner .box-stage__dock { gap: 20px; }
+.dashboard-container.is-scroll .stage-panel__inner .fr__bottom { gap: 20px; }
+
+/* ---- 5. 票房两栏配套：跟着纸卡一起升级（它不是 .float-card） ---- */
+.dashboard-container.is-scroll .box-stage__cell {
+  border: 1.6px solid rgba(107, 78, 46, 0.4);
+  box-shadow:
+    0 14px 30px rgba(96, 68, 38, 0.16),
+    4px 5px 0 rgba(107, 78, 46, 0.09),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  border-radius: 4px 20px 6px 18px / 18px 6px 20px 4px;
+  padding: 14px 18px 10px;
+}
+
+/* ---- 6. 手绘描边（v-sketch）绘完之后，卡片轻微"落定" ---- */
+.dashboard-container.is-scroll .stage-panel__inner .float-card:hover {
+  transform: perspective(900px) rotateX(1.6deg) translateY(-4px);
+  box-shadow: 0 26px 52px rgba(96, 68, 38, .24), inset 0 1px 0 rgba(255, 255, 255, .9);
+}

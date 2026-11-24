@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>电影盒子 · 环境自检</title>
+<style>
+  :root {
+    --bg: #f5f6f8;
+    --card: #ffffff;
+    --line: #e3e6eb;
+    --text: #1f2329;
+    --muted: #8a9099;
+    --ok: #16a34a;
+    --bad: #dc2626;
+    --accent: #4f46e5;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; min-height: 100vh; background: var(--bg); color: var(--text);
+    font-family: -apple-system, "Segoe UI", "Microsoft YaHei", sans-serif;
+    display: flex; align-items: center; justify-content: center; padding: 32px;
+  }
+  .card {
+    width: 100%; max-width: 680px; background: var(--card);
+    border: 1px solid var(--line); border-radius: 14px;
+    box-shadow: 0 6px 24px rgba(20, 25, 40, .06); overflow: hidden;
+  }
+  header { padding: 24px 28px 18px; border-bottom: 1px solid var(--line); }
+  h1 { margin: 0 0 6px; font-size: 20px; letter-spacing: .5px; }
+  .sub { color: var(--muted); font-size: 13px; }
+  .body { padding: 20px 28px 26px; }
+  .row {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 16px; padding: 11px 0; border-bottom: 1px dashed var(--line); font-size: 14px;
+  }
+  .row:last-child { border-bottom: none; }
+  .k { color: var(--muted); }
+  .v { font-family: ui-monospace, Consolas, monospace; font-size: 13px; text-align: right; word-break: break-all; }
+  .pill { display: inline-flex; align-items: center; gap: 5px; font-size: 12px; padding: 2px 9px; border-radius: 999px; }
+  .pill.ok { background: #e8f7ee; color: var(--ok); }
+  .pill.bad { background: #fdecec; color: var(--bad); }
+  .dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+  button {
+    margin-top: 18px; width: 100%; padding: 11px; font-size: 14px; cursor: pointer;
+    background: var(--accent); color: #fff; border: none; border-radius: 9px;
+  }
+  button:hover { filter: brightness(1.08); }
+  pre {
+    margin: 14px 0 0; padding: 12px; background: #f8f9fb; border: 1px solid var(--line);
+    border-radius: 9px; font-size: 12px; max-height: 240px; overflow: auto; color: #4a5160;
+  }
+</style>
+</head>
+<body>
+  <div class="card">
+    <header>
+      <h1>电影盒子 · 环境自检</h1>
+      <div class="sub">多源影评大数据检索与趣味发现平台 &nbsp;|&nbsp; Stage 0</div>
+    </header>
+    <div class="body" id="body">
+      <div class="row"><span class="k">正在探测 …</span></div>
+    </div>
+    <div class="body" style="padding-top:0">
+      <div class="row">
+        <span class="k">演示页</span>
+        <span class="v">
+          <a href="/static/search.html">混合检索</a> ·
+          <a href="/static/sentiment.html">情感分析</a> ·
+          <a href="/docs">API 文档</a>
+        </span>
+      </div>
+    </div>
+  </div>
+
+<script>
+const body = document.getElementById('body');
+
+function row(k, v, badge) {
+  return `<div class="row"><span class="k">${k}</span>
+    <span class="v">${badge || ''} ${v}</span></div>`;
+}
+function pill(ok, text) {
+  return `<span class="pill ${ok ? 'ok' : 'bad'}"><i class="dot"></i>${text}</span>`;
+}
+
+async function load() {
+  body.innerHTML = '<div class="row"><span class="k">正在探测 …</span></div>';
+  try {
+    const r = await fetch('/api/v1/health');
+    const d = await r.json();
+    const es = d.elasticsearch || {};
+    let html = '';
+    html += row('后端服务', `v${d.status === 'ok' ? '0.1.0' : '-'}`, pill(d.status === 'ok', d.status));
+    html += row('Python', d.python || '-');
+    html += row('Elasticsearch', es.ok ? 'v' + es.version : (es.detail || '未连接'), pill(es.ok, es.ok ? '连通' : '失败'));
+    if (es.cluster) {
+      html += row('集群状态', `${es.cluster.name} / ${es.cluster.status} / ${es.cluster.nodes} 节点`, pill(es.cluster.status === 'green', es.cluster.status));
+    }
+    html += row('movies 索引名', d.indices.movies);
+    html += row('reviews 索引名', d.indices.reviews);
+    html += row('TMDB Key', (d.data_sources.tmdb_key_configured ? '已配置' : '未配置'), pill(d.data_sources.tmdb_key_configured, d.data_sources.tmdb_key_configured ? 'OK' : '缺失'));
+    html += row('Kaggle 数据集', d.data_sources.kaggle_dataset);
+    html += row('Wikidata 端点', d.data_sources.wikidata_endpoint);
+    html += '<button onclick="load()">重新探测</button>';
+    html += `<pre>${JSON.stringify(d, null, 2)}</pre>`;
+    body.innerHTML = html;
+  } catch (e) {
+    body.innerHTML = row('请求失败', String(e)) + '<button onclick="load()">重试</button>';
+  }
+}
+load();
+</script>
+</body>
+</html>

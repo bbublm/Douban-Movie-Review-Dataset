@@ -1,0 +1,45 @@
+# ============================================================
+# 电影盒子 —— Python 依赖
+# 安装： python -m venv .venv && .venv\Scripts\pip install -r requirements.txt
+# 版本采用 >= 下限约束，兼容 Python 3.10 ~ 3.13
+# ============================================================
+
+# ---------- Web 服务 ----------
+fastapi>=0.115.0
+uvicorn[standard]>=0.32.0
+pydantic>=2.9.0
+pydantic-settings>=2.6.0
+httpx>=0.27.0
+orjson>=3.10.0
+
+# ---------- 用户认证（阶段 5 前功能补全）----------
+# bcrypt：密码哈希（自带随机盐 + 慢哈希）；PyJWT：登录令牌签发与校验
+bcrypt>=4.0.0
+PyJWT>=2.8.0
+
+# ---------- 数据校验 / 命令行 ----------
+python-dotenv>=1.0.1
+rich>=13.9.0
+
+# ---------- Elasticsearch ----------
+elasticsearch>=8.15.0,<9.0.0
+# AsyncElasticsearch 的异步 HTTP 后端，缺了会报 AiohttpHttpNode 错误
+aiohttp>=3.10.0
+
+# ---------- 数据处理 ----------
+pandas>=2.2.0
+numpy>=1.26.0
+pyarrow>=17.0.0
+tqdm>=4.66.0
+
+# ---------- 采集（阶段 1 起逐步启用）----------
+kagglehub>=0.3.0
+SPARQLWrapper>=2.0.0
+
+# ---------- 中文 NLP（阶段 4）----------
+jieba>=0.42.1
+snownlp>=0.12.3
+scikit-learn>=1.5.0
+
+# ---------- 向量化（阶段 3，体积较大，按需取消注释）----------
+# sentence-transformers>=3.3.0

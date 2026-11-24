@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>电影盒子 · 情感分析演示</title>
+<style>
+  :root{
+    --bg:#f7f7f5;--card:#fff;--line:#e3e1dc;--fg:#2c2c2a;--muted:#6b6a66;
+    --accent:#185fa5;--chip:#e6f1fb;
+    --pos:#c0392b;--pos-bg:#fdecea;--neg:#1d6fa5;--neg-bg:#e8f1f8;--neu:#6b6a66;--neu-bg:#f0efec;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--fg);font:14px/1.6 -apple-system,"Segoe UI","Microsoft YaHei",sans-serif}
+  .wrap{max-width:1080px;margin:0 auto;padding:24px 20px 60px}
+  h1{font-size:20px;font-weight:500;margin:0 0 4px}
+  .sub{color:var(--muted);font-size:13px;margin-bottom:20px}
+  .layout{display:flex;gap:20px;align-items:flex-start}
+  .main{flex:1;min-width:0}
+  .side{width:300px;flex:none}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px;margin-bottom:14px}
+  .card h3{font-size:13px;font-weight:500;margin:0 0 10px;color:var(--muted)}
+  textarea{
+    width:100%;min-height:96px;padding:12px;border:1px solid var(--line);border-radius:9px;
+    font-size:14px;font-family:inherit;resize:vertical;background:#fdfdfc
+  }
+  textarea:focus{outline:2px solid var(--chip);border-color:var(--accent)}
+  .chips{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0 4px}
+  .chip{
+    padding:4px 10px;border:1px solid var(--line);border-radius:999px;background:#fdfdfc;
+    font-size:12px;cursor:pointer;color:#4a4a47
+  }
+  .chip:hover{border-color:var(--accent);color:var(--accent)}
+  .chip.star{border-color:#e8b04b;background:#fdf6e7;color:#8a5a12}
+  .chip-hint{font-size:12px;color:var(--muted);margin-top:2px}
+  .score-row{display:flex;align-items:center;gap:18px;margin:6px 0 12px}
+  .score{font-size:38px;font-weight:600;font-variant-numeric:tabular-nums;line-height:1}
+  .score.pos{color:var(--pos)} .score.neg{color:var(--neg)} .score.neu{color:var(--neu)}
+  .label{font-size:13px;padding:3px 12px;border-radius:999px}
+  .label.pos{background:var(--pos-bg);color:var(--pos)}
+  .label.neg{background:var(--neg-bg);color:var(--neg)}
+  .label.neu{background:var(--neu-bg);color:var(--neu)}
+  .hits{display:flex;flex-wrap:wrap;gap:6px}
+  .hit{padding:3px 10px;border-radius:8px;font-size:13px;font-variant-numeric:tabular-nums}
+  .hit.pos{background:var(--pos-bg);color:var(--pos)}
+  .hit.neg{background:var(--neg-bg);color:var(--neg)}
+  .hit b{font-weight:600}
+  .hit span{opacity:.75;font-size:12px;margin-left:4px}
+  .note{font-size:12px;color:var(--muted);margin-top:10px}
+  .fix{border-left:3px solid #e8b04b}
+  .fix table{width:100%;border-collapse:collapse;font-size:12px}
+  .fix td{padding:6px 8px;border-bottom:1px dashed var(--line);vertical-align:top}
+  .fix tr:last-child td{border-bottom:none}
+  .fix .t{color:#4a4a47}
+  .fix .before{color:var(--muted);text-decoration:line-through}
+  .fix .after{font-weight:600}
+  .fix .after.pos{color:var(--pos)} .fix .after.neg{color:var(--neg)}
+  .fix button{
+    margin-left:6px;padding:1px 8px;font-size:11px;border:1px solid var(--line);
+    border-radius:6px;background:#fff;cursor:pointer;color:var(--accent)
+  }
+  .bar-row{display:flex;align-items:center;gap:8px;font-size:12px;margin:5px 0}
+  .bar-row .k{width:64px;color:var(--muted);flex:none}
+  .bar-row .track{flex:1;height:8px;background:var(--neu-bg);border-radius:4px;overflow:hidden}
+  .bar-row .fill{height:100%;border-radius:4px}
+  .bar-row .n{width:76px;text-align:right;color:var(--muted);font-variant-numeric:tabular-nums;flex:none}
+  .vocab{display:flex;flex-wrap:wrap;gap:5px;font-size:12px}
+  .vocab span{padding:2px 8px;border-radius:6px;font-variant-numeric:tabular-nums}
+  .vocab .pos{background:var(--pos-bg);color:var(--pos)}
+  .vocab .neg{background:var(--neg-bg);color:var(--neg)}
+  .err{color:var(--pos);font-size:13px}
+  a{color:var(--accent)}
+  @media (max-width:860px){.layout{flex-direction:column}.side{width:100%}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>电影盒子 · 情感分析演示</h1>
+  <div class="sub">阶段 4 接口的实时预览页：输入任意中英文文本，即时给出情感分与<b>每个命中词</b>。
+    正式前端在阶段 5（Vue3 + ECharts），本页用于接口联调与答辩演示。</div>
+
+  <div class="layout">
+    <div class="main">
+      <div class="card fix">
+        <h3>本轮修掉的两个真 bug（点「复现」直接试）</h3>
+        <table>
+          <tr>
+            <td class="t">「这部电影太精彩了，强烈推荐」</td>
+            <td><span class="before">neutral 0.000</span> → <span class="after pos">positive +0.620</span></td>
+            <td>jieba 把「太精彩」「强烈推荐」粘成一个 token，词典里存的是「精彩」「推荐」——
+              精确匹配打不中，整句判 neutral。修复：中文走<b>子串匹配</b>。</td>
+            <td><button onclick="fill('这部电影太精彩了，强烈推荐')">复现</button></td>
+          </tr>
+          <tr>
+            <td class="t">「一点都不好看，浪费时间」</td>
+            <td><span class="before">浪费时间 被翻成 +1.0</span> → <span class="after neg">negative −0.462</span></td>
+            <td>「不」在 3 词否定窗口内，而 jieba 把逗号丢了，窗口法看不到边界。
+              修复：中文分词<b>保留标点 token</b>，否定作用域在标点处截止。</td>
+            <td><button onclick="fill('一点都不好看，浪费时间')">复现</button></td>
+          </tr>
+        </table>
+      </div>
+
+      <div class="card">
+        <h3>输入文本（实时打分，停止输入约 0.4 秒自动出结果）</h3>
+        <textarea id="text" placeholder="粘一段影评进来，中英文都行…"></textarea>
+        <div class="chips">
+          <button class="chip star" onclick="fill('这部电影太精彩了，强烈推荐')">★ 太精彩了，强烈推荐</button>
+          <button class="chip star" onclick="fill('一点都不好看，浪费时间')">★ 一点都不好看，浪费时间</button>
+          <button class="chip" onclick="fill('质量不差，值回票价')">质量不差，值回票价</button>
+          <button class="chip" onclick="fill('剧情拖沓又套路，避雷')">剧情拖沓又套路，避雷</button>
+          <button class="chip" onclick="fill('a wonderful and brilliant film')">a wonderful and brilliant film</button>
+          <button class="chip" onclick="fill('not wonderful at all')">not wonderful at all</button>
+          <button class="chip" onclick="fill('特效不错，但剧情一塌糊涂')">特效不错，但剧情一塌糊涂</button>
+        </div>
+        <div class="chip-hint">★ = 本轮两个 bug 的回归用例</div>
+
+        <div id="result" style="margin-top:14px">
+          <div class="note">等待输入…</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="side">
+      <div class="card">
+        <h3>全局情感分布（ES 聚合 · 真实数据）</h3>
+        <div id="stats"><div class="note">加载中 …</div></div>
+      </div>
+      <div class="card">
+        <h3>各类型均分（电影侧 vote_average）</h3>
+        <div id="genres"><div class="note">加载中 …</div></div>
+      </div>
+      <div class="card">
+        <h3>归纳出的情感词典 Top 8（可解释性的底气）</h3>
+        <div id="lexicon"><div class="note">加载中 …</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const $ = (id) => document.getElementById(id);
+const textEl = $('text'), resultEl = $('result');
+
+function fill(t) { textEl.value = t; textEl.focus(); score(); }
+
+let timer = null;
+textEl.addEventListener('input', () => {
+  clearTimeout(timer);
+  timer = setTimeout(score, 400);
+});
+
+function labelText(l) {
+  return l === 'positive' ? '正面' : l === 'negative' ? '负面' : '中性';
+}
+
+async function score() {
+  const text = textEl.value.trim();
+  if (!text) { resultEl.innerHTML = '<div class="note">等待输入…</div>'; return; }
+  resultEl.innerHTML = '<div class="note">打分中 …</div>';
+  try {
+    const r = await fetch('/api/v1/insights/sentiment', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ text, lang: 'auto' }),
+    });
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    const d = await r.json();
+    const cls = d.label;
+    let html = `<div class="score-row">
+        <span class="score ${cls}">${d.score >= 0 ? '+' : ''}${d.score.toFixed(4)}</span>
+        <span class="label ${cls}">${labelText(d.label)}</span>
+        <span style="color:var(--muted);font-size:12px">命中 ${d.matched_words} 词</span>
+      </div>`;
+    if (d.hits && d.hits.length) {
+      html += '<div class="hits">' + d.hits.map(h =>
+        `<span class="hit ${h.weight >= 0 ? 'pos' : 'neg'}"><b>${esc(h.word)}</b>`
+        + `<span>${h.weight >= 0 ? '+' : ''}${h.weight.toFixed(2)}</span></span>`
+      ).join('') + '</div>';
+      html += `<div class="note">每个命中词都带调整后的权重（否定翻转 / 程度缩放 / 转折加权之后），
+        这就是"可解释"的落点 —— 黑盒模型只能给结论，我们能说清为什么。</div>`;
+    } else if (d.note) {
+      html += `<div class="note">${esc(d.note)}</div>`;
+    }
+    resultEl.innerHTML = html;
+  } catch (e) {
+    resultEl.innerHTML = `<div class="err">请求失败：${esc(String(e))}</div>`;
+  }
+}
+
+function esc(s) {
+  return String(s).replace(/[&<>"']/g, c =>
+    ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+}
+
+// ---- 侧栏：全局情感分布 + 类型口碑 ----
+(async () => {
+  try {
+    const r = await fetch('/api/v1/insights/sentiment');
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    const d = await r.json();
+    const max = Math.max(...d.buckets.map(b => b.count), 1);
+    const color = { positive: 'var(--pos)', negative: 'var(--neg)', neutral: 'var(--neu)' };
+    $('stats').innerHTML =
+      `<div class="note" style="margin:0 0 8px">共 <b>${d.total.toLocaleString()}</b> 条影评 ·
+       正面率 ${(d.positive_ratio * 100).toFixed(2)}%</div>` +
+      d.buckets.map(b => `
+        <div class="bar-row">
+          <span class="k">${labelText(b.key)}</span>
+          <span class="track"><span class="fill" style="width:${(b.count / max * 100).toFixed(1)}%;
+            background:${color[b.key] || 'var(--neu)'}"></span></span>
+          <span class="n">${b.count.toLocaleString()}</span>
+        </div>`).join('');
+    $('genres').innerHTML = d.by_genre.slice(0, 8).map(g => `
+      <div class="bar-row">
+        <span class="k" style="width:52px">${esc(g.genre)}</span>
+        <span class="track"><span class="fill" style="width:${(g.avg_rating / 10 * 100).toFixed(1)}%;
+          background:var(--accent)"></span></span>
+        <span class="n">${g.avg_rating} · ${g.movies}部</span>
+      </div>`).join('');
+  } catch (e) {
+    $('stats').innerHTML = `<div class="err">加载失败：${esc(String(e))}</div>`;
+  }
+})();
+
+// ---- 侧栏：词典本身 ----
+(async () => {
+  try {
+    const r = await fetch('/api/v1/insights/lexicon?top=8');
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    const d = await r.json();
+    $('lexicon').innerHTML =
+      `<div class="note" style="margin:0 0 8px">${d.size.toLocaleString()} 词 ·
+       从 24,922 条标注影评归纳（收缩强度 k=${d.meta.shrink_k}）</div>` +
+      '<div class="vocab">' + d.top_positive.map(w =>
+        `<span class="pos">${esc(w.word)} ${w.score >= 0 ? '+' : ''}${w.score.toFixed(2)}</span>`).join('') +
+      d.top_negative.map(w =>
+        `<span class="neg">${esc(w.word)} ${w.score.toFixed(2)}</span>`).join('') + '</div>';
+  } catch (e) {
+    $('lexicon').innerHTML = `<div class="err">加载失败：${esc(String(e))}</div>`;
+  }
+})();
+</script>
+</body>
+</html>

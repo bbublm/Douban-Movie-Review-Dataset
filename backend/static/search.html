@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>电影盒子 · 检索演示</title>
+<style>
+  :root{--bg:#f7f7f5;--card:#fff;--line:#e3e1dc;--fg:#2c2c2a;--muted:#6b6a66;--accent:#185fa5;--chip:#e6f1fb}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--fg);font:14px/1.6 -apple-system,"Segoe UI","Microsoft YaHei",sans-serif}
+  .wrap{max-width:960px;margin:0 auto;padding:24px 20px 60px}
+  h1{font-size:20px;font-weight:500;margin:0 0 4px}
+  .sub{color:var(--muted);font-size:13px;margin-bottom:20px}
+  .bar{display:flex;gap:8px;margin-bottom:16px}
+  input[type=text]{flex:1;padding:10px 12px;border:1px solid var(--line);border-radius:8px;font-size:14px;background:var(--card)}
+  button{padding:10px 18px;border:1px solid var(--line);border-radius:8px;background:var(--card);cursor:pointer;font-size:14px}
+  button.primary{background:var(--accent);color:#fff;border-color:var(--accent)}
+  select{padding:10px;border:1px solid var(--line);border-radius:8px;background:var(--card)}
+  .layout{display:flex;gap:20px;align-items:flex-start}
+  .side{width:220px;flex:none}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px;margin-bottom:14px}
+  .card h3{font-size:13px;font-weight:500;margin:0 0 10px;color:var(--muted)}
+  .facet{display:flex;justify-content:space-between;align-items:center;gap:6px;padding:3px 0;cursor:pointer;font-size:13px}
+  .facet:hover{color:var(--accent)}
+  .facet.on{font-weight:500;color:var(--accent)}
+  .facet span{color:var(--muted);font-size:12px}
+  .main{flex:1;min-width:0}
+  .meta{color:var(--muted);font-size:13px;margin-bottom:10px}
+  .hit{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px;margin-bottom:10px}
+  .hit h4{margin:0 0 6px;font-size:15px;font-weight:500}
+  .hit .tags{color:var(--muted);font-size:12px;margin-bottom:6px}
+  .hit p{margin:6px 0 0;color:#444;font-size:13px}
+  em{background:#fdf0c8;font-style:normal;padding:0 1px;border-radius:2px}
+  .pages{margin-top:16px;display:flex;gap:6px;justify-content:center}
+  .empty{padding:40px;text-align:center;color:var(--muted)}
+  code{background:var(--chip);padding:1px 5px;border-radius:4px;font-size:12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>电影盒子 · 混合检索演示</h1>
+  <div class="sub">阶段 3 检索接口的可视化验证页。数据来自 Elasticsearch，中文走 IK 分词。
+    正式前端在阶段 5（Vue3 + ECharts）。</div>
+
+  <div class="bar">
+    <input id="q" type="text" placeholder="试试：科幻、流浪地球、诺兰、漫威">
+    <select id="sort">
+      <option value="relevance">相关度</option>
+      <option value="rating">评分</option>
+      <option value="votes">热度</option>
+      <option value="year">年份</option>
+      <option value="title">片名</option>
+    </select>
+    <button class="primary" onclick="doSearch(1)">搜索</button>
+  </div>
+
+  <div class="layout">
+    <div class="side">
+      <div id="facets"></div>
+    </div>
+    <div class="main">
+      <div class="meta" id="meta"></div>
+      <div id="hits"></div>
+      <div class="pages" id="pages"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+const API = "/api/v1/search/movies";
+// 只把这几个分面渲染成可点筛选（年份/评分是区间语义，这里不铺开）
+const CLICKABLE = {genres:"类型", countries:"出品国家/地区", languages:"语言", sources:"数据来源"};
+let state = {q:"", sort:"relevance", page:1, filters:{}};
+
+function esc(s){const d=document.createElement("div");d.textContent=s||"";return d.innerHTML}
+
+async function doSearch(page){
+  state.page = page || 1;
+  state.q = document.getElementById("q").value.trim();
+  state.sort = document.getElementById("sort").value;
+
+  const params = new URLSearchParams({q:state.q, sort:state.sort, page:state.page, size:10});
+  for (const k in state.filters){
+    if (state.filters[k].length) params.set(k, state.filters[k].join(","));
+  }
+
+  document.getElementById("meta").textContent = "检索中 …";
+  let data;
+  try{
+    const resp = await fetch(API + "?" + params.toString());
+    if (!resp.ok) throw new Error("HTTP " + resp.status);
+    data = await resp.json();
+  }catch(err){
+    document.getElementById("meta").textContent = "";
+    document.getElementById("hits").innerHTML =
+      '<div class="empty">检索失败：' + esc(String(err)) +
+      '<br><br>先确保 ES 已启动：<code>docker-compose up -d</code><br>' +
+      '并已灌数据：<code>python -m index.run_index build</code></div>';
+    return;
+  }
+
+  renderMeta(data);
+  renderFacets(data.facets);
+  renderHits(data.hits);
+  renderPages(data.meta);
+}
+
+function renderMeta(d){
+  const m = d.meta;
+  const note = m.sort_used !== m.applied.sort
+    ? "（无关键词时「相关度」自动退化为按热度）" : "";
+  document.getElementById("meta").innerHTML =
+    "共 <b>" + m.total + "</b> 部 · 第 " + m.page + "/" + m.pages +
+    " 页 · 耗时 " + m.took_ms + " ms · 排序：" + esc(m.sort_used) + " " + note;
+}
+
+function renderFacets(facets){
+  const box = document.getElementById("facets");
+  box.innerHTML = "";
+  for (const f of facets){
+    if (!CLICKABLE[f.field]) continue;
+    const card = document.createElement("div");
+    card.className = "card";
+    card.innerHTML = "<h3>" + esc(CLICKABLE[f.field]) + "</h3>";
+    for (const b of f.buckets.slice(0, 10)){
+      const row = document.createElement("div");
+      row.className = "facet" + (b.selected ? " on" : "");
+      row.innerHTML = "<span>" + (b.selected ? "☑ " : "☐ ") + esc(b.key) +
+                      "</span><span>" + b.count + "</span>";
+      row.onclick = () => toggle(f.field, b.key);
+      card.appendChild(row);
+    }
+    box.appendChild(card);
+  }
+}
+
+function toggle(field, key){
+  const cur = state.filters[field] || [];
+  const i = cur.indexOf(key);
+  if (i >= 0) cur.splice(i, 1); else cur.push(key);
+  state.filters[field] = cur;
+  doSearch(1);
+}
+
+function renderHits(hits){
+  const box = document.getElementById("hits");
+  if (!hits.length){
+    box.innerHTML = '<div class="empty">没有找到匹配的电影</div>';
+    return;
+  }
+  box.innerHTML = "";
+  for (const h of hits){
+    const hl = h.highlight || {};
+    const title = (hl.title && hl.title[0]) || (hl.title_zh && hl.title_zh[0]) || h.title || "";
+    const over  = (hl.overview && hl.overview[0]) || (h.overview || "").slice(0, 160);
+    const el = document.createElement("div");
+    el.className = "hit";
+    el.innerHTML =
+      "<h4>" + title + (h.year ? " <span style='color:#6b6a66;font-weight:400'>(" + h.year + ")</span>" : "") + "</h4>" +
+      "<div class='tags'>" +
+        (h.genres_zh || []).join(" / ") +
+        (h.rating ? " · 评分 " + h.rating : "") +
+        (h.director ? " · 导演 " + esc(h.director) : "") +
+        " · 来源 " + (h.sources || []).join("+") +
+      "</div>" +
+      (over ? "<p>" + (hl.overview ? hl.overview.join(" … ") : esc(over)) + "</p>" : "");
+    box.appendChild(el);
+  }
+}
+
+function renderPages(m){
+  const box = document.getElementById("pages");
+  box.innerHTML = "";
+  if (m.pages <= 1) return;
+  const from = Math.max(1, m.page - 2), to = Math.min(m.pages, m.page + 2);
+  for (let p = from; p <= to; p++){
+    const b = document.createElement("button");
+    b.textContent = p;
+    if (p === m.page) b.className = "primary";
+    b.onclick = () => doSearch(p);
+    box.appendChild(b);
+  }
+}
+
+document.getElementById("q").addEventListener("keydown", e => { if (e.key === "Enter") doSearch(1) });
+doSearch(1);
+</script>
+</body>
+</html>

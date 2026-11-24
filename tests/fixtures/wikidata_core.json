@@ -1,0 +1,67 @@
+{
+  "_note": "Wikidata SPARQL CORE_QUERY 的响应固件。结构取自 2026-10-14 在 query.wikidata.org 实测的真实响应（?filmLabel 为 zh-hans『搏击俱乐部』、?pub 为 xsd:dateTime、?dur 为 xsd:decimal、?article 为 zhwiki 条目 URL，均为实测值）。directorLabel / genreLabel / countryLabel 的取值按同一绑定结构补全，用于覆盖『多值去重』分支。tt9000001 / Q9000001 / 900550 是刻意构造的合成条目（id 段与真实数据不冲突），用来覆盖『无中文标签』『多导演』『只有 TMDB 主键』三条分支。",
+  "head": {
+    "vars": ["film", "prop", "key", "filmLabel", "directorLabel", "genreLabel", "countryLabel", "pub", "dur", "image", "article"]
+  },
+  "results": {
+    "bindings": [
+      {
+        "film": {"type": "uri", "value": "http://www.wikidata.org/entity/Q190050"},
+        "prop": {"type": "uri", "value": "http://www.wikidata.org/prop/direct/P345"},
+        "key": {"type": "literal", "value": "tt0137523"},
+        "filmLabel": {"xml:lang": "zh-hans", "type": "literal", "value": "搏击俱乐部"},
+        "directorLabel": {"xml:lang": "zh-hans", "type": "literal", "value": "大卫·芬奇"},
+        "genreLabel": {"xml:lang": "zh-hans", "type": "literal", "value": "剧情"},
+        "countryLabel": {"xml:lang": "zh-hans", "type": "literal", "value": "美国"},
+        "pub": {"datatype": "http://www.w3.org/2001/XMLSchema#dateTime", "type": "literal", "value": "1999-09-10T00:00:00Z"},
+        "dur": {"datatype": "http://www.w3.org/2001/XMLSchema#decimal", "type": "literal", "value": "139"},
+        "image": {"type": "uri", "value": "https://commons.wikimedia.org/wiki/Special:FilePath/Fight_Club_poster.jpg"},
+        "article": {"type": "uri", "value": "https://zh.wikipedia.org/wiki/%E6%90%8F%E5%87%BB%E4%BF%B1%E4%B9%90%E9%83%A8"}
+      },
+      {
+        "film": {"type": "uri", "value": "http://www.wikidata.org/entity/Q190050"},
+        "prop": {"type": "uri", "value": "http://www.wikidata.org/prop/direct/P345"},
+        "key": {"type": "literal", "value": "tt0137523"},
+        "filmLabel": {"xml:lang": "zh-hans", "type": "literal", "value": "搏击俱乐部"},
+        "directorLabel": {"xml:lang": "zh-hans", "type": "literal", "value": "大卫·芬奇"},
+        "genreLabel": {"xml:lang": "zh-hans", "type": "literal", "value": "惊悚"},
+        "countryLabel": {"xml:lang": "zh-hans", "type": "literal", "value": "德国"},
+        "pub": {"datatype": "http://www.w3.org/2001/XMLSchema#dateTime", "type": "literal", "value": "1999-10-15T00:00:00Z"},
+        "dur": {"datatype": "http://www.w3.org/2001/XMLSchema#decimal", "type": "literal", "value": "139"},
+        "image": {"type": "uri", "value": "https://commons.wikimedia.org/wiki/Special:FilePath/Fight_Club_poster.jpg"},
+        "article": {"type": "uri", "value": "https://zh.wikipedia.org/wiki/%E6%90%8F%E5%87%BB%E4%BF%B1%E4%B9%90%E9%83%A8"}
+      },
+      {
+        "film": {"type": "uri", "value": "http://www.wikidata.org/entity/Q9000001"},
+        "prop": {"type": "uri", "value": "http://www.wikidata.org/prop/direct/P345"},
+        "key": {"type": "literal", "value": "tt9000001"},
+        "filmLabel": {"xml:lang": "en", "type": "literal", "value": "Synthetic Demo Movie"},
+        "directorLabel": {"xml:lang": "zh-hans", "type": "literal", "value": "示例导演·甲"},
+        "genreLabel": {"xml:lang": "zh-hans", "type": "literal", "value": "纪录片"},
+        "countryLabel": {"xml:lang": "zh-hans", "type": "literal", "value": "中国"},
+        "pub": {"datatype": "http://www.w3.org/2001/XMLSchema#dateTime", "type": "literal", "value": "2005-06-01T00:00:00Z"},
+        "dur": {"datatype": "http://www.w3.org/2001/XMLSchema#decimal", "type": "literal", "value": "96"}
+      },
+      {
+        "film": {"type": "uri", "value": "http://www.wikidata.org/entity/Q9000001"},
+        "prop": {"type": "uri", "value": "http://www.wikidata.org/prop/direct/P345"},
+        "key": {"type": "literal", "value": "tt9000001"},
+        "filmLabel": {"xml:lang": "en", "type": "literal", "value": "Synthetic Demo Movie"},
+        "directorLabel": {"xml:lang": "zh-hans", "type": "literal", "value": "示例导演·乙"},
+        "genreLabel": {"xml:lang": "zh-hans", "type": "literal", "value": "纪录片"},
+        "countryLabel": {"xml:lang": "zh-hans", "type": "literal", "value": "中国"},
+        "pub": {"datatype": "http://www.w3.org/2001/XMLSchema#dateTime", "type": "literal", "value": "2005-06-01T00:00:00Z"},
+        "dur": {"datatype": "http://www.w3.org/2001/XMLSchema#decimal", "type": "literal", "value": "96"}
+      },
+      {
+        "film": {"type": "uri", "value": "http://www.wikidata.org/entity/Q9000550"},
+        "prop": {"type": "uri", "value": "http://www.wikidata.org/prop/direct/P4947"},
+        "key": {"type": "literal", "value": "900550"},
+        "filmLabel": {"xml:lang": "en", "type": "literal", "value": "TMDB Only Movie"},
+        "genreLabel": {"xml:lang": "zh-hans", "type": "literal", "value": "科幻"},
+        "pub": {"datatype": "http://www.w3.org/2001/XMLSchema#dateTime", "type": "literal", "value": "2010-03-05T00:00:00Z"},
+        "dur": {"datatype": "http://www.w3.org/2001/XMLSchema#decimal", "type": "literal", "value": "110"}
+      }
+    ]
+  }
+}

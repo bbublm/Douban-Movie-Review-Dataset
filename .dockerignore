@@ -1,0 +1,49 @@
+# ============================================================
+# 后端镜像构建上下文排除清单（context = 仓库根，供 docker-compose build backend 使用）
+#
+# 目标：构建上下文只留「运行服务 + 自动导索引」需要的东西，
+# 把 .venv / node_modules / 原始采集数据等大块头挡在外面，
+# 上传到 Docker daemon 的上下文从 ~1GB 压到 ~100MB。
+#
+# 注意：docker/elasticsearch 与 frontend 的 context 是各自的子目录，
+# 不受本文件影响（前端有自己的 .dockerignore）。
+# ============================================================
+
+# 本机虚拟环境 / git / IDE
+.venv
+.git
+.gitignore
+.idea
+.vscode
+__pycache__
+*.pyc
+
+# 数据湖里的大块头：镜像只带 processed（可直接入库）与 analysis（洞察产物）
+data_lake/raw
+# 2026-11-17：interim 整目录曾挡住 run_index 的三个 fallback 源，
+# 别人 build 后 news / 院线热映 / 预告片三块数据为空；此处放行这三个小文件（<1MB）。
+data_lake/interim/*
+!data_lake/interim/news.jsonl
+!data_lake/interim/douban_nowplaying.jsonl
+!data_lake/interim/tmdb_videos.jsonl
+data_lake/kaggle_reviews
+data_lake/kaggle_reviews_demo
+data_lake/imdb_datasets
+data_lake/imdb_datasets_demo
+
+# 前端（后端镜像不需要；前端走自己的多阶段构建，只排掉体积大头）
+frontend/node_modules
+frontend/dist
+
+# 文档 / 测试 / 工具脚本 / 交付草稿（不进运行镜像）
+docs
+tests
+scripts
+.workbuddy
+*.md
+!README.md
+
+# 旧系统遗留 SQL 与密钥样例
+*.sql
+.env
+.env.example

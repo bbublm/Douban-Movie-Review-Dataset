@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- 场记板：继承原系统 fa-clapperboard 意象，棕灰双色 -->
+  <rect x="4" y="20" width="56" height="34" rx="6" fill="#8B7355"/>
+  <rect x="4" y="20" width="56" height="11" rx="5.5" fill="#696969"/>
+  <!-- 顶部斜纹 -->
+  <g fill="#F6F2EA">
+    <polygon points="12,20 20,20 14,31 6,31"/>
+    <polygon points="28,20 36,20 30,31 22,31"/>
+    <polygon points="44,20 52,20 46,31 38,31"/>
+  </g>
+  <!-- 板身齿孔 -->
+  <g fill="#F6F2EA" opacity="0.85">
+    <rect x="11" y="38" width="7" height="7" rx="1.5"/>
+    <rect x="24" y="38" width="7" height="7" rx="1.5"/>
+    <rect x="37" y="38" width="7" height="7" rx="1.5"/>
+    <rect x="50" y="38" width="4" height="7" rx="1.5"/>
+  </g>
+</svg>

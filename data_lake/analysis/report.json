@@ -1,0 +1,35 @@
+{
+ "generated_at": "2026-10-15T03:52:23Z",
+ "lexicon": {
+  "docs": 24922,
+  "positive_docs": 12496,
+  "negative_docs": 12426,
+  "unique_words": 85151,
+  "kept_words": 14294,
+  "min_df": 10,
+  "smoothing": 1.0,
+  "shrink_k": 24.85,
+  "method": "shrunk log-odds: log(P(w|pos)/P(w|neg)) * df/(df+shrink_k)",
+  "zh_fallback": true
+ },
+ "result": {
+  "total": 24950,
+  "correct": 20849,
+  "accuracy": 0.8356,
+  "precision": 0.883,
+  "recall": 0.7883,
+  "f1": 0.833,
+  "neutral_count": 319,
+  "neutral_ratio": 0.0128,
+  "confusion": {
+   "truth=positive pred=positive": 9919,
+   "truth=negative pred=negative": 10930,
+   "truth=positive pred=negative": 2468,
+   "truth=positive pred=neutral": 195,
+   "truth=negative pred=positive": 1314,
+   "truth=negative pred=neutral": 124
+  }
+ },
+ "baseline_snownlp": null,
+ "memory_peak_mb": 53.5
+}

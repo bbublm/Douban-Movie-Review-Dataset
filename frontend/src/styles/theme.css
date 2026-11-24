@@ -1,0 +1,705 @@
+/* ============================================================
+   电影盒子 · 棕灰主题
+   从原 Flask 系统 layout.html 移植的主题变量，不改色相；
+   检索页新增的派生变量仍属同一色板，不引入第二套配色。
+   ============================================================ */
+
+:root {
+  /* ---- 原系统主题变量（蓝本继承，勿改） ---- */
+  --primary-brown: #8b7355;   /* 导航渐变起点 */
+  --primary-gray: #696969;    /* 导航渐变终点 */
+  --light-brown: #a68a6d;     /* hover / 强调 */
+  --dark-brown: #6b4f3a;      /* 标题文字 */
+  --warm-gray: #8c8c8c;
+  --light-beige: #f5f5dc;     /* 页面背景基底 */
+
+  /* 原系统强调棕（layout/style.css 里按钮、星级、图标底色用的 #8B4513 一族）。
+     导航用上面那组棕灰，按钮/强调用这组，两套一起才是原系统的配色。 */
+  --brand: #8b4513;
+  --brand-2: #a0522d;
+
+  /* ---- 派生变量（新页面用，同色板） ---- */
+  --page-bg: #f6f2ea;
+  --surface: #ffffff;
+  --surface-2: #fbf9f4;
+  --border: #e7dfd1;
+  --border-strong: #d8cdb8;
+  --text-main: #3b342c;
+  --text-2: #7a7060;
+  --text-3: #a39a8a;
+  --accent: var(--primary-brown);
+  --accent-strong: var(--dark-brown);
+
+  /* 情感色：中文语境 红=正面 / 绿=负面，与股市惯例一致 */
+  --positive: #b5502f;
+  --negative: #5f7a61;
+  --neutral: #9a9186;
+  --gold: #d2691e;            /* 星级：原系统 .rating-stars 的 #D2691E */
+
+  --shadow-sm: 0 1px 3px rgba(107, 79, 58, 0.08);
+  --shadow-md: 0 4px 16px rgba(107, 79, 58, 0.12);
+  --shadow-lg: 0 10px 32px rgba(107, 79, 58, 0.18);
+  --radius: 12px;
+  --radius-sm: 6px;
+  --header-h: 60px;
+}
+
+/* ============================================================
+   基础
+   ============================================================ */
+
+* { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  font-family: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei",
+    "Segoe UI", system-ui, -apple-system, sans-serif;
+  background: var(--page-bg);
+  color: var(--text-main);
+  font-size: 15px;
+  line-height: 1.65;
+}
+
+h1, h2, h3, h4 {
+  color: var(--dark-brown);
+  font-weight: 800;
+  line-height: 1.3;
+  margin: 0;
+  /* 原系统标题带的那层轻投影，去掉后会显得"扁" */
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+}
+
+a { color: var(--accent); text-decoration: none; }
+a:hover { color: var(--light-brown); }
+
+img { display: block; max-width: 100%; }
+
+::selection { background: rgba(139, 115, 85, 0.25); }
+
+/* 滚动条也上主题色（Chromium/WebKit） */
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-thumb {
+  background: var(--border-strong);
+  border-radius: 5px;
+  border: 2px solid var(--page-bg);
+}
+::-webkit-scrollbar-thumb:hover { background: var(--light-brown); }
+::-webkit-scrollbar-track { background: transparent; }
+
+/* ============================================================
+   布局骨架
+   ============================================================ */
+
+.app-shell { min-height: 100vh; display: flex; flex-direction: column; }
+
+.app-main { flex: 1; }
+
+.container {
+  width: 100%;
+  /* 1280→1440：检索页是「分面栏 + 结果 + 辅助面板」三栏，
+     1280 下结果区被压成窄条，卡片糊成一片（用户反馈"太拥挤"） */
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.page { padding: 24px 0 48px; }
+
+/* .page 与 .container 同特异性且定义在后面，会吃掉 .container 的左右 20px，
+   导致同时用两个类的页面内容贴边。显式补回来。 */
+.container.page { padding: 24px 24px 48px; }
+
+.page-title {
+  font-size: 26px;
+  text-align: center;
+  margin: 8px 0 4px;
+}
+
+.page-subtitle {
+  text-align: center;
+  color: var(--text-2);
+  font-size: 14px;
+  margin: 0 0 24px;
+}
+
+.section-title {
+  font-size: 18px;
+  margin: 28px 0 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.section-title::before {
+  content: "";
+  width: 4px;
+  height: 18px;
+  border-radius: 2px;
+  background: linear-gradient(180deg, var(--primary-brown), var(--primary-gray));
+}
+
+/* ============================================================
+   顶导航（继承原系统 135° 棕灰渐变）
+   ============================================================ */
+
+.app-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  height: var(--header-h);
+  background: linear-gradient(135deg, var(--primary-brown) 0%, var(--primary-gray) 100%);
+  box-shadow: var(--shadow-md);
+  transition: background 0.25s ease, box-shadow 0.25s ease;
+}
+
+/* 分析大屏沉浸式深色：导航在该页切换为深蓝灰，与 .screen 融为一体 */
+.app-header.is-dark {
+  background: linear-gradient(135deg, #1f1f33 0%, #151526 100%);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.35);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.app-header__inner {
+  height: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0 24px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.app-header__brand {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  color: #fff;
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+  white-space: nowrap;
+}
+.app-header__brand:hover { color: #fff; opacity: 1; }
+
+/* 原系统 brand 图标：圆形半透明白底，hover 转 15° —— 这是原界面最好认的小细节 */
+.app-header__brand .brand-icon {
+  font-size: 15px;
+  width: 30px;
+  height: 30px;
+  flex: none;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.3s ease, transform 0.3s ease;
+}
+.app-header__brand:hover .brand-icon {
+  background: rgba(255, 255, 255, 0.32);
+  transform: rotate(15deg);
+}
+
+/* 品牌后缀 slogan（原系统「生活是场电影，每个人都是主角」） */
+.brand-subtitle {
+  font-size: 11.5px;
+  opacity: 0.7;
+  font-weight: 400;
+  letter-spacing: 0;
+}
+
+.app-nav {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  height: 100%;
+  flex: 1;
+  min-width: 0;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.app-nav::-webkit-scrollbar { display: none; }
+
+/* 原系统导航项：圆角 7px 胶囊 + hover 半透明白底，不是下划线条 */
+.app-nav__link {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 11px;
+  border-radius: 7px;
+  margin: 0 1px;
+  color: rgba(255, 255, 255, 0.92);
+  font-size: 13.5px;
+  font-weight: 500;
+  white-space: nowrap;
+  transition: background 0.22s ease, color 0.22s ease, box-shadow 0.22s ease;
+}
+.app-nav__link:hover { background: rgba(255, 255, 255, 0.2); color: #fff; }
+.app-nav__link.is-active {
+  position: relative;
+  background: rgba(255, 255, 255, 0.3);
+  color: #fff;
+  font-weight: 700;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+.app-nav__link.is-active::after {
+  content: '';
+  position: absolute;
+  left: 11px; right: 11px; bottom: 3px;
+  height: 2px; border-radius: 2px;
+  background: var(--gold);
+}
+.app-nav__link .nav-ico { font-size: 13px; }
+
+/* 角色徽章（原系统 admin 金色小标） */
+.role-badge {
+  font-size: 10px;
+  padding: 1px 5px;
+  border-radius: 8px;
+  background: rgba(255, 200, 100, 0.32);
+  color: rgba(255, 240, 180, 0.95);
+  font-weight: 600;
+  letter-spacing: 0.2px;
+  flex: none;
+}
+
+/* 汉堡按钮：窄屏才出现，宽屏隐藏（手机端导航折叠的要求） */
+.nav-burger {
+  display: none;
+  border: 1.5px solid rgba(255, 255, 255, 0.5);
+  background: transparent;
+  color: #fff;
+  border-radius: 8px;
+  padding: 4px 10px;
+  font-size: 16px;
+  cursor: pointer;
+  line-height: 1;
+}
+
+.user-area__login {
+  padding: 7px 16px;
+  border-radius: 999px;
+  border: 1.5px solid rgba(255, 255, 255, 0.75);
+  color: #fff;
+  font-size: 13.5px;
+  background: transparent;
+  cursor: pointer;
+  transition: background 0.15s;
+  white-space: nowrap;
+}
+.user-area__login:hover { background: rgba(255, 255, 255, 0.18); }
+
+/* 注册入口比登录轻一档：同为入口，但登录是主行动 */
+.user-area__reg {
+  padding: 7px 6px;
+  border: none;
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 13.5px;
+  background: transparent;
+  cursor: pointer;
+  white-space: nowrap;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-color: rgba(255, 255, 255, 0.4);
+  transition: color 0.15s;
+}
+.user-area__reg:hover { color: #fff; }
+
+.user-area__trigger {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 4px 12px 4px 5px;
+  border-radius: 20px;
+  border: 1.5px solid rgba(255, 255, 255, 0.32);
+  background: rgba(255, 255, 255, 0.14);
+  color: #fff;
+  cursor: pointer;
+  font-size: 13.5px;
+  font-weight: 600;
+  transition: background 0.22s ease, border-color 0.22s ease;
+}
+.user-area__trigger:hover {
+  background: rgba(255, 255, 255, 0.24);
+  border-color: rgba(255, 255, 255, 0.6);
+}
+
+/* 头像：原系统是半透明白底 + 白字（放在导航条上，所以是白色系） */
+.user-area__trigger .user-avatar {
+  width: 26px;
+  height: 26px;
+  background: rgba(255, 255, 255, 0.28);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 12px;
+  flex: none;
+}
+
+.user-menu {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 8px);
+  min-width: 168px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-lg);
+  padding: 6px;
+  animation: fade-in-up 0.18s ease both;
+}
+.user-menu__item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 9px 12px;
+  border: none;
+  background: none;
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+  color: var(--text-main);
+  cursor: pointer;
+  text-align: left;
+}
+/* 原系统下拉项 hover：棕→暖灰渐变 + 白字 */
+.user-menu__item:hover {
+  background: linear-gradient(135deg, var(--light-brown) 0%, var(--warm-gray) 100%);
+  color: #fff;
+}
+.user-menu__item--danger:hover {
+  background: linear-gradient(135deg, #8b4513 0%, #a52a2a 100%);
+  color: #fff;
+}
+.user-menu__name {
+  padding: 8px 12px 4px;
+  font-size: 13px;
+  color: var(--text-3);
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 4px;
+  word-break: break-all;
+}
+
+/* ============================================================
+   页脚（深棕渐变，继承原系统）
+   ============================================================ */
+
+.app-footer {
+  background: linear-gradient(135deg, var(--dark-brown) 0%, var(--primary-gray) 100%);
+  color: rgba(255, 255, 255, 0.85);
+  padding: 28px 0 22px;
+  margin-top: 40px;
+  font-size: 13px;
+}
+.app-footer__inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 20px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  justify-content: space-between;
+  align-items: center;
+}
+.app-footer__brand { display: flex; align-items: baseline; gap: 12px; }
+.app-footer__brand b { color: #fff; font-size: 16px; letter-spacing: 0.5px; }
+.app-footer__brand span { color: rgba(255, 255, 255, 0.7); font-size: 13px; }
+.app-footer__copy { color: rgba(255, 255, 255, 0.55); font-size: 12.5px; }
+.app-footer a { color: rgba(255, 255, 255, 0.9); text-decoration: underline; }
+.app-footer a:hover { color: #fff; }
+
+/* ============================================================
+   按钮 / 输入 / 芯片 / 标签
+   ============================================================ */
+
+/* 按钮：原系统全部是胶囊（border-radius 25px），方角按钮是"别人家"的样式 */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 9px 24px;
+  border-radius: 25px;
+  border: 1.5px solid transparent;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.22s ease;
+  white-space: nowrap;
+  font-family: inherit;
+}
+.btn:disabled { opacity: 0.55; cursor: not-allowed; }
+
+.btn--primary {
+  background: linear-gradient(135deg, var(--brand) 0%, var(--brand-2) 100%);
+  color: #fff;
+}
+.btn--primary:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(139, 69, 19, 0.3);
+  color: #fff;
+}
+
+.btn--ghost {
+  background: var(--surface);
+  border-color: var(--border-strong);
+  color: var(--text-main);
+}
+.btn--ghost:hover:not(:disabled) {
+  border-color: var(--light-brown);
+  color: var(--accent-strong);
+}
+
+.btn--sm { padding: 5px 16px; font-size: 13px; }
+.btn--lg { padding: 12px 32px; font-size: 16px; }
+.btn--block { width: 100%; }
+
+.input, .select {
+  width: 100%;
+  padding: 9px 12px;
+  border: 1.5px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+  font-family: inherit;
+  background: var(--surface);
+  color: var(--text-main);
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.input:focus, .select:focus {
+  outline: none;
+  border-color: var(--light-brown);
+  box-shadow: 0 0 0 3px rgba(139, 115, 85, 0.15);
+}
+
+.field { margin-bottom: 16px; }
+.field__label {
+  display: block;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-2);
+  margin-bottom: 6px;
+}
+.field__hint { font-size: 12px; color: var(--text-3); margin-top: 4px; }
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 6px 4px 12px;
+  border-radius: 999px;
+  background: rgba(139, 115, 85, 0.12);
+  border: 1px solid rgba(139, 115, 85, 0.3);
+  color: var(--accent-strong);
+  font-size: 13px;
+}
+.chip__x {
+  border: none;
+  background: rgba(139, 115, 85, 0.2);
+  color: var(--accent-strong);
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 12px;
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+.chip__x:hover { background: var(--primary-brown); color: #fff; }
+
+.tag {
+  display: inline-block;
+  padding: 2px 9px;
+  border-radius: 999px;
+  font-size: 12px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  color: var(--text-2);
+  white-space: nowrap;
+}
+.tag--genre { background: rgba(139, 115, 85, 0.1); border-color: rgba(139, 115, 85, 0.25); color: var(--accent-strong); }
+/* 可解释标签（用户视角，替代早期的内部血缘来源标签）*/
+.tag--hot   { background: rgba(194, 65, 12, 0.08);  border-color: rgba(194, 65, 12, 0.25);  color: #9a3412; }
+.tag--gem   { background: rgba(4, 120, 87, 0.08);   border-color: rgba(4, 120, 87, 0.25);   color: #065f46; }
+.tag--praise{ background: rgba(180, 83, 9, 0.08);   border-color: rgba(180, 83, 9, 0.3);    color: #92400e; }
+
+/* 情感标签 */
+.sent {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 2px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+}
+.sent--positive { background: rgba(181, 80, 47, 0.12); color: var(--positive); }
+.sent--negative { background: rgba(95, 122, 97, 0.14); color: var(--negative); }
+.sent--neutral  { background: rgba(154, 145, 134, 0.14); color: var(--neutral); }
+
+/* ============================================================
+   卡片 / 面板
+   ============================================================ */
+
+/* 卡片：原系统 .card:hover 抬起 2px；阴影是棕调不是中性灰 */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: 0 4px 6px rgba(139, 69, 19, 0.1);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(139, 69, 19, 0.16);
+}
+.card__body { padding: 18px; }
+
+/* 统计卡顶部的圆形渐变图标 —— 原系统 dashboard 的 .stats-icon，
+   80px 太大，站内场景压到 52px，形状与配色不变 */
+.stat-icon-round {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  background: linear-gradient(135deg, var(--primary-brown) 0%, var(--primary-gray) 100%);
+  box-shadow: 0 8px 20px rgba(139, 115, 85, 0.3);
+  margin-bottom: 12px;
+  color: #fff;
+}
+
+.panel {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 18px;
+  box-shadow: var(--shadow-sm);
+}
+
+/* ============================================================
+   骨架屏 / 空态 / 提示条
+   ============================================================ */
+
+@keyframes skeleton-shimmer {
+  0% { background-position: -400px 0; }
+  100% { background-position: 400px 0; }
+}
+
+.skeleton {
+  border-radius: var(--radius-sm);
+  background: linear-gradient(90deg, #efe9dd 25%, #f7f3ea 50%, #efe9dd 75%);
+  background-size: 800px 100%;
+  animation: skeleton-shimmer 1.4s infinite linear;
+}
+
+.empty {
+  text-align: center;
+  padding: 56px 20px;
+  color: var(--text-2);
+}
+.empty__icon { font-size: 42px; margin-bottom: 10px; }
+.empty__title { font-size: 16px; font-weight: 700; color: var(--text-main); margin-bottom: 6px; }
+.empty p { margin: 4px 0; font-size: 14px; }
+.empty__action { margin-top: 14px; }
+
+.alert {
+  border-radius: var(--radius-sm);
+  padding: 11px 14px;
+  font-size: 14px;
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+}
+.alert--error { background: rgba(181, 80, 47, 0.09); border: 1px solid rgba(181, 80, 47, 0.3); color: #8f3d21; }
+.alert--warn  { background: rgba(201, 154, 75, 0.12); border: 1px solid rgba(201, 154, 75, 0.35); color: #8a6a2b; }
+.alert--info  { background: rgba(139, 115, 85, 0.09); border: 1px solid rgba(139, 115, 85, 0.25); color: var(--accent-strong); }
+
+/* ============================================================
+   动画（继承原系统 fade-in-up 逐卡入场）
+   ============================================================ */
+
+@keyframes fade-in-up {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.fade-in-up { animation: fade-in-up 0.4s ease both; }
+
+/* 路由切换过渡 */
+/* 路由切换过渡：清单要求 200ms 淡入 */
+.fade-up-enter-active,
+.fade-up-leave-active { transition: opacity 0.2s ease, transform 0.2s ease; }
+.fade-up-enter-from { opacity: 0; transform: translateY(8px); }
+.fade-up-leave-to   { opacity: 0; transform: translateY(-6px); }
+
+/* ============================================================
+   工具类
+   ============================================================ */
+
+.flex { display: flex; }
+.flex--between { justify-content: space-between; }
+.flex--center { align-items: center; }
+.flex--wrap { flex-wrap: wrap; }
+.gap-6 { gap: 6px; }
+.gap-8 { gap: 8px; }
+.gap-12 { gap: 12px; }
+.gap-16 { gap: 16px; }
+.mt-8 { margin-top: 8px; }
+.mt-16 { margin-top: 16px; }
+.mt-24 { margin-top: 24px; }
+.mb-8 { margin-bottom: 8px; }
+.mb-16 { margin-bottom: 16px; }
+.text-2 { color: var(--text-2); }
+.text-3 { color: var(--text-3); }
+.text-sm { font-size: 13px; }
+.text-xs { font-size: 12px; }
+.font-800 { font-weight: 800; }
+.text-center { text-align: center; }
+.nowrap { white-space: nowrap; }
+
+/* 星级（用 ★ 字符，够用不引图标库） */
+.stars { color: var(--gold); letter-spacing: 1px; font-size: 13px; }
+.stars__value { color: var(--text-main); font-weight: 800; margin-left: 4px; }
+
+/* 响应式底线：768px 以下允许换行堆叠，不保证精致但保证可用 */
+@media (max-width: 768px) {
+  .page { padding: 16px 0 36px; }
+  .page-title { font-size: 22px; }
+  .app-header__inner { gap: 12px; }
+  .app-header__brand { font-size: 16px; }
+  /* 原系统窄屏就隐藏 slogan，不然会把导航挤没 */
+  .brand-subtitle { display: none; }
+  .app-nav__link { padding: 6px 9px; font-size: 13px; }
+  .user-area__name { display: none; }
+}
+
+/* 窄屏：导航折叠成汉堡下拉（手机端单栏） */
+@media (max-width: 1180px) {
+  .nav-burger { display: inline-flex; }
+  /* 原系统窄屏就隐藏 slogan，不然会把导航挤没；
+     现在拆成登录/注册两个入口后更挤，断点提前到 1200 */
+  .brand-subtitle { display: none; }
+  .app-nav {
+    display: none;
+    position: absolute;
+    left: 0; right: 0;
+    top: var(--header-h);
+    flex-direction: column;
+    align-items: stretch;
+    gap: 2px;
+    height: auto;
+    padding: 10px 16px 14px;
+    background: linear-gradient(135deg, var(--primary-brown) 0%, var(--primary-gray) 100%);
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.22);
+  }
+  .app-nav.is-open { display: flex; }
+  .app-nav__link { padding: 10px 12px; border-radius: 8px; }
+}

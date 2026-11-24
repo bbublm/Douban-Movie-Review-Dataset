@@ -1,0 +1,2835 @@
+{
+  "generated_at": "2026-05-19T12:28:21Z",
+  "sources": [
+    "chinese-domestic",
+    "popular-movies-data.stevenlu.com",
+    "grouplens.org/movielens"
+  ],
+  "count": 120,
+  "movies": [
+    {
+      "title": "流浪地球",
+      "title_en": "流浪地球",
+      "title_zh": "流浪地球",
+      "release_year": 2019,
+      "language": "中文",
+      "duration": 125,
+      "director": "郭帆",
+      "description": "太阳即将毁灭，人类开启“流浪地球”计划，推动地球离开太阳系寻找新家园。",
+      "poster_url": null,
+      "genres_en": [],
+      "genres_zh": [
+        "科幻",
+        "冒险",
+        "剧情"
+      ],
+      "tmdb_id": null,
+      "imdb_id": null,
+      "source": "chinese-domestic"
+    },
+    {
+      "title": "流浪地球2",
+      "title_en": "流浪地球2",
+      "title_zh": "流浪地球2",
+      "release_year": 2023,
+      "language": "中文",
+      "duration": 173,
+      "director": "郭帆",
+      "description": "面对月球危机与数字生命争议，人类再次团结应对末日级灾难。",
+      "poster_url": null,
+      "genres_en": [],
+      "genres_zh": [
+        "科幻",
+        "冒险",
+        "剧情"
+      ],
+      "tmdb_id": null,
+      "imdb_id": null,
+      "source": "chinese-domestic"
+    },
+    {
+      "title": "战狼2",
+      "title_en": "战狼2",
+      "title_zh": "战狼2",
+      "release_year": 2017,
+      "language": "中文",
+      "duration": 123,
+      "director": "吴京",
+      "description": "退役特种兵在非洲卷入叛乱，带领同胞与难民突围撤离。",
+      "poster_url": null,
+      "genres_en": [],
+      "genres_zh": [
+        "动作",
+        "战争",
+        "剧情"
+      ],
+      "tmdb_id": null,
+      "imdb_id": null,
+      "source": "chinese-domestic"
+    },
+    {
+      "title": "你好，李焕英",
+      "title_en": "你好，李焕英",
+      "title_zh": "你好，李焕英",
+      "release_year": 2021,
+      "language": "中文",
+      "duration": 128,
+      "director": "贾玲",
+      "description": "女儿穿越回1981年，与年轻时的母亲成为闺蜜，弥补亲情遗憾。",
+      "poster_url": null,
+      "genres_en": [],
+      "genres_zh": [
+        "喜剧",
+        "剧情",
+        "奇幻"
+      ],
+      "tmdb_id": null,
+      "imdb_id": null,
+      "source": "chinese-domestic"
+    },
+    {
+      "title": "哪吒之魔童降世",
+      "title_en": "哪吒之魔童降世",
+      "title_zh": "哪吒之魔童降世",
+      "release_year": 2019,
+      "language": "中文",
+      "duration": 110,
+      "director": "饺子",
+      "description": "魔丸转世的哪吒在偏见与命运中走出自己的英雄之路。",
+      "poster_url": null,
+      "genres_en": [],
+      "genres_zh": [
+        "动画",
+        "奇幻",
+        "冒险"
+      ],
+      "tmdb_id": null,
+      "imdb_id": null,
+      "source": "chinese-domestic"
+    },
+    {
+      "title": "哪吒之魔童闹海",
+      "title_en": "哪吒之魔童闹海",
+      "title_zh": "哪吒之魔童闹海",
+      "release_year": 2025,
+      "language": "中文",
+      "duration": 144,
+      "director": "饺子",
+      "description": "哪吒与敖丙重塑肉身，卷入龙族与天庭的更大纷争。",
+      "poster_url": null,
+      "genres_en": [],
+      "genres_zh": [
+        "动画",
+        "奇幻",
+        "动作"
+      ],
+      "tmdb_id": null,
+      "imdb_id": null,
+      "source": "chinese-domestic"
+    },
+    {
+      "title": "红海行动",
+      "title_en": "红海行动",
+      "title_zh": "红海行动",
+      "release_year": 2018,
+      "language": "中文",
+      "duration": 138,
+      "director": "林超贤",
+      "description": "中国海军护航编队执行撤侨与反恐任务，展现现代战争场面。",
+      "poster_url": null,
+      "genres_en": [],
+      "genres_zh": [
+        "动作",
+        "战争",
+        "剧情"
+      ],
+      "tmdb_id": null,
+      "imdb_id": null,
+      "source": "chinese-domestic"
+    },
+    {
+      "title": "长津湖",
+      "title_en": "长津湖",
+      "title_zh": "长津湖",
+      "release_year": 2021,
+      "language": "中文",
+      "duration": 176,
+      "director": "陈凯歌, 徐克, 林超贤",
+      "description": "抗美援朝长津湖战役，志愿军战士在极寒条件下坚守阵地。",
+      "poster_url": null,
+      "genres_en": [],
+      "genres_zh": [
+        "战争",
+        "历史",
+        "剧情"
+      ],
+      "tmdb_id": null,
+      "imdb_id": null,
+      "source": "chinese-domestic"
+    },
+    {
+      "title": "满江红",
+      "title_en": "满江红",
+      "title_zh": "满江红",
+      "release_year": 2023,
+      "language": "中文",
+      "duration": 159,
+      "director": "张艺谋",
+      "description": "南宋绍兴年间，一桩刺杀宰相案牵出层层反转与家国情怀。",
+      "poster_url": null,
+      "genres_en": [],
+      "genres_zh": [
+        "悬疑",
+        "剧情",
+        "喜剧"
+      ],
+      "tmdb_id": null,
+      "imdb_id": null,
+      "source": "chinese-domestic"
+    },
+    {
+      "title": "消失的她",
+      "title_en": "消失的她",
+      "title_zh": "消失的她",
+      "release_year": 2023,
+      "language": "中文",
+      "duration": 122,
+      "director": "崔睿, 刘翔",
+      "description": "妻子在海外度假时离奇失踪，丈夫寻妻过程中真相不断翻转。",
+      "poster_url": null,
+      "genres_en": [],
+      "genres_zh": [
+        "悬疑",
+        "犯罪",
+        "剧情"
+      ],
+      "tmdb_id": null,
+      "imdb_id": null,
+      "source": "chinese-domestic"
+    },
+    {
+      "title": "孤注一掷",
+      "title_en": "孤注一掷",
+      "title_zh": "孤注一掷",
+      "release_year": 2023,
+      "language": "中文",
+      "duration": 130,
+      "director": "申奥",
+      "description": "揭露境外网络诈骗产业链，展现受害者与骗局的残酷现实。",
+      "poster_url": null,
+      "genres_en": [],
+      "genres_zh": [
+        "犯罪",
+        "剧情",
+        "悬疑"
+      ],
+      "tmdb_id": null,
+      "imdb_id": null,
+      "source": "chinese-domestic"
+    },
+    {
+      "title": "热辣滚烫",
+      "title_en": "热辣滚烫",
+      "title_zh": "热辣滚烫",
+      "release_year": 2024,
+      "language": "中文",
+      "duration": 129,
+      "director": "贾玲",
+      "description": "失意女性通过拳击训练找回自我，完成人生蜕变。",
+      "poster_url": null,
+      "genres_en": [],
+      "genres_zh": [
+        "喜剧",
+        "剧情",
+        "运动"
+      ],
+      "tmdb_id": null,
+      "imdb_id": null,
+      "source": "chinese-domestic"
+    },
+    {
+      "title": "飞驰人生2",
+      "title_en": "飞驰人生2",
+      "title_zh": "飞驰人生2",
+      "release_year": 2024,
+      "language": "中文",
+      "duration": 121,
+      "director": "韩寒",
+      "description": "过气赛车手重返巴音布鲁克，与团队挑战极限赛道。",
+      "poster_url": null,
+      "genres_en": [],
+      "genres_zh": [
+        "喜剧",
+        "运动",
+        "剧情"
+      ],
+      "tmdb_id": null,
+      "imdb_id": null,
+      "source": "chinese-domestic"
+    },
+    {
+      "title": "第二十条",
+      "title_en": "第二十条",
+      "title_zh": "第二十条",
+      "release_year": 2024,
+      "language": "中文",
+      "duration": 141,
+      "director": "张艺谋",
+      "description": "围绕正当防卫条款，几起案件交织出法理与人情的讨论。",
+      "poster_url": null,
+      "genres_en": [],
+      "genres_zh": [
+        "剧情",
+        "喜剧"
+      ],
+      "tmdb_id": null,
+      "imdb_id": null,
+      "source": "chinese-domestic"
+    },
+    {
+      "title": "封神第一部：朝歌风云",
+      "title_en": "封神第一部：朝歌风云",
+      "title_zh": "封神第一部：朝歌风云",
+      "release_year": 2023,
+      "language": "中文",
+      "duration": 148,
+      "director": "乌尔善",
+      "description": "商周交替之际，姜子牙辅佐姬发对抗商纣王与妲己。",
+      "poster_url": null,
+      "genres_en": [],
+      "genres_zh": [
+        "奇幻",
+        "动作",
+        "剧情"
+      ],
+      "tmdb_id": null,
+      "imdb_id": null,
+      "source": "chinese-domestic"
+    },
+    {
+      "title": "八角笼中",
+      "title_en": "八角笼中",
+      "title_zh": "八角笼中",
+      "release_year": 2023,
+      "language": "中文",
+      "duration": 117,
+      "director": "王宝强",
+      "description": "乡村格斗教练抚养孤儿，用拳击改变孩子们的人生。",
+      "poster_url": null,
+      "genres_en": [],
+      "genres_zh": [
+        "剧情",
+        "运动"
+      ],
+      "tmdb_id": null,
+      "imdb_id": null,
+      "source": "chinese-domestic"
+    },
+    {
+      "title": "唐人街探案3",
+      "title_en": "唐人街探案3",
+      "title_zh": "唐人街探案3",
+      "release_year": 2021,
+      "language": "中文",
+      "duration": 136,
+      "director": "陈思诚",
+      "description": "唐仁与秦风赴东京破案，卷入密室杀人与世界名侦探对决。",
+      "poster_url": null,
+      "genres_en": [],
+      "genres_zh": [
+        "喜剧",
+        "悬疑"
+      ],
+      "tmdb_id": null,
+      "imdb_id": null,
+      "source": "chinese-domestic"
+    },
+    {
+      "title": "我不是药神",
+      "title_en": "我不是药神",
+      "title_zh": "我不是药神",
+      "release_year": 2018,
+      "language": "中文",
+      "duration": 117,
+      "director": "文牧野",
+      "description": "保健品店主代购印度仿制药，帮助慢粒白血病患者的故事。",
+      "poster_url": null,
+      "genres_en": [],
+      "genres_zh": [
+        "剧情",
+        "喜剧"
+      ],
+      "tmdb_id": null,
+      "imdb_id": null,
+      "source": "chinese-domestic"
+    },
+    {
+      "title": "少年的你",
+      "title_en": "少年的你",
+      "title_zh": "少年的你",
+      "release_year": 2019,
+      "language": "中文",
+      "duration": 135,
+      "director": "曾国祥",
+      "description": "遭受校园霸凌的少女与街头少年互相守护，面对高考与真相。",
+      "poster_url": null,
+      "genres_en": [],
+      "genres_zh": [
+        "剧情",
+        "青春",
+        "犯罪"
+      ],
+      "tmdb_id": null,
+      "imdb_id": null,
+      "source": "chinese-domestic"
+    },
+    {
+      "title": "让子弹飞",
+      "title_en": "让子弹飞",
+      "title_zh": "让子弹飞",
+      "release_year": 2010,
+      "language": "中文",
+      "duration": 132,
+      "director": "姜文",
+      "description": "民国年间悍匪张麻子冒充县长，与恶霸黄四郎展开智斗。",
+      "poster_url": null,
+      "genres_en": [],
+      "genres_zh": [
+        "喜剧",
+        "动作",
+        "剧情"
+      ],
+      "tmdb_id": null,
+      "imdb_id": null,
+      "source": "chinese-domestic"
+    },
+    {
+      "title": "夏洛特烦恼",
+      "title_en": "夏洛特烦恼",
+      "title_zh": "夏洛特烦恼",
+      "release_year": 2015,
+      "language": "中文",
+      "duration": 104,
+      "director": "闫非, 彭大魔",
+      "description": "中年男子穿越回高中时代，重新面对初恋与人生选择。",
+      "poster_url": null,
+      "genres_en": [],
+      "genres_zh": [
+        "喜剧",
+        "爱情",
+        "奇幻"
+      ],
+      "tmdb_id": null,
+      "imdb_id": null,
+      "source": "chinese-domestic"
+    },
+    {
+      "title": "西虹市首富",
+      "title_en": "西虹市首富",
+      "title_zh": "西虹市首富",
+      "release_year": 2018,
+      "language": "中文",
+      "duration": 118,
+      "director": "闫非, 彭大魔",
+      "description": "守门员必须在一个月内花光十亿遗产，却不能留下资产。",
+      "poster_url": null,
+      "genres_en": [],
+      "genres_zh": [
+        "喜剧"
+      ],
+      "tmdb_id": null,
+      "imdb_id": null,
+      "source": "chinese-domestic"
+    },
+    {
+      "title": "无间道",
+      "title_en": "无间道",
+      "title_zh": "无间道",
+      "release_year": 2002,
+      "language": "中文",
+      "duration": 101,
+      "director": "刘伟强, 麦兆辉",
+      "description": "警方与黑帮互相安插卧底，身份与忠诚在临界点上撕裂。",
+      "poster_url": null,
+      "genres_en": [],
+      "genres_zh": [
+        "犯罪",
+        "悬疑",
+        "剧情"
+      ],
+      "tmdb_id": null,
+      "imdb_id": null,
+      "source": "chinese-domestic"
+    },
+    {
+      "title": "叶问",
+      "title_en": "叶问",
+      "title_zh": "叶问",
+      "release_year": 2008,
+      "language": "中文",
+      "duration": 106,
+      "director": "叶伟信",
+      "description": "咏春宗师叶问在香港抗战前后的武学与家国抉择。",
+      "poster_url": null,
+      "genres_en": [],
+      "genres_zh": [
+        "动作",
+        "传记",
+        "历史"
+      ],
+      "tmdb_id": null,
+      "imdb_id": null,
+      "source": "chinese-domestic"
+    },
+    {
+      "title": "功夫",
+      "title_en": "功夫",
+      "title_zh": "功夫",
+      "release_year": 2004,
+      "language": "中文",
+      "duration": 99,
+      "director": "周星驰",
+      "description": "小混混闯入猪笼城寨，引出隐藏高手与斧头帮的江湖恩怨。",
+      "poster_url": null,
+      "genres_en": [],
+      "genres_zh": [
+        "喜剧",
+        "动作",
+        "奇幻"
+      ],
+      "tmdb_id": null,
+      "imdb_id": null,
+      "source": "chinese-domestic"
+    },
+    {
+      "title": "疯狂动物城2",
+      "title_en": "Zootopia 2",
+      "title_zh": "疯狂动物城2",
+      "release_year": 2025,
+      "language": "英语",
+      "duration": null,
+      "director": null,
+      "description": "《疯狂动物城2》(2025)，动画、喜剧、冒险类型。导演：未知。本片数据来自公开电影数据库（MovieLens / 热门榜单）。",
+      "poster_url": "https://image.tmdb.org/t/p/w500/oJ7g2CifqpStmoYQyaLQgEU32qO.jpg",
+      "genres_en": [
+        "Animation",
+        "Comedy",
+        "Adventure",
+        "Family",
+        "Mystery"
+      ],
+      "genres_zh": [
+        "动画",
+        "喜剧",
+        "冒险",
+        "家庭",
+        "悬疑"
+      ],
+      "tmdb_id": 1084242,
+      "imdb_id": "tt26443597",
+      "source": "popular-movies"
+    },
+    {
+      "title": "阿凡达：火与烬",
+      "title_en": "Avatar: Fire and Ash",
+      "title_zh": "阿凡达：火与烬",
+      "release_year": 2025,
+      "language": "英语",
+      "duration": null,
+      "director": null,
+      "description": "《阿凡达：火与烬》(2025)，科幻、冒险、奇幻类型。导演：未知。本片数据来自公开电影数据库（MovieLens / 热门榜单）。",
+      "poster_url": "https://image.tmdb.org/t/p/w500/bRBeSHfGHwkEpImlhxPmOcUsaeg.jpg",
+      "genres_en": [
+        "Sci-Fi",
+        "Adventure",
+        "Fantasy"
+      ],
+      "genres_zh": [
+        "科幻",
+        "冒险",
+        "奇幻"
+      ],
+      "tmdb_id": 83533,
+      "imdb_id": "tt1757678",
+      "source": "popular-movies"
+    },
+    {
+      "title": "女佣",
+      "title_en": "The Housemaid",
+      "title_zh": "女佣",
+      "release_year": 2025,
+      "language": "英语",
+      "duration": null,
+      "director": null,
+      "description": "《女佣》(2025)，剧情、悬疑类型。导演：未知。本片数据来自公开电影数据库（MovieLens / 热门榜单）。",
+      "poster_url": "https://image.tmdb.org/t/p/w500/cWsBscZzwu5brg9YjNkGewRUvJX.jpg",
+      "genres_en": [
+        "Drama",
+        "Mystery",
+        "Thriller"
+      ],
+      "genres_zh": [
+        "剧情",
+        "悬疑"
+      ],
+      "tmdb_id": 1368166,
+      "imdb_id": "tt27543632",
+      "source": "popular-movies"
+    },
+    {
+      "title": "魔法坏女巫：永恒",
+      "title_en": "Wicked: For Good",
+      "title_zh": "魔法坏女巫：永恒",
+      "release_year": 2025,
+      "language": "英语",
+      "duration": null,
+      "director": null,
+      "description": "《魔法坏女巫：永恒》(2025)，奇幻、冒险、爱情类型。导演：未知。本片数据来自公开电影数据库（MovieLens / 热门榜单）。",
+      "poster_url": "https://image.tmdb.org/t/p/w500/si9tolnefLSUKaqQEGz1bWArOaL.jpg",
+      "genres_en": [
+        "Fantasy",
+        "Adventure",
+        "Romance"
+      ],
+      "genres_zh": [
+        "奇幻",
+        "冒险",
+        "爱情"
+      ],
+      "tmdb_id": 967941,
+      "imdb_id": "tt19847976",
+      "source": "popular-movies"
+    },
+    {
+      "title": "Wake Up Dead Man: A Knives Out Mystery",
+      "title_en": "Wake Up Dead Man: A Knives Out Mystery",
+      "title_zh": "Wake Up Dead Man: A Knives Out Mystery",
+      "release_year": 2025,
+      "language": "英语",
+      "duration": null,
+      "director": null,
+      "description": "《Wake Up Dead Man: A Knives Out Mystery》(2025)，悬疑、喜剧类型。导演：未知。本片数据来自公开电影数据库（MovieLens / 热门榜单）。",
+      "poster_url": "https://image.tmdb.org/t/p/w500/qCOGGi8JBVEZMc3DVby8rUivyXz.jpg",
+      "genres_en": [
+        "Thriller",
+        "Mystery",
+        "Comedy"
+      ],
+      "genres_zh": [
+        "悬疑",
+        "喜剧"
+      ],
+      "tmdb_id": 812583,
+      "imdb_id": "tt14364480",
+      "source": "popular-movies"
+    },
+    {
+      "title": "马蒂至尊",
+      "title_en": "Marty Supreme",
+      "title_zh": "马蒂至尊",
+      "release_year": 2025,
+      "language": "英语",
+      "duration": null,
+      "director": null,
+      "description": "《马蒂至尊》(2025)，剧情类型。导演：未知。本片数据来自公开电影数据库（MovieLens / 热门榜单）。",
+      "poster_url": "https://image.tmdb.org/t/p/w500/lYWEXbQgRTR4ZQleSXAgRbxAjvq.jpg",
+      "genres_en": [
+        "Drama"
+      ],
+      "genres_zh": [
+        "剧情"
+      ],
+      "tmdb_id": 1317288,
+      "imdb_id": "tt32916440",
+      "source": "popular-movies"
+    },
+    {
+      "title": "惊天魔盗团：看不见",
+      "title_en": "Now You See Me: Now You Don't",
+      "title_zh": "惊天魔盗团：看不见",
+      "release_year": 2025,
+      "language": "英语",
+      "duration": null,
+      "director": null,
+      "description": "《惊天魔盗团：看不见》(2025)，悬疑、犯罪类型。导演：未知。本片数据来自公开电影数据库（MovieLens / 热门榜单）。",
+      "poster_url": "https://image.tmdb.org/t/p/w500/oD3Eey4e4Z259XLm3eD3WGcoJAh.jpg",
+      "genres_en": [
+        "Thriller",
+        "Crime"
+      ],
+      "genres_zh": [
+        "悬疑",
+        "犯罪"
+      ],
+      "tmdb_id": 425274,
+      "imdb_id": "tt4712810",
+      "source": "popular-movies"
+    },
+    {
+      "title": "玩具熊的五夜惊魂2",
+      "title_en": "Five Nights at Freddy's 2",
+      "title_zh": "玩具熊的五夜惊魂2",
+      "release_year": 2025,
+      "language": "英语",
+      "duration": null,
+      "director": null,
+      "description": "《玩具熊的五夜惊魂2》(2025)，恐怖、悬疑类型。导演：未知。本片数据来自公开电影数据库（MovieLens / 热门榜单）。",
+      "poster_url": "https://image.tmdb.org/t/p/w500/udAxQEORq2I5wxI97N2TEqdhzBE.jpg",
+      "genres_en": [
+        "Horror",
+        "Thriller"
+      ],
+      "genres_zh": [
+        "恐怖",
+        "悬疑"
+      ],
+      "tmdb_id": 1228246,
+      "imdb_id": "tt30274401",
+      "source": "popular-movies"
+    },
+    {
+      "title": "Dhurandhar",
+      "title_en": "Dhurandhar",
+      "title_zh": "Dhurandhar",
+      "release_year": 2025,
+      "language": "英语",
+      "duration": null,
+      "director": null,
+      "description": "《Dhurandhar》(2025)，动作、犯罪、悬疑类型。导演：未知。本片数据来自公开电影数据库（MovieLens / 热门榜单）。",
+      "poster_url": "https://image.tmdb.org/t/p/w500/8FHOtUpNIk5ZPEay2N2EY5lrxkv.jpg",
+      "genres_en": [
+        "Action",
+        "Crime",
+        "Thriller"
+      ],
+      "genres_zh": [
+        "动作",
+        "犯罪",
+        "悬疑"
+      ],
+      "tmdb_id": 1291608,
+      "imdb_id": "tt33014583",
+      "source": "popular-movies"
+    },
+    {
+      "title": "The Running Man",
+      "title_en": "The Running Man",
+      "title_zh": "The Running Man",
+      "release_year": 2025,
+      "language": "英语",
+      "duration": null,
+      "director": null,
+      "description": "《The Running Man》(2025)，动作、悬疑、科幻类型。导演：未知。本片数据来自公开电影数据库（MovieLens / 热门榜单）。",
+      "poster_url": "https://image.tmdb.org/t/p/w500/dKL78O9zxczVgjtNcQ9UkbYLzqX.jpg",
+      "genres_en": [
+        "Action",
+        "Thriller",
+        "Sci-Fi"
+      ],
+      "genres_zh": [
+        "动作",
+        "悬疑",
+        "科幻"
+      ],
+      "tmdb_id": 798645,
+      "imdb_id": "tt14107334",
+      "source": "popular-movies"
+    },
+    {
+      "title": "The Rip",
+      "title_en": "The Rip",
+      "title_zh": "The Rip",
+      "release_year": 2025,
+      "language": "英语",
+      "duration": null,
+      "director": null,
+      "description": "《The Rip》(2025)，动作、悬疑、犯罪类型。导演：未知。本片数据来自公开电影数据库（MovieLens / 热门榜单）。",
+      "poster_url": "https://image.tmdb.org/t/p/w500/4wsYWH73Hb1B6noGIFaRQSAkuXj.jpg",
+      "genres_en": [
+        "Action",
+        "Thriller",
+        "Crime"
+      ],
+      "genres_zh": [
+        "动作",
+        "悬疑",
+        "犯罪"
+      ],
+      "tmdb_id": 1306368,
+      "imdb_id": "tt32642706",
+      "source": "popular-movies"
+    },
+    {
+      "title": "28 Years Later: The Bone Temple",
+      "title_en": "28 Years Later: The Bone Temple",
+      "title_zh": "28 Years Later: The Bone Temple",
+      "release_year": 2025,
+      "language": "英语",
+      "duration": null,
+      "director": null,
+      "description": "《28 Years Later: The Bone Temple》(2025)，恐怖、悬疑、科幻类型。导演：未知。本片数据来自公开电影数据库（MovieLens / 热门榜单）。",
+      "poster_url": "https://image.tmdb.org/t/p/w500/kK1BGkG3KAvWB0WMV1DfOx9yTMZ.jpg",
+      "genres_en": [
+        "Horror",
+        "Thriller",
+        "Sci-Fi"
+      ],
+      "genres_zh": [
+        "恐怖",
+        "悬疑",
+        "科幻"
+      ],
+      "tmdb_id": 1272837,
+      "imdb_id": "tt32141377",
+      "source": "popular-movies"
+    },
+    {
+      "title": "哈姆奈特",
+      "title_en": "Hamnet",
+      "title_zh": "哈姆奈特",
+      "release_year": 2025,
+      "language": "英语",
+      "duration": null,
+      "director": null,
+      "description": "《哈姆奈特》(2025)，剧情、爱情类型。导演：未知。本片数据来自公开电影数据库（MovieLens / 热门榜单）。",
+      "poster_url": "https://image.tmdb.org/t/p/w500/vbeyOZm2bvBXcbgPD3v6o94epPX.jpg",
+      "genres_en": [
+        "Drama",
+        "Romance",
+        "History"
+      ],
+      "genres_zh": [
+        "剧情",
+        "爱情"
+      ],
+      "tmdb_id": 858024,
+      "imdb_id": "tt14905854",
+      "source": "popular-movies"
+    },
+    {
+      "title": "\"Wuthering Heights\"",
+      "title_en": "\"Wuthering Heights\"",
+      "title_zh": "\"Wuthering Heights\"",
+      "release_year": 2025,
+      "language": "英语",
+      "duration": null,
+      "director": null,
+      "description": "《\"Wuthering Heights\"》(2025)，爱情、剧情类型。导演：未知。本片数据来自公开电影数据库（MovieLens / 热门榜单）。",
+      "poster_url": "https://image.tmdb.org/t/p/w500/3YBce6dTh1D5oCMITXk2S5QhPt.jpg",
+      "genres_en": [
+        "Romance",
+        "Drama"
+      ],
+      "genres_zh": [
+        "爱情",
+        "剧情"
+      ],
+      "tmdb_id": 1316092,
+      "imdb_id": "tt32897959",
+      "source": "popular-movies"
+    },
+    {
+      "title": "Scream 7",
+      "title_en": "Scream 7",
+      "title_zh": "Scream 7",
+      "release_year": 2025,
+      "language": "英语",
+      "duration": null,
+      "director": null,
+      "description": "《Scream 7》(2025)，恐怖、悬疑、犯罪类型。导演：未知。本片数据来自公开电影数据库（MovieLens / 热门榜单）。",
+      "poster_url": "https://image.tmdb.org/t/p/w500/jjyuk0edLiW8vOSnlfwWCCLpbh5.jpg",
+      "genres_en": [
+        "Horror",
+        "Mystery",
+        "Crime"
+      ],
+      "genres_zh": [
+        "恐怖",
+        "悬疑",
+        "犯罪"
+      ],
+      "tmdb_id": 1159559,
+      "imdb_id": "tt27047903",
+      "source": "popular-movies"
+    },
+    {
+      "title": "蝙蝠侠：黑暗骑士",
+      "title_en": "Dark Knight, The",
+      "title_zh": "蝙蝠侠：黑暗骑士",
+      "release_year": 2008,
+      "language": "英语",
+      "duration": null,
+      "director": null,
+      "description": "《蝙蝠侠：黑暗骑士》(2008)，动作、犯罪、剧情类型。导演：未知。本片数据来自公开电影数据库（MovieLens / 热门榜单）。",
+      "poster_url": null,
+      "genres_en": [
+        "Action",
+        "Crime",
+        "Drama",
+        "IMAX"
+      ],
+      "genres_zh": [
+        "动作",
+        "犯罪",
+        "剧情",
+        "冒险"
+      ],
+      "tmdb_id": 155,
+      "imdb_id": "tt0468569",
+      "source": "movielens"
+    },
+    {
+      "title": "盗梦空间",
+      "title_en": "Inception",
+      "title_zh": "盗梦空间",
+      "release_year": 2010,
+      "language": "英语",
+      "duration": null,
+      "director": null,
+      "description": "《盗梦空间》(2010)，动作、犯罪、剧情类型。导演：未知。本片数据来自公开电影数据库（MovieLens / 热门榜单）。",
+      "poster_url": null,
+      "genres_en": [
+        "Action",
+        "Crime",
+        "Drama",
+        "Mystery",
+        "Sci-Fi",
+        "Thriller",
+        "IMAX"
+      ],
+      "genres_zh": [
+        "动作",
+        "犯罪",
+        "剧情",
+        "悬疑",
+        "科幻",
+        "冒险"
+      ],
+      "tmdb_id": 27205,
+      "imdb_id": "tt1375666",
+      "source": "movielens"
+    },
+    {
+      "title": "蝙蝠侠：侠影之谜",
+      "title_en": "Batman Begins",
+      "title_zh": "蝙蝠侠：侠影之谜",
+      "release_year": 2005,
+      "language": "英语",
+      "duration": null,
+      "director": null,
+      "description": "《蝙蝠侠：侠影之谜》(2005)，动作、犯罪、冒险类型。导演：未知。本片数据来自公开电影数据库（MovieLens / 热门榜单）。",
+      "poster_url": null,
+      "genres_en": [
+        "Action",
+        "Crime",
+        "IMAX"
+      ],
+      "genres_zh": [
+        "动作",
+        "犯罪",
+        "冒险"
+      ],
+      "tmdb_id": 272,
+      "imdb_id": "tt0372784",
+      "source": "movielens"
+    },
+    {
+      "title": "无间道风云",
+      "title_en": "Departed, The",
+      "title_zh": "无间道风云",
+      "release_year": 2006,
+      "language": "英语",
+      "duration": null,
+      "director": null,
+      "description": "《无间道风云》(2006)，犯罪、剧情、悬疑类型。导演：未知。本片数据来自公开电影数据库（MovieLens / 热门榜单）。",
+      "poster_url": null,
+      "genres_en": [
+        "Crime",
+        "Drama",
+        "Thriller"
+      ],
+      "genres_zh": [
+        "犯罪",
+        "剧情",
+        "悬疑"
+      ],
+      "tmdb_id": 1422,
+      "imdb_id": "tt0407887",
+      "source": "movielens"
+    },
+    {
+      "title": "飞屋环游记",
+      "title_en": "Up",
+      "title_zh": "飞屋环游记",
+      "release_year": 2009,
+      "language": "英语",
+      "duration": null,
+      "director": null,
+      "description": "《飞屋环游记》(2009)，冒险、动画、家庭类型。导演：未知。本片数据来自公开电影数据库（MovieLens / 热门榜单）。",
+      "poster_url": null,
+      "genres_en": [
+        "Adventure",
+        "Animation",
+        "Children",
+        "Drama"
+      ],
+      "genres_zh": [
+        "冒险",
+        "动画",
+        "家庭",
+        "剧情"
+      ],
+      "tmdb_id": 14160,
+      "imdb_id": "tt1049413",
+      "source": "movielens"
+    },
+    {
+      "title": "机器人总动员",
+      "title_en": "WALL·E",
+      "title_zh": "机器人总动员",
+      "release_year": 2008,
+      "language": "英语",
+      "duration": null,
+      "director": null,
+      "description": "《机器人总动员》(2008)，冒险、动画、家庭类型。导演：未知。本片数据来自公开电影数据库（MovieLens / 热门榜单）。",
+      "poster_url": null,
+      "genres_en": [
+        "Adventure",
+        "Animation",
+        "Children",
+        "Romance",
+        "Sci-Fi"
+      ],
+      "genres_zh": [
+        "冒险",
+        "动画",
+        "家庭",
+        "爱情",
+        "科幻"
+      ],
+      "tmdb_id": 10681,
+      "imdb_id": "tt0910970",
+      "source": "movielens"
+    },
+    {
+      "title": "V字仇杀队",
+      "title_en": "V for Vendetta",
+      "title_zh": "V字仇杀队",
+      "release_year": 2006,
+      "language": "英语",
+      "duration": null,
+      "director": null,
+      "description": "《V字仇杀队》(2006)，动作、科幻、悬疑类型。导演：未知。本片数据来自公开电影数据库（MovieLens / 热门榜单）。",
+      "poster_url": null,
+      "genres_en": [
+        "Action",
+        "Sci-Fi",
+        "Thriller",
+        "IMAX"
+      ],
+      "genres_zh": [
+        "动作",
+        "科幻",
+        "悬疑",
+        "冒险"
+      ],
+      "tmdb_id": 752,
+      "imdb_id": "tt0434409",
+      "source": "movielens"
+    },
+    {
+      "title": "阿凡达",
+      "title_en": "Avatar",
+      "title_zh": "阿凡达",
+      "release_year": 2009,
+      "language": "英语",
+      "duration": null,
+      "director": null,
+      "description": "《阿凡达》(2009)，动作、冒险、科幻类型。导演：未知。本片数据来自公开电影数据库（MovieLens / 热门榜单）。",
+      "poster_url": null,
+      "genres_en": [
+        "Action",
+        "Adventure",
+        "Sci-Fi",
+        "IMAX"
+      ],
+      "genres_zh": [
+        "动作",
+        "冒险",
+        "科幻"
+      ],
+      "tmdb_id": 19995,
+      "imdb_id": "tt0499549",
+      "source": "movielens"
+    },
+    {
+      "title": "钢铁侠",
+      "title_en": "Iron Man",
+      "title_zh": "钢铁侠",
+      "release_year": 2008,
+      "language": "英语",
+      "duration": null,
+      "director": null,
+      "description": "《钢铁侠》(2008)，动作、冒险、科幻类型。导演：未知。本片数据来自公开电影数据库（MovieLens / 热门榜单）。",
+      "poster_url": null,
+      "genres_en": [
+        "Action",
+        "Adventure",
+        "Sci-Fi"
+      ],
+      "genres_zh": [
+        "动作",
+        "冒险",
+        "科幻"
+      ],
+      "tmdb_id": 1726,
+      "imdb_id": "tt0371746",
+      "source": "movielens"
+    },
+    {
+      "title": "致命魔术",
+      "title_en": "Prestige, The",
+      "title_zh": "致命魔术",
+      "release_year": 2006,
+      "language": "英语",
+      "duration": null,
+      "director": null,
+      "description": "《致命魔术》(2006)，剧情、悬疑、科幻类型。导演：未知。本片数据来自公开电影数据库（MovieLens / 热门榜单）。",
+      "poster_url": null,
+      "genres_en": [
+        "Drama",
+        "Mystery",
+        "Sci-Fi",
+        "Thriller"
+      ],
+      "genres_zh": [
+        "剧情",
+        "悬疑",
+        "科幻"
+      ],
+      "tmdb_id": 1124,
+      "imdb_id": "tt0482571",
+      "source": "movielens"
+    },
+    {
+      "title": "无耻混蛋",
+      "title_en": "Inglourious Basterds",
+      "title_zh": "无耻混蛋",
+      "release_year": 2009,
+      "language": "英语",
+      "duration": null,
+      "director": null,
+      "description": "《无耻混蛋》(2009)，动作、剧情、战争类型。导演：未知。本片数据来自公开电影数据库（MovieLens / 热门榜单）。",
+      "poster_url": null,
+      "genres_en": [
+        "Action",
+        "Drama",
+        "War"
+      ],
+      "genres_zh": [
+        "动作",
+        "剧情",
+        "战争"
+      ],
+      "tmdb_id": 16869,
+      "imdb_id": "tt0361748",
+      "source": "movielens"
+    },
+    {
+      "title": "罪恶之城",
+      "title_en": "Sin City",
+      "title_zh": "罪恶之城",
+      "release_year": 2005,
+      "language": "英语",
+      "duration": null,
+      "director": null,
+      "description": "《罪恶之城》(2005)，动作、犯罪、悬疑类型。导演：未知。本片数据来自公开电影数据库（MovieLens / 热门榜单）。",
+      "poster_url": null,
+      "genres_en": [
+        "Action",
+        "Crime",
+        "Film-Noir",
+        "Mystery",
+        "Thriller"
+      ],
+      "genres_zh": [
+        "动作",
+        "犯罪",
+        "悬疑"
+      ],
+      "tmdb_id": 187,
+      "imdb_id": "tt0401792",
+      "source": "movielens"
+    },
+    {
+      "title": "谍影重重3",
+      "title_en": "Bourne Ultimatum, The",
+      "title_zh": "谍影重重3",
+      "release_year": 2007,
+      "language": "英语",
+      "duration": null,
+      "director": null,
+      "description": "《谍影重重3》(2007)，动作、犯罪、悬疑类型。导演：未知。本片数据来自公开电影数据库（MovieLens / 热门榜单）。",
+      "poster_url": null,
+      "genres_en": [
+        "Action",
+        "Crime",
+        "Thriller"
+      ],
+      "genres_zh": [
+        "动作",
+        "犯罪",
+        "悬疑"
+      ],
+      "tmdb_id": 2503,
+      "imdb_id": "tt0440963",
+      "source": "movielens"
+    },
+    {
+      "title": "潘神的迷宫",
+      "title_en": "Pan's Labyrinth (Laberinto del fauno, El)",
+      "title_zh": "潘神的迷宫",
+      "release_year": 2006,
+      "language": "英语",
+      "duration": null,
+      "director": null,
+      "description": "《潘神的迷宫》(2006)，剧情、奇幻、悬疑类型。导演：未知。本片数据来自公开电影数据库（MovieLens / 热门榜单）。",
+      "poster_url": null,
+      "genres_en": [
+        "Drama",
+        "Fantasy",
+        "Thriller"
+      ],
+      "genres_zh": [
+        "剧情",
+        "奇幻",
+        "悬疑"
+      ],
+      "tmdb_id": 1417,
+      "imdb_id": "tt0457430",
+      "source": "movielens"
+    },
+    {
+      "title": "007：大战皇家赌场",
+      "title_en": "Casino Royale",
+      "title_zh": "007：大战皇家赌场",
+      "release_year": 2006,
+      "language": "英语",
+      "duration": null,
+      "director": null,
+      "description": "《007：大战皇家赌场》(2006)，动作、冒险、悬疑类型。导演：未知。本片数据来自公开电影数据库（MovieLens / 热门榜单）。",
+      "poster_url": null,
+      "genres_en": [
+        "Action",
+        "Adventure",
+        "Thriller"
+      ],
+      "genres_zh": [
+        "动作",
+        "冒险",
+        "悬疑"
+      ],
+      "tmdb_id": 36557,
+      "imdb_id": "tt0381061",
+      "source": "movielens"
+    },
+    {
+      "title": "300勇士",
+      "title_en": "300",
+      "title_zh": "300勇士",
+      "release_year": 2007,
+      "language": "英语",
+      "duration": null,
+      "director": null,
+      "description": "《300勇士》(2007)，动作、奇幻、战争类型。导演：未知。本片数据来自公开电影数据库（MovieLens / 热门榜单）。",
+      "poster_url": null,
+      "genres_en": [
+        "Action",
+        "Fantasy",
+        "War",
+        "IMAX"
+      ],
+      "genres_zh": [
+        "动作",
+        "奇幻",
+        "战争",
+        "冒险"
+      ],
+      "tmdb_id": 1271,
+      "imdb_id": "tt0416449",
+      "source": "movielens"
+    },
+    {
+      "title": "星球大战3：西斯的复仇",
+      "title_en": "Star Wars: Episode III - Revenge of the Sith",
+      "title_zh": "星球大战3：西斯的复仇",
+      "release_year": 2005,
+      "language": "英语",
+      "duration": null,
+      "director": null,
+      "description": "《星球大战3：西斯的复仇》(2005)，动作、冒险、科幻类型。导演：未知。本片数据来自公开电影数据库（MovieLens / 热门榜单）。",
+      "poster_url": null,
+      "genres_en": [
+        "Action",
+        "Adventure",
+        "Sci-Fi"
+      ],
+      "genres_zh": [
+        "动作",
+        "冒险",
+        "科幻"
+      ],
+      "tmdb_id": 1895,
+      "imdb_id": "tt0121766",
+      "source": "movielens"
+    },
+    {
+      "title": "阳光小美女",
+      "title_en": "Little Miss Sunshine",
+      "title_zh": "阳光小美女",
+      "release_year": 2006,
+      "language": "英语",
+      "duration": null,
+      "director": null,
+      "description": "《阳光小美女》(2006)，冒险、喜剧、剧情类型。导演：未知。本片数据来自公开电影数据库（MovieLens / 热门榜单）。",
+      "poster_url": null,
+      "genres_en": [
+        "Adventure",
+        "Comedy",
+        "Drama"
+      ],
+      "genres_zh": [
+        "冒险",
+        "喜剧",
+        "剧情"
+      ],
+      "tmdb_id": 773,
+      "imdb_id": "tt0449059",
+      "source": "movielens"
+    },
+    {
+      "title": "蝙蝠侠：黑暗骑士崛起",
+      "title_en": "Dark Knight Rises, The",
+      "title_zh": "蝙蝠侠：黑暗骑士崛起",
+      "release_year": 2012,
+      "language": "英语",
+      "duration": null,
+      "director": null,
+      "description": "《蝙蝠侠：黑暗骑士崛起》(2012)，动作、冒险、犯罪类型。导演：未知。本片数据来自公开电影数据库（MovieLens / 热门榜单）。",
+      "poster_url": null,
+      "genres_en": [
+        "Action",
+        "Adventure",
+        "Crime",
+        "IMAX"
+      ],
+      "genres_zh": [
+        "动作",
+        "冒险",
+        "犯罪"
+      ],
+      "tmdb_id": 49026,
+      "imdb_id": "tt1345836",
+      "source": "movielens"
+    },
+    {
+      "title": "宿醉",
+      "title_en": "Hangover, The",
+      "title_zh": "宿醉",
+      "release_year": 2009,
+      "language": "英语",
+      "duration": null,
+      "director": null,
+      "description": "《宿醉》(2009)，喜剧、犯罪类型。导演：未知。本片数据来自公开电影数据库（MovieLens / 热门榜单）。",
+      "poster_url": null,
+      "genres_en": [
+        "Comedy",
+        "Crime"
+      ],
+      "genres_zh": [
+        "喜剧",
+        "犯罪"
+      ],
+      "tmdb_id": 18785,
+      "imdb_id": "tt1119646",
+      "source": "movielens"
+    },
+    {
+      "title": "四十岁的老处男",
+      "title_en": "40-Year-Old Virgin, The",
+      "title_zh": "四十岁的老处男",
+      "release_year": 2005,
+      "language": "英语",
+      "duration": null,
+      "director": null,
+      "description": "《四十岁的老处男》(2005)，喜剧、爱情类型。导演：未知。本片数据来自公开电影数据库（MovieLens / 热门榜单）。",
+      "poster_url": null,
+      "genres_en": [
+        "Comedy",
+        "Romance"
+      ],
+      "genres_zh": [
+        "喜剧",
+        "爱情"
+      ],
+      "tmdb_id": 6957,
+      "imdb_id": "tt0405422",
+      "source": "movielens"
+    },
+    {
+      "title": "星际穿越",
+      "title_en": "Interstellar",
+      "title_zh": "星际穿越",
+      "release_year": 2014,
+      "language": "英语",
+      "duration": null,
+      "director": null,
+      "description": "《星际穿越》(2014)，科幻、冒险类型。导演：未知。本片数据来自公开电影数据库（MovieLens / 热门榜单）。",
+      "poster_url": null,
+      "genres_en": [
+        "Sci-Fi",
+        "IMAX"
+      ],
+      "genres_zh": [
+        "科幻",
+        "冒险"
+      ],
+      "tmdb_id": 157336,
+      "imdb_id": "tt0816692",
+      "source": "movielens"
+    },
+    {
+      "title": "美食总动员",
+      "title_en": "Ratatouille",
+      "title_zh": "美食总动员",
+      "release_year": 2007,
+      "language": "英语",
+      "duration": null,
+      "director": null,
+      "description": "《美食总动员》(2007)，动画、家庭、剧情类型。导演：未知。本片数据来自公开电影数据库（MovieLens / 热门榜单）。",
+      "poster_url": null,
+      "genres_en": [
+        "Animation",
+        "Children",
+        "Drama"
+      ],
+      "genres_zh": [
+        "动画",
+        "家庭",
+        "剧情"
+      ],
+      "tmdb_id": 2062,
+      "imdb_id": "tt0382932",
+      "source": "movielens"
+    },
+    {
+      "title": "加勒比海盗2：聚魂棺",
+      "title_en": "Pirates of the Caribbean: Dead Man's Chest",
+      "title_zh": "加勒比海盗2：聚魂棺",
+      "release_year": 2006,
+      "language": "英语",
+      "duration": null,
+      "director": null,
+      "description": "《加勒比海盗2：聚魂棺》(2006)，动作、冒险、奇幻类型。导演：未知。本片数据来自公开电影数据库（MovieLens / 热门榜单）。",
+      "poster_url": null,
+      "genres_en": [
+        "Action",
+        "Adventure",
+        "Fantasy"
+      ],
+      "genres_zh": [
+        "动作",
+        "冒险",
+        "奇幻"
+      ],
+      "tmdb_id": 58,
+      "imdb_id": "tt0383574",
+      "source": "movielens"
+    },
+    {
+      "title": "被解放的姜戈",
+      "title_en": "Django Unchained",
+      "title_zh": "被解放的姜戈",
+      "release_year": 2012,
+      "language": "英语",
+      "duration": null,
+      "director": null,
+      "description": "《被解放的姜戈》(2012)，动作、剧情、西部类型。导演：未知。本片数据来自公开电影数据库（MovieLens / 热门榜单）。",
+      "poster_url": null,
+      "genres_en": [
+        "Action",
+        "Drama",
+        "Western"
+      ],
+      "genres_zh": [
+        "动作",
+        "剧情",
+        "西部"
+      ],
+      "tmdb_id": 68718,
+      "imdb_id": "tt1853728",
+      "source": "movielens"
+    },
+    {
+      "title": "贫民窟的百万富翁",
+      "title_en": "Slumdog Millionaire",
+      "title_zh": "贫民窟的百万富翁",
+      "release_year": 2008,
+      "language": "英语",
+      "duration": null,
+      "director": null,
+      "description": "《贫民窟的百万富翁》(2008)，犯罪、剧情、爱情类型。导演：未知。本片数据来自公开电影数据库（MovieLens / 热门榜单）。",
+      "poster_url": null,
+      "genres_en": [
+        "Crime",
+        "Drama",
+        "Romance"
+      ],
+      "genres_zh": [
+        "犯罪",
+        "剧情",
+        "爱情"
+      ],
+      "tmdb_id": 12405,
+      "imdb_id": "tt1010048",
+      "source": "movielens"
+    },
+    {
+      "title": "哈利·波特与火焰杯",
+      "title_en": "Harry Potter and the Goblet of Fire",
+      "title_zh": "哈利·波特与火焰杯",
+      "release_year": 2005,
+      "language": "英语",
+      "duration": null,
+      "director": null,
+      "description": "《哈利·波特与火焰杯》(2005)，冒险、奇幻、悬疑类型。导演：未知。本片数据来自公开电影数据库（MovieLens / 热门榜单）。",
+      "poster_url": null,
+      "genres_en": [
+        "Adventure",
+        "Fantasy",
+        "Thriller",
+        "IMAX"
+      ],
+      "genres_zh": [
+        "冒险",
+        "奇幻",
+        "悬疑"
+      ],
+      "tmdb_id": 674,
+      "imdb_id": "tt0330373",
+      "source": "movielens"
+    },
+    {
+      "title": "复仇者联盟",
+      "title_en": "Avengers, The",
+      "title_zh": "复仇者联盟",
+      "release_year": 2012,
+      "language": "英语",
+      "duration": null,
+      "director": null,
+      "description": "《复仇者联盟》(2012)，动作、冒险、科幻类型。导演：未知。本片数据来自公开电影数据库（MovieLens / 热门榜单）。",
+      "poster_url": null,
+      "genres_en": [
+        "Action",
+        "Adventure",
+        "Sci-Fi",
+        "IMAX"
+      ],
+      "genres_zh": [
+        "动作",
+        "冒险",
+        "科幻"
+      ],
+      "tmdb_id": 24428,
+      "imdb_id": "tt0848228",
+      "source": "movielens"
+    },
+    {
+      "title": "禁闭岛",
+      "title_en": "Shutter Island",
+      "title_zh": "禁闭岛",
+      "release_year": 2010,
+      "language": "英语",
+      "duration": null,
+      "director": null,
+      "description": "《禁闭岛》(2010)，剧情、悬疑类型。导演：未知。本片数据来自公开电影数据库（MovieLens / 热门榜单）。",
+      "poster_url": null,
+      "genres_en": [
+        "Drama",
+        "Mystery",
+        "Thriller"
+      ],
+      "genres_zh": [
+        "剧情",
+        "悬疑"
+      ],
+      "tmdb_id": 11324,
+      "imdb_id": "tt1130884",
+      "source": "movielens"
+    },
+    {
+      "title": "第九区",
+      "title_en": "District 9",
+      "title_zh": "第九区",
+      "release_year": 2009,
+      "language": "英语",
+      "duration": null,
+      "director": null,
+      "description": "《第九区》(2009)，悬疑、科幻类型。导演：未知。本片数据来自公开电影数据库（MovieLens / 热门榜单）。",
+      "poster_url": null,
+      "genres_en": [
+        "Mystery",
+        "Sci-Fi",
+        "Thriller"
+      ],
+      "genres_zh": [
+        "悬疑",
+        "科幻"
+      ],
+      "tmdb_id": 17654,
+      "imdb_id": "tt1136608",
+      "source": "movielens"
+    },
+    {
+      "title": "朱诺",
+      "title_en": "Juno",
+      "title_zh": "朱诺",
+      "release_year": 2007,
+      "language": "英语",
+      "duration": null,
+      "director": null,
+      "description": "《朱诺》(2007)，喜剧、剧情、爱情类型。导演：未知。本片数据来自公开电影数据库（MovieLens / 热门榜单）。",
+      "poster_url": null,
+      "genres_en": [
+        "Comedy",
+        "Drama",
+        "Romance"
+      ],
+      "genres_zh": [
+        "喜剧",
+        "剧情",
+        "爱情"
+      ],
+      "tmdb_id": 7326,
+      "imdb_id": "tt0467406",
+      "source": "movielens"
+    },
+    {
+      "title": "波拉特",
+      "title_en": "Borat: Cultural Learnings of America for Make Benefit Glorious Nation of Kazakhstan",
+      "title_zh": "波拉特",
+      "release_year": 2006,
+      "language": "英语",
+      "duration": null,
+      "director": null,
+      "description": "《波拉特》(2006)，喜剧类型。导演：未知。本片数据来自公开电影数据库（MovieLens / 热门榜单）。",
+      "poster_url": null,
+      "genres_en": [
+        "Comedy"
+      ],
+      "genres_zh": [
+        "喜剧"
+      ],
+      "tmdb_id": 496,
+      "imdb_id": "tt0443453",
+      "source": "movielens"
+    },
+    {
+      "title": "老无所依",
+      "title_en": "No Country for Old Men",
+      "title_zh": "老无所依",
+      "release_year": 2007,
+      "language": "英语",
+      "duration": null,
+      "director": null,
+      "description": "《老无所依》(2007)，犯罪、剧情类型。导演：未知。本片数据来自公开电影数据库（MovieLens / 热门榜单）。",
+      "poster_url": null,
+      "genres_en": [
+        "Crime",
+        "Drama"
+      ],
+      "genres_zh": [
+        "犯罪",
+        "剧情"
+      ],
+      "tmdb_id": 6977,
+      "imdb_id": "tt0477348",
+      "source": "movielens"
+    },
+    {
+      "title": "人类之子",
+      "title_en": "Children of Men",
+      "title_zh": "人类之子",
+      "release_year": 2006,
+      "language": "英语",
+      "duration": null,
+      "director": null,
+      "description": "《人类之子》(2006)，动作、冒险、剧情类型。导演：未知。本片数据来自公开电影数据库（MovieLens / 热门榜单）。",
+      "poster_url": null,
+      "genres_en": [
+        "Action",
+        "Adventure",
+        "Drama",
+        "Sci-Fi",
+        "Thriller"
+      ],
+      "genres_zh": [
+        "动作",
+        "冒险",
+        "剧情",
+        "科幻",
+        "悬疑"
+      ],
+      "tmdb_id": 9693,
+      "imdb_id": "tt0206634",
+      "source": "movielens"
+    },
+    {
+      "title": "我是传奇",
+      "title_en": "I Am Legend",
+      "title_zh": "我是传奇",
+      "release_year": 2007,
+      "language": "英语",
+      "duration": null,
+      "director": null,
+      "description": "《我是传奇》(2007)，动作、恐怖、科幻类型。导演：未知。本片数据来自公开电影数据库（MovieLens / 热门榜单）。",
+      "poster_url": null,
+      "genres_en": [
+        "Action",
+        "Horror",
+        "Sci-Fi",
+        "Thriller",
+        "IMAX"
+      ],
+      "genres_zh": [
+        "动作",
+        "恐怖",
+        "科幻",
+        "悬疑",
+        "冒险"
+      ],
+      "tmdb_id": 6479,
+      "imdb_id": "tt0480249",
+      "source": "movielens"
+    },
+    {
+      "title": "纳尼亚传奇：狮子、女巫和魔衣橱",
+      "title_en": "Chronicles of Narnia: The Lion, the Witch and the Wardrobe, The",
+      "title_zh": "纳尼亚传奇：狮子、女巫和魔衣橱",
+      "release_year": 2005,
+      "language": "英语",
+      "duration": null,
+      "director": null,
+      "description": "《纳尼亚传奇：狮子、女巫和魔衣橱》(2005)，冒险、家庭、奇幻类型。导演：未知。本片数据来自公开电影数据库（MovieLens / 热门榜单）。",
+      "poster_url": null,
+      "genres_en": [
+        "Adventure",
+        "Children",
+        "Fantasy"
+      ],
+      "genres_zh": [
+        "冒险",
+        "家庭",
+        "奇幻"
+      ],
+      "tmdb_id": 411,
+      "imdb_id": "tt0363771",
+      "source": "movielens"
+    },
+    {
+      "title": "热血警探",
+      "title_en": "Hot Fuzz",
+      "title_zh": "热血警探",
+      "release_year": 2007,
+      "language": "英语",
+      "duration": null,
+      "director": null,
+      "description": "《热血警探》(2007)，动作、喜剧、犯罪类型。导演：未知。本片数据来自公开电影数据库（MovieLens / 热门榜单）。",
+      "poster_url": null,
+      "genres_en": [
+        "Action",
+        "Comedy",
+        "Crime",
+        "Mystery"
+      ],
+      "genres_zh": [
+        "动作",
+        "喜剧",
+        "犯罪",
+        "悬疑"
+      ],
+      "tmdb_id": 4638,
+      "imdb_id": "tt0425112",
+      "source": "movielens"
+    },
+    {
+      "title": "查理和巧克力工厂",
+      "title_en": "Charlie and the Chocolate Factory",
+      "title_zh": "查理和巧克力工厂",
+      "release_year": 2005,
+      "language": "英语",
+      "duration": null,
+      "director": null,
+      "description": "《查理和巧克力工厂》(2005)，冒险、家庭、喜剧类型。导演：未知。本片数据来自公开电影数据库（MovieLens / 热门榜单）。",
+      "poster_url": null,
+      "genres_en": [
+        "Adventure",
+        "Children",
+        "Comedy",
+        "Fantasy",
+        "IMAX"
+      ],
+      "genres_zh": [
+        "冒险",
+        "家庭",
+        "喜剧",
+        "奇幻"
+      ],
+      "tmdb_id": 118,
+      "imdb_id": "tt0367594",
+      "source": "movielens"
+    },
+    {
+      "title": "银河护卫队",
+      "title_en": "Guardians of the Galaxy",
+      "title_zh": "银河护卫队",
+      "release_year": 2014,
+      "language": "英语",
+      "duration": null,
+      "director": null,
+      "description": "《银河护卫队》(2014)，动作、冒险、科幻类型。导演：未知。本片数据来自公开电影数据库（MovieLens / 热门榜单）。",
+      "poster_url": null,
+      "genres_en": [
+        "Action",
+        "Adventure",
+        "Sci-Fi"
+      ],
+      "genres_zh": [
+        "动作",
+        "冒险",
+        "科幻"
+      ],
+      "tmdb_id": 118340,
+      "imdb_id": "tt2015381",
+      "source": "movielens"
+    },
+    {
+      "title": "星际迷航",
+      "title_en": "Star Trek",
+      "title_zh": "星际迷航",
+      "release_year": 2009,
+      "language": "英语",
+      "duration": null,
+      "director": null,
+      "description": "《星际迷航》(2009)，动作、冒险、科幻类型。导演：未知。本片数据来自公开电影数据库（MovieLens / 热门榜单）。",
+      "poster_url": null,
+      "genres_en": [
+        "Action",
+        "Adventure",
+        "Sci-Fi",
+        "IMAX"
+      ],
+      "genres_zh": [
+        "动作",
+        "冒险",
+        "科幻"
+      ],
+      "tmdb_id": 13475,
+      "imdb_id": "tt0796366",
+      "source": "movielens"
+    },
+    {
+      "title": "史密斯夫妇",
+      "title_en": "Mr. & Mrs. Smith",
+      "title_zh": "史密斯夫妇",
+      "release_year": 2005,
+      "language": "英语",
+      "duration": null,
+      "director": null,
+      "description": "《史密斯夫妇》(2005)，动作、冒险、喜剧类型。导演：未知。本片数据来自公开电影数据库（MovieLens / 热门榜单）。",
+      "poster_url": null,
+      "genres_en": [
+        "Action",
+        "Adventure",
+        "Comedy",
+        "Romance"
+      ],
+      "genres_zh": [
+        "动作",
+        "冒险",
+        "喜剧",
+        "爱情"
+      ],
+      "tmdb_id": 787,
+      "imdb_id": "tt0356910",
+      "source": "movielens"
+    },
+    {
+      "title": "国王的演讲",
+      "title_en": "King's Speech, The",
+      "title_zh": "国王的演讲",
+      "release_year": 2010,
+      "language": "英语",
+      "duration": null,
+      "director": null,
+      "description": "《国王的演讲》(2010)，剧情类型。导演：未知。本片数据来自公开电影数据库（MovieLens / 热门榜单）。",
+      "poster_url": null,
+      "genres_en": [
+        "Drama"
+      ],
+      "genres_zh": [
+        "剧情"
+      ],
+      "tmdb_id": 45269,
+      "imdb_id": "tt1504320",
+      "source": "movielens"
+    },
+    {
+      "title": "哈利·波特与混血王子",
+      "title_en": "Harry Potter and the Half-Blood Prince",
+      "title_zh": "哈利·波特与混血王子",
+      "release_year": 2009,
+      "language": "英语",
+      "duration": null,
+      "director": null,
+      "description": "《哈利·波特与混血王子》(2009)，冒险、奇幻、悬疑类型。导演：未知。本片数据来自公开电影数据库（MovieLens / 热门榜单）。",
+      "poster_url": null,
+      "genres_en": [
+        "Adventure",
+        "Fantasy",
+        "Mystery",
+        "Romance",
+        "IMAX"
+      ],
+      "genres_zh": [
+        "冒险",
+        "奇幻",
+        "悬疑",
+        "爱情"
+      ],
+      "tmdb_id": 767,
+      "imdb_id": "tt0417741",
+      "source": "movielens"
+    },
+    {
+      "title": "大侦探福尔摩斯",
+      "title_en": "Sherlock Holmes",
+      "title_zh": "大侦探福尔摩斯",
+      "release_year": 2009,
+      "language": "英语",
+      "duration": null,
+      "director": null,
+      "description": "《大侦探福尔摩斯》(2009)，动作、犯罪、悬疑类型。导演：未知。本片数据来自公开电影数据库（MovieLens / 热门榜单）。",
+      "poster_url": null,
+      "genres_en": [
+        "Action",
+        "Crime",
+        "Mystery",
+        "Thriller"
+      ],
+      "genres_zh": [
+        "动作",
+        "犯罪",
+        "悬疑"
+      ],
+      "tmdb_id": 10528,
+      "imdb_id": "tt0988045",
+      "source": "movielens"
+    },
+    {
+      "title": "哈利·波特与凤凰社",
+      "title_en": "Harry Potter and the Order of the Phoenix",
+      "title_zh": "哈利·波特与凤凰社",
+      "release_year": 2007,
+      "language": "英语",
+      "duration": null,
+      "director": null,
+      "description": "《哈利·波特与凤凰社》(2007)，冒险、剧情、奇幻类型。导演：未知。本片数据来自公开电影数据库（MovieLens / 热门榜单）。",
+      "poster_url": null,
+      "genres_en": [
+        "Adventure",
+        "Drama",
+        "Fantasy",
+        "IMAX"
+      ],
+      "genres_zh": [
+        "冒险",
+        "剧情",
+        "奇幻"
+      ],
+      "tmdb_id": 675,
+      "imdb_id": "tt0373889",
+      "source": "movielens"
+    },
+    {
+      "title": "婚礼傲客",
+      "title_en": "Wedding Crashers",
+      "title_zh": "婚礼傲客",
+      "release_year": 2005,
+      "language": "英语",
+      "duration": null,
+      "director": null,
+      "description": "《婚礼傲客》(2005)，喜剧、爱情类型。导演：未知。本片数据来自公开电影数据库（MovieLens / 热门榜单）。",
+      "poster_url": null,
+      "genres_en": [
+        "Comedy",
+        "Romance"
+      ],
+      "genres_zh": [
+        "喜剧",
+        "爱情"
+      ],
+      "tmdb_id": 9522,
+      "imdb_id": "tt0396269",
+      "source": "movielens"
+    },
+    {
+      "title": "社交网络",
+      "title_en": "Social Network, The",
+      "title_zh": "社交网络",
+      "release_year": 2010,
+      "language": "英语",
+      "duration": null,
+      "director": null,
+      "description": "《社交网络》(2010)，剧情类型。导演：未知。本片数据来自公开电影数据库（MovieLens / 热门榜单）。",
+      "poster_url": null,
+      "genres_en": [
+        "Drama"
+      ],
+      "genres_zh": [
+        "剧情"
+      ],
+      "tmdb_id": 37799,
+      "imdb_id": "tt1285016",
+      "source": "movielens"
+    },
+    {
+      "title": "加勒比海盗3：世界的尽头",
+      "title_en": "Pirates of the Caribbean: At World's End",
+      "title_zh": "加勒比海盗3：世界的尽头",
+      "release_year": 2007,
+      "language": "英语",
+      "duration": null,
+      "director": null,
+      "description": "《加勒比海盗3：世界的尽头》(2007)，动作、冒险、喜剧类型。导演：未知。本片数据来自公开电影数据库（MovieLens / 热门榜单）。",
+      "poster_url": null,
+      "genres_en": [
+        "Action",
+        "Adventure",
+        "Comedy",
+        "Fantasy"
+      ],
+      "genres_zh": [
+        "动作",
+        "冒险",
+        "喜剧",
+        "奇幻"
+      ],
+      "tmdb_id": 285,
+      "imdb_id": "tt0449088",
+      "source": "movielens"
+    },
+    {
+      "title": "玩具总动员3",
+      "title_en": "Toy Story 3",
+      "title_zh": "玩具总动员3",
+      "release_year": 2010,
+      "language": "英语",
+      "duration": null,
+      "director": null,
+      "description": "《玩具总动员3》(2010)，冒险、动画、家庭类型。导演：未知。本片数据来自公开电影数据库（MovieLens / 热门榜单）。",
+      "poster_url": null,
+      "genres_en": [
+        "Adventure",
+        "Animation",
+        "Children",
+        "Comedy",
+        "Fantasy",
+        "IMAX"
+      ],
+      "genres_zh": [
+        "冒险",
+        "动画",
+        "家庭",
+        "喜剧",
+        "奇幻"
+      ],
+      "tmdb_id": 10193,
+      "imdb_id": "tt0435761",
+      "source": "movielens"
+    },
+    {
+      "title": "太坏了",
+      "title_en": "Superbad",
+      "title_zh": "太坏了",
+      "release_year": 2007,
+      "language": "英语",
+      "duration": null,
+      "director": null,
+      "description": "《太坏了》(2007)，喜剧类型。导演：未知。本片数据来自公开电影数据库（MovieLens / 热门榜单）。",
+      "poster_url": null,
+      "genres_en": [
+        "Comedy"
+      ],
+      "genres_zh": [
+        "喜剧"
+      ],
+      "tmdb_id": 8363,
+      "imdb_id": "tt0829482",
+      "source": "movielens"
+    },
+    {
+      "title": "死侍",
+      "title_en": "Deadpool",
+      "title_zh": "死侍",
+      "release_year": 2016,
+      "language": "英语",
+      "duration": null,
+      "director": null,
+      "description": "《死侍》(2016)，动作、冒险、喜剧类型。导演：未知。本片数据来自公开电影数据库（MovieLens / 热门榜单）。",
+      "poster_url": null,
+      "genres_en": [
+        "Action",
+        "Adventure",
+        "Comedy",
+        "Sci-Fi"
+      ],
+      "genres_zh": [
+        "动作",
+        "冒险",
+        "喜剧",
+        "科幻"
+      ],
+      "tmdb_id": 293660,
+      "imdb_id": "tt1431045",
+      "source": "movielens"
+    },
+    {
+      "title": "华尔街之狼",
+      "title_en": "Wolf of Wall Street, The",
+      "title_zh": "华尔街之狼",
+      "release_year": 2013,
+      "language": "英语",
+      "duration": null,
+      "director": null,
+      "description": "《华尔街之狼》(2013)，喜剧、犯罪、剧情类型。导演：未知。本片数据来自公开电影数据库（MovieLens / 热门榜单）。",
+      "poster_url": null,
+      "genres_en": [
+        "Comedy",
+        "Crime",
+        "Drama"
+      ],
+      "genres_zh": [
+        "喜剧",
+        "犯罪",
+        "剧情"
+      ],
+      "tmdb_id": 106646,
+      "imdb_id": "tt0993846",
+      "source": "movielens"
+    },
+    {
+      "title": "饥饿游戏",
+      "title_en": "The Hunger Games",
+      "title_zh": "饥饿游戏",
+      "release_year": 2012,
+      "language": "英语",
+      "duration": null,
+      "director": null,
+      "description": "《饥饿游戏》(2012)，动作、冒险、剧情类型。导演：未知。本片数据来自公开电影数据库（MovieLens / 热门榜单）。",
+      "poster_url": null,
+      "genres_en": [
+        "Action",
+        "Adventure",
+        "Drama",
+        "Sci-Fi",
+        "Thriller"
+      ],
+      "genres_zh": [
+        "动作",
+        "冒险",
+        "剧情",
+        "科幻",
+        "悬疑"
+      ],
+      "tmdb_id": 70160,
+      "imdb_id": "tt1392170",
+      "source": "movielens"
+    },
+    {
+      "title": "功夫熊猫",
+      "title_en": "Kung Fu Panda",
+      "title_zh": "功夫熊猫",
+      "release_year": 2008,
+      "language": "英语",
+      "duration": null,
+      "director": null,
+      "description": "《功夫熊猫》(2008)，动作、动画、家庭类型。导演：未知。本片数据来自公开电影数据库（MovieLens / 热门榜单）。",
+      "poster_url": null,
+      "genres_en": [
+        "Action",
+        "Animation",
+        "Children",
+        "Comedy",
+        "IMAX"
+      ],
+      "genres_zh": [
+        "动作",
+        "动画",
+        "家庭",
+        "喜剧",
+        "冒险"
+      ],
+      "tmdb_id": 9502,
+      "imdb_id": "tt0441773",
+      "source": "movielens"
+    },
+    {
+      "title": "驯龙高手",
+      "title_en": "How to Train Your Dragon",
+      "title_zh": "驯龙高手",
+      "release_year": 2010,
+      "language": "英语",
+      "duration": null,
+      "director": null,
+      "description": "《驯龙高手》(2010)，冒险、动画、家庭类型。导演：未知。本片数据来自公开电影数据库（MovieLens / 热门榜单）。",
+      "poster_url": null,
+      "genres_en": [
+        "Adventure",
+        "Animation",
+        "Children",
+        "Fantasy",
+        "IMAX"
+      ],
+      "genres_zh": [
+        "冒险",
+        "动画",
+        "家庭",
+        "奇幻"
+      ],
+      "tmdb_id": 10191,
+      "imdb_id": "tt0892769",
+      "source": "movielens"
+    },
+    {
+      "title": "僵尸之地",
+      "title_en": "Zombieland",
+      "title_zh": "僵尸之地",
+      "release_year": 2009,
+      "language": "英语",
+      "duration": null,
+      "director": null,
+      "description": "《僵尸之地》(2009)，动作、喜剧、恐怖类型。导演：未知。本片数据来自公开电影数据库（MovieLens / 热门榜单）。",
+      "poster_url": null,
+      "genres_en": [
+        "Action",
+        "Comedy",
+        "Horror"
+      ],
+      "genres_zh": [
+        "动作",
+        "喜剧",
+        "恐怖"
+      ],
+      "tmdb_id": 19908,
+      "imdb_id": "tt1156398",
+      "source": "movielens"
+    },
+    {
+      "title": "血钻",
+      "title_en": "Blood Diamond",
+      "title_zh": "血钻",
+      "release_year": 2006,
+      "language": "英语",
+      "duration": null,
+      "director": null,
+      "description": "《血钻》(2006)，动作、冒险、犯罪类型。导演：未知。本片数据来自公开电影数据库（MovieLens / 热门榜单）。",
+      "poster_url": null,
+      "genres_en": [
+        "Action",
+        "Adventure",
+        "Crime",
+        "Drama",
+        "Thriller",
+        "War"
+      ],
+      "genres_zh": [
+        "动作",
+        "冒险",
+        "犯罪",
+        "剧情",
+        "悬疑",
+        "战争"
+      ],
+      "tmdb_id": 1372,
+      "imdb_id": "tt0450259",
+      "source": "movielens"
+    },
+    {
+      "title": "布达佩斯大饭店",
+      "title_en": "Grand Budapest Hotel, The",
+      "title_zh": "布达佩斯大饭店",
+      "release_year": 2014,
+      "language": "英语",
+      "duration": null,
+      "director": null,
+      "description": "《布达佩斯大饭店》(2014)，喜剧、剧情类型。导演：未知。本片数据来自公开电影数据库（MovieLens / 热门榜单）。",
+      "poster_url": null,
+      "genres_en": [
+        "Comedy",
+        "Drama"
+      ],
+      "genres_zh": [
+        "喜剧",
+        "剧情"
+      ],
+      "tmdb_id": 120467,
+      "imdb_id": "tt2278388",
+      "source": "movielens"
+    },
+    {
+      "title": "一夜大肚",
+      "title_en": "Knocked Up",
+      "title_zh": "一夜大肚",
+      "release_year": 2007,
+      "language": "英语",
+      "duration": null,
+      "director": null,
+      "description": "《一夜大肚》(2007)，喜剧、剧情、爱情类型。导演：未知。本片数据来自公开电影数据库（MovieLens / 热门榜单）。",
+      "poster_url": null,
+      "genres_en": [
+        "Comedy",
+        "Drama",
+        "Romance"
+      ],
+      "genres_zh": [
+        "喜剧",
+        "剧情",
+        "爱情"
+      ],
+      "tmdb_id": 4964,
+      "imdb_id": "tt0478311",
+      "source": "movielens"
+    },
+    {
+      "title": "X战警3：背水一战",
+      "title_en": "X-Men: The Last Stand",
+      "title_zh": "X战警3：背水一战",
+      "release_year": 2006,
+      "language": "英语",
+      "duration": null,
+      "director": null,
+      "description": "《X战警3：背水一战》(2006)，动作、科幻、悬疑类型。导演：未知。本片数据来自公开电影数据库（MovieLens / 热门榜单）。",
+      "poster_url": null,
+      "genres_en": [
+        "Action",
+        "Sci-Fi",
+        "Thriller"
+      ],
+      "genres_zh": [
+        "动作",
+        "科幻",
+        "悬疑"
+      ],
+      "tmdb_id": 36668,
+      "imdb_id": "tt0376994",
+      "source": "movielens"
+    },
+    {
+      "title": "模仿游戏",
+      "title_en": "The Imitation Game",
+      "title_zh": "模仿游戏",
+      "release_year": 2014,
+      "language": "英语",
+      "duration": null,
+      "director": null,
+      "description": "《模仿游戏》(2014)，剧情、悬疑、战争类型。导演：未知。本片数据来自公开电影数据库（MovieLens / 热门榜单）。",
+      "poster_url": null,
+      "genres_en": [
+        "Drama",
+        "Thriller",
+        "War"
+      ],
+      "genres_zh": [
+        "剧情",
+        "悬疑",
+        "战争"
+      ],
+      "tmdb_id": 205596,
+      "imdb_id": "tt2084970",
+      "source": "movielens"
+    },
+    {
+      "title": "007：大破天幕杀机",
+      "title_en": "Skyfall",
+      "title_zh": "007：大破天幕杀机",
+      "release_year": 2012,
+      "language": "英语",
+      "duration": null,
+      "director": null,
+      "description": "《007：大破天幕杀机》(2012)，动作、冒险、悬疑类型。导演：未知。本片数据来自公开电影数据库（MovieLens / 热门榜单）。",
+      "poster_url": null,
+      "genres_en": [
+        "Action",
+        "Adventure",
+        "Thriller",
+        "IMAX"
+      ],
+      "genres_zh": [
+        "动作",
+        "冒险",
+        "悬疑"
+      ],
+      "tmdb_id": 37724,
+      "imdb_id": "tt1074638",
+      "source": "movielens"
+    },
+    {
+      "title": "哈利·波特与死亡圣器（下）",
+      "title_en": "Harry Potter and the Deathly Hallows: Part 2",
+      "title_zh": "哈利·波特与死亡圣器（下）",
+      "release_year": 2011,
+      "language": "英语",
+      "duration": null,
+      "director": null,
+      "description": "《哈利·波特与死亡圣器（下）》(2011)，动作、冒险、剧情类型。导演：未知。本片数据来自公开电影数据库（MovieLens / 热门榜单）。",
+      "poster_url": null,
+      "genres_en": [
+        "Action",
+        "Adventure",
+        "Drama",
+        "Fantasy",
+        "Mystery",
+        "IMAX"
+      ],
+      "genres_zh": [
+        "动作",
+        "冒险",
+        "剧情",
+        "奇幻",
+        "悬疑"
+      ],
+      "tmdb_id": 12445,
+      "imdb_id": "tt1201607",
+      "source": "movielens"
+    },
+    {
+      "title": "世界之战",
+      "title_en": "War of the Worlds",
+      "title_zh": "世界之战",
+      "release_year": 2005,
+      "language": "英语",
+      "duration": null,
+      "director": null,
+      "description": "《世界之战》(2005)，动作、冒险、科幻类型。导演：未知。本片数据来自公开电影数据库（MovieLens / 热门榜单）。",
+      "poster_url": null,
+      "genres_en": [
+        "Action",
+        "Adventure",
+        "Sci-Fi",
+        "Thriller"
+      ],
+      "genres_zh": [
+        "动作",
+        "冒险",
+        "科幻",
+        "悬疑"
+      ],
+      "tmdb_id": 74,
+      "imdb_id": "tt0407304",
+      "source": "movielens"
+    },
+    {
+      "title": "萤火虫",
+      "title_en": "Serenity",
+      "title_zh": "萤火虫",
+      "release_year": 2005,
+      "language": "英语",
+      "duration": null,
+      "director": null,
+      "description": "《萤火虫》(2005)，动作、冒险、科幻类型。导演：未知。本片数据来自公开电影数据库（MovieLens / 热门榜单）。",
+      "poster_url": null,
+      "genres_en": [
+        "Action",
+        "Adventure",
+        "Sci-Fi"
+      ],
+      "genres_zh": [
+        "动作",
+        "冒险",
+        "科幻"
+      ],
+      "tmdb_id": 16320,
+      "imdb_id": "tt0379786",
+      "source": "movielens"
+    },
+    {
+      "title": "达·芬奇密码",
+      "title_en": "Da Vinci Code, The",
+      "title_zh": "达·芬奇密码",
+      "release_year": 2006,
+      "language": "英语",
+      "duration": null,
+      "director": null,
+      "description": "《达·芬奇密码》(2006)，剧情、悬疑类型。导演：未知。本片数据来自公开电影数据库（MovieLens / 热门榜单）。",
+      "poster_url": null,
+      "genres_en": [
+        "Drama",
+        "Mystery",
+        "Thriller"
+      ],
+      "genres_zh": [
+        "剧情",
+        "悬疑"
+      ],
+      "tmdb_id": 591,
+      "imdb_id": "tt0382625",
+      "source": "movielens"
+    },
+    {
+      "title": "火星救援",
+      "title_en": "The Martian",
+      "title_zh": "火星救援",
+      "release_year": 2015,
+      "language": "英语",
+      "duration": null,
+      "director": null,
+      "description": "《火星救援》(2015)，冒险、剧情、科幻类型。导演：未知。本片数据来自公开电影数据库（MovieLens / 热门榜单）。",
+      "poster_url": null,
+      "genres_en": [
+        "Adventure",
+        "Drama",
+        "Sci-Fi"
+      ],
+      "genres_zh": [
+        "冒险",
+        "剧情",
+        "科幻"
+      ],
+      "tmdb_id": 286217,
+      "imdb_id": "tt3659388",
+      "source": "movielens"
+    },
+    {
+      "title": "疯狂的麦克斯4：狂暴之路",
+      "title_en": "Mad Max: Fury Road",
+      "title_zh": "疯狂的麦克斯4：狂暴之路",
+      "release_year": 2015,
+      "language": "英语",
+      "duration": null,
+      "director": null,
+      "description": "《疯狂的麦克斯4：狂暴之路》(2015)，动作、冒险、科幻类型。导演：未知。本片数据来自公开电影数据库（MovieLens / 热门榜单）。",
+      "poster_url": null,
+      "genres_en": [
+        "Action",
+        "Adventure",
+        "Sci-Fi",
+        "Thriller"
+      ],
+      "genres_zh": [
+        "动作",
+        "冒险",
+        "科幻",
+        "悬疑"
+      ],
+      "tmdb_id": 76341,
+      "imdb_id": "tt1392190",
+      "source": "movielens"
+    },
+    {
+      "title": "钢铁侠2",
+      "title_en": "Iron Man 2",
+      "title_zh": "钢铁侠2",
+      "release_year": 2010,
+      "language": "英语",
+      "duration": null,
+      "director": null,
+      "description": "《钢铁侠2》(2010)，动作、冒险、科幻类型。导演：未知。本片数据来自公开电影数据库（MovieLens / 热门榜单）。",
+      "poster_url": null,
+      "genres_en": [
+        "Action",
+        "Adventure",
+        "Sci-Fi",
+        "Thriller",
+        "IMAX"
+      ],
+      "genres_zh": [
+        "动作",
+        "冒险",
+        "科幻",
+        "悬疑"
+      ],
+      "tmdb_id": 10138,
+      "imdb_id": "tt1228705",
+      "source": "movielens"
+    },
+    {
+      "title": "哈利·波特与死亡圣器（上）",
+      "title_en": "Harry Potter and the Deathly Hallows: Part 1",
+      "title_zh": "哈利·波特与死亡圣器（上）",
+      "release_year": 2010,
+      "language": "英语",
+      "duration": null,
+      "director": null,
+      "description": "《哈利·波特与死亡圣器（上）》(2010)，动作、冒险、奇幻类型。导演：未知。本片数据来自公开电影数据库（MovieLens / 热门榜单）。",
+      "poster_url": null,
+      "genres_en": [
+        "Action",
+        "Adventure",
+        "Fantasy",
+        "IMAX"
+      ],
+      "genres_zh": [
+        "动作",
+        "冒险",
+        "奇幻"
+      ],
+      "tmdb_id": 12444,
+      "imdb_id": "tt0926084",
+      "source": "movielens"
+    },
+    {
+      "title": "老爷车",
+      "title_en": "Gran Torino",
+      "title_zh": "老爷车",
+      "release_year": 2008,
+      "language": "英语",
+      "duration": null,
+      "director": null,
+      "description": "《老爷车》(2008)，犯罪、剧情类型。导演：未知。本片数据来自公开电影数据库（MovieLens / 热门榜单）。",
+      "poster_url": null,
+      "genres_en": [
+        "Crime",
+        "Drama"
+      ],
+      "genres_zh": [
+        "犯罪",
+        "剧情"
+      ],
+      "tmdb_id": 13223,
+      "imdb_id": "tt1205489",
+      "source": "movielens"
+    },
+    {
+      "title": "辛普森一家大电影",
+      "title_en": "Simpsons Movie, The",
+      "title_zh": "辛普森一家大电影",
+      "release_year": 2007,
+      "language": "英语",
+      "duration": null,
+      "director": null,
+      "description": "《辛普森一家大电影》(2007)，动画、喜剧类型。导演：未知。本片数据来自公开电影数据库（MovieLens / 热门榜单）。",
+      "poster_url": null,
+      "genres_en": [
+        "Animation",
+        "Comedy"
+      ],
+      "genres_zh": [
+        "动画",
+        "喜剧"
+      ],
+      "tmdb_id": 35,
+      "imdb_id": "tt0462538",
+      "source": "movielens"
+    },
+    {
+      "title": "当幸福来敲门",
+      "title_en": "Pursuit of Happyness, The",
+      "title_zh": "当幸福来敲门",
+      "release_year": 2006,
+      "language": "英语",
+      "duration": null,
+      "director": null,
+      "description": "《当幸福来敲门》(2006)，剧情类型。导演：未知。本片数据来自公开电影数据库（MovieLens / 热门榜单）。",
+      "poster_url": null,
+      "genres_en": [
+        "Drama"
+      ],
+      "genres_zh": [
+        "剧情"
+      ],
+      "tmdb_id": 1402,
+      "imdb_id": "tt0454921",
+      "source": "movielens"
+    },
+    {
+      "title": "全民情敌",
+      "title_en": "Hitch",
+      "title_zh": "全民情敌",
+      "release_year": 2005,
+      "language": "英语",
+      "duration": null,
+      "director": null,
+      "description": "《全民情敌》(2005)，喜剧、爱情类型。导演：未知。本片数据来自公开电影数据库（MovieLens / 热门榜单）。",
+      "poster_url": null,
+      "genres_en": [
+        "Comedy",
+        "Romance"
+      ],
+      "genres_zh": [
+        "喜剧",
+        "爱情"
+      ],
+      "tmdb_id": 8488,
+      "imdb_id": "tt0386588",
+      "source": "movielens"
+    },
+    {
+      "title": "明日边缘",
+      "title_en": "Edge of Tomorrow",
+      "title_zh": "明日边缘",
+      "release_year": 2014,
+      "language": "英语",
+      "duration": null,
+      "director": null,
+      "description": "《明日边缘》(2014)，动作、科幻、冒险类型。导演：未知。本片数据来自公开电影数据库（MovieLens / 热门榜单）。",
+      "poster_url": null,
+      "genres_en": [
+        "Action",
+        "Sci-Fi",
+        "IMAX"
+      ],
+      "genres_zh": [
+        "动作",
+        "科幻",
+        "冒险"
+      ],
+      "tmdb_id": 137113,
+      "imdb_id": "tt1631867",
+      "source": "movielens"
+    },
+    {
+      "title": "歪小子斯科特",
+      "title_en": "Scott Pilgrim vs. the World",
+      "title_zh": "歪小子斯科特",
+      "release_year": 2010,
+      "language": "英语",
+      "duration": null,
+      "director": null,
+      "description": "《歪小子斯科特》(2010)，动作、喜剧、奇幻类型。导演：未知。本片数据来自公开电影数据库（MovieLens / 热门榜单）。",
+      "poster_url": null,
+      "genres_en": [
+        "Action",
+        "Comedy",
+        "Fantasy",
+        "Musical",
+        "Romance"
+      ],
+      "genres_zh": [
+        "动作",
+        "喜剧",
+        "奇幻",
+        "音乐",
+        "爱情"
+      ],
+      "tmdb_id": 22538,
+      "imdb_id": "tt0446029",
+      "source": "movielens"
+    },
+    {
+      "title": "蜘蛛侠3",
+      "title_en": "Spider-Man 3",
+      "title_zh": "蜘蛛侠3",
+      "release_year": 2007,
+      "language": "英语",
+      "duration": null,
+      "director": null,
+      "description": "《蜘蛛侠3》(2007)，动作、冒险、科幻类型。导演：未知。本片数据来自公开电影数据库（MovieLens / 热门榜单）。",
+      "poster_url": null,
+      "genres_en": [
+        "Action",
+        "Adventure",
+        "Sci-Fi",
+        "Thriller",
+        "IMAX"
+      ],
+      "genres_zh": [
+        "动作",
+        "冒险",
+        "科幻",
+        "悬疑"
+      ],
+      "tmdb_id": 559,
+      "imdb_id": "tt0413300",
+      "source": "movielens"
+    },
+    {
+      "title": "奇幻人生",
+      "title_en": "Stranger than Fiction",
+      "title_zh": "奇幻人生",
+      "release_year": 2006,
+      "language": "英语",
+      "duration": null,
+      "director": null,
+      "description": "《奇幻人生》(2006)，喜剧、剧情、奇幻类型。导演：未知。本片数据来自公开电影数据库（MovieLens / 热门榜单）。",
+      "poster_url": null,
+      "genres_en": [
+        "Comedy",
+        "Drama",
+        "Fantasy",
+        "Romance"
+      ],
+      "genres_zh": [
+        "喜剧",
+        "剧情",
+        "奇幻",
+        "爱情"
+      ],
+      "tmdb_id": 1262,
+      "imdb_id": "tt0420223",
+      "source": "movielens"
+    },
+    {
+      "title": "银河系漫游指南",
+      "title_en": "Hitchhiker's Guide to the Galaxy, The",
+      "title_zh": "银河系漫游指南",
+      "release_year": 2005,
+      "language": "英语",
+      "duration": null,
+      "director": null,
+      "description": "《银河系漫游指南》(2005)，冒险、喜剧、科幻类型。导演：未知。本片数据来自公开电影数据库（MovieLens / 热门榜单）。",
+      "poster_url": null,
+      "genres_en": [
+        "Adventure",
+        "Comedy",
+        "Sci-Fi"
+      ],
+      "genres_zh": [
+        "冒险",
+        "喜剧",
+        "科幻"
+      ],
+      "tmdb_id": 7453,
+      "imdb_id": "tt0371724",
+      "source": "movielens"
+    },
+    {
+      "title": "僵尸新娘",
+      "title_en": "Corpse Bride",
+      "title_zh": "僵尸新娘",
+      "release_year": 2005,
+      "language": "英语",
+      "duration": null,
+      "director": null,
+      "description": "《僵尸新娘》(2005)，动画、喜剧、奇幻类型。导演：未知。本片数据来自公开电影数据库（MovieLens / 热门榜单）。",
+      "poster_url": null,
+      "genres_en": [
+        "Animation",
+        "Comedy",
+        "Fantasy",
+        "Musical",
+        "Romance"
+      ],
+      "genres_zh": [
+        "动画",
+        "喜剧",
+        "奇幻",
+        "音乐",
+        "爱情"
+      ],
+      "tmdb_id": 3933,
+      "imdb_id": "tt0121164",
+      "source": "movielens"
+    }
+  ]
+}

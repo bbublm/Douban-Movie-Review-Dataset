@@ -1,0 +1,277 @@
+/* ============================================================
+ * space.css —— 影评洞察页「深空电影宇宙」设计系统
+ *
+ * 只服务 /analytics（与 /insights）洞察页，不改首页/导航/登录的原系统棕金风格。
+ * 设计令牌：
+ *   底色   #05050A → #0D1117 径向渐变（深空）
+ *   文字   白 #FFFFFF / 浅灰 #C9D1D9 / 次灰 #8B949E
+ *   高亮   金 #FFD700 · 赛博青 #00F0FF
+ *   字体   Orbitron（数字/标题，科技感无衬线）+ 思源黑体系中文兜底
+ *   卡片   玻璃拟态 rgba(255,255,255,.03) + 1px 半透明白边 + clip-path 切角(HUD)
+ *
+ * 字体说明：Orbitron 经 @fontsource 本地自托管（SIL OFL 开源许可，随 npm 包分发）。
+ * 不要改回 fonts.googleapis.com —— Google Fonts 在本机网络环境不可达（实测 HTTP 000），
+ * 走 CDN 会静默失败、科技感字体直接丢失。字体在 main.js 里引入。
+ * ============================================================ */
+
+:root {
+  /* 深空底色 */
+  --sp-void: #05050A;
+  --sp-deep: #0D1117;
+  --sp-deep-2: #11161F;
+
+  /* 高亮 */
+  --sp-gold: #FFD700;
+  --sp-cyan: #00F0FF;
+  --sp-gold-soft: rgba(255, 215, 0, 0.14);
+  --sp-cyan-soft: rgba(0, 240, 255, 0.12);
+
+  /* 文字 */
+  --sp-text: #FFFFFF;
+  --sp-text-2: #C9D1D9;
+  --sp-text-3: #8B949E;
+
+  /* 玻璃与描边 */
+  --sp-glass: rgba(255, 255, 255, 0.03);
+  --sp-glass-2: rgba(255, 255, 255, 0.055);
+  --sp-line: rgba(255, 255, 255, 0.12);
+  --sp-line-2: rgba(255, 255, 255, 0.08);
+
+  /* 字体：Orbitron 负责数字与拉丁标题，中文自动落到思源黑体系 */
+  --sp-font-tech: 'Orbitron', 'DIN Alternate', 'Bahnschrift', 'HarmonyOS Sans',
+    'Source Han Sans SC', 'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei', system-ui, sans-serif;
+  --sp-font-body: 'HarmonyOS Sans', 'Source Han Sans SC', 'Noto Sans SC',
+    'PingFang SC', 'Microsoft YaHei', system-ui, sans-serif;
+}
+
+/* ========== 页面级深空底 ========== */
+.sp-space {
+  position: relative;
+  color: var(--sp-text);
+  background:
+    radial-gradient(1200px 780px at 68% -8%, rgba(0, 240, 255, 0.07), transparent 62%),
+    radial-gradient(1000px 700px at 12% 8%, rgba(255, 215, 0, 0.05), transparent 60%),
+    radial-gradient(140% 120% at 50% 40%, #0D1117 0%, #07080D 55%, #05050A 100%);
+  min-height: 100vh;
+  font-family: var(--sp-font-body);
+}
+
+/* 深空星尘层（极轻，不抢 3D 主体） */
+.sp-space::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-image:
+    radial-gradient(1.4px 1.4px at 18% 24%, rgba(255, 255, 255, 0.5), transparent),
+    radial-gradient(1.2px 1.2px at 72% 16%, rgba(255, 255, 255, 0.38), transparent),
+    radial-gradient(1.6px 1.6px at 42% 68%, rgba(0, 240, 255, 0.35), transparent),
+    radial-gradient(1.2px 1.2px at 88% 58%, rgba(255, 215, 0, 0.32), transparent),
+    radial-gradient(1px 1px at 8% 74%, rgba(255, 255, 255, 0.3), transparent),
+    radial-gradient(1.3px 1.3px at 56% 88%, rgba(255, 255, 255, 0.28), transparent);
+  background-size: 620px 620px, 780px 780px, 540px 540px, 900px 900px, 460px 460px, 700px 700px;
+  opacity: 0.55;
+}
+
+/* ========== 玻璃拟态 HUD 卡片（切角） ========== */
+.sp-card {
+  position: relative;
+  background: var(--sp-glass);
+  backdrop-filter: blur(14px) saturate(130%);
+  -webkit-backdrop-filter: blur(14px) saturate(130%);
+  /* 切角：左上 + 右下，HUD 面板感 */
+  clip-path: polygon(
+    18px 0, 100% 0, 100% calc(100% - 18px),
+    calc(100% - 18px) 100%, 0 100%, 0 18px
+  );
+  box-shadow: none; /* 去粗重阴影 */
+}
+
+/* 1px 半透明白描边（跟随切角） */
+.sp-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border: 1px solid var(--sp-line);
+  clip-path: polygon(
+    18px 0, 100% 0, 100% calc(100% - 18px),
+    calc(100% - 18px) 100%, 0 100%, 0 18px
+  );
+  pointer-events: none;
+}
+
+/* 左下角赛博青竖向光条（HUD 细节） */
+.sp-card::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 26px;
+  width: 2px;
+  height: 30px;
+  background: linear-gradient(180deg, transparent, var(--sp-cyan));
+  opacity: 0.75;
+  pointer-events: none;
+}
+
+.sp-card--gold::after { background: linear-gradient(180deg, transparent, var(--sp-gold)); }
+
+/* ========== 排版 ========== */
+.sp-title {
+  font-family: var(--sp-font-tech);
+  color: var(--sp-text);
+  letter-spacing: 0.06em;
+  font-weight: 700;
+}
+
+.sp-num {
+  font-family: var(--sp-font-tech);
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: 'tnum' 1;
+  letter-spacing: 0.02em;
+}
+
+.sp-label {
+  font-family: var(--sp-font-tech);
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--sp-text-3);
+}
+
+/* ========== 动效：缓动入场（ease-out） ========== */
+@keyframes sp-rise {
+  from { opacity: 0; transform: translateY(26px); }
+  to   { opacity: 1; transform: none; }
+}
+@keyframes sp-fade {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes sp-sweep {
+  from { opacity: 0; transform: translateX(-14px); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* cubic-bezier 缓出曲线：快起慢收 */
+.sp-rise  { animation: sp-rise 0.78s cubic-bezier(0.16, 0.84, 0.44, 1) both; }
+.sp-fade  { animation: sp-fade 0.7s ease-out both; }
+.sp-sweep { animation: sp-sweep 0.66s cubic-bezier(0.16, 0.84, 0.44, 1) both; }
+
+/* 错峰入场：给一组子元素递增延迟 */
+.sp-stagger > * { animation: sp-rise 0.7s cubic-bezier(0.16, 0.84, 0.44, 1) both; }
+.sp-stagger > *:nth-child(1) { animation-delay: 0.04s; }
+.sp-stagger > *:nth-child(2) { animation-delay: 0.12s; }
+.sp-stagger > *:nth-child(3) { animation-delay: 0.20s; }
+.sp-stagger > *:nth-child(4) { animation-delay: 0.28s; }
+.sp-stagger > *:nth-child(5) { animation-delay: 0.36s; }
+.sp-stagger > *:nth-child(6) { animation-delay: 0.44s; }
+
+/* 金色呼吸光晕（用于关键指标） */
+@keyframes sp-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(255, 215, 0, 0.28); }
+  50%      { box-shadow: 0 0 22px 4px rgba(255, 215, 0, 0.16); }
+}
+.sp-pulse { animation: sp-pulse 2.8s ease-in-out infinite; }
+
+@keyframes sp-scan {
+  0%   { transform: translateY(-100%); }
+  100% { transform: translateY(400%); }
+}
+
+/* ========== 洞察页：章节叙事重皮 ========== */
+.sp-space .chapter__no {
+  font-family: var(--sp-font-tech);
+  color: transparent;
+  background: linear-gradient(180deg, var(--sp-gold), rgba(255, 215, 0, 0.18));
+  -webkit-background-clip: text;
+  background-clip: text;
+  letter-spacing: 0.04em;
+}
+.sp-space .chapter__title {
+  color: var(--sp-text);
+  font-family: var(--sp-font-tech);
+  letter-spacing: 0.02em;
+}
+.sp-space .chapter__text,
+.sp-space .chapter__note {
+  color: var(--sp-text-2);
+}
+.sp-space .chapter__text b,
+.sp-space .chapter__note b { color: var(--sp-gold); font-weight: 700; }
+
+.sp-space .chapter__jump {
+  background: var(--sp-gold-soft);
+  border: 1px solid rgba(255, 215, 0, 0.35);
+  color: var(--sp-gold);
+  font-family: var(--sp-font-tech);
+  letter-spacing: 0.04em;
+}
+.sp-space .chapter__jump:hover {
+  background: rgba(255, 215, 0, 0.22);
+  box-shadow: 0 0 18px rgba(255, 215, 0, 0.25);
+}
+
+/* 章节序号右侧的金色引线 */
+.sp-space .chapter__body { position: relative; }
+
+/* ========== 洞察页：Hero 重皮 ========== */
+.sp-space .narr-hero__kicker {
+  font-family: var(--sp-font-tech);
+  color: var(--sp-cyan);
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+}
+.sp-space .narr-hero__title {
+  font-family: var(--sp-font-tech);
+  color: #fff;
+  text-shadow: 0 0 40px rgba(0, 240, 255, 0.28);
+}
+.sp-space .narr-hero__lead { color: var(--sp-text-2); }
+.sp-space .narr-hero__scroll { color: var(--sp-text-3); }
+
+/* ========== 洞察页：章节导航（右侧竖点） ========== */
+.sp-space .chapter-nav__no {
+  font-family: var(--sp-font-tech);
+  color: var(--sp-text-3);
+}
+.sp-space .chapter-nav__dot.is-on .chapter-nav__no { color: var(--sp-gold); }
+.sp-space .chapter-nav__dot.is-on .chapter-nav__label { color: var(--sp-text); }
+.sp-space .chapter-nav__label { color: var(--sp-text-3); }
+
+/* ========== 洞察页：所有数据卡片统一 HUD 玻璃拟态 ========== */
+.sp-space .scard,
+.sp-space .skeleton {
+  background: var(--sp-glass) !important;
+  border: 1px solid var(--sp-line) !important;
+  box-shadow: none !important;          /* 去粗重阴影 */
+  border-radius: 0;
+  backdrop-filter: blur(14px) saturate(130%);
+  -webkit-backdrop-filter: blur(14px) saturate(130%);
+  clip-path: polygon(
+    18px 0, 100% 0, 100% calc(100% - 18px),
+    calc(100% - 18px) 100%, 0 100%, 0 18px
+  );
+}
+.sp-space .scard__title,
+.sp-space .scard__head h3 { color: var(--sp-text); font-family: var(--sp-font-tech); letter-spacing: 0.02em; }
+.sp-space .scard__hint,
+.sp-space .scard__head p { color: var(--sp-text-3); }
+
+/* 卡片内图表容器不再画自己的底色 */
+.sp-space .scard canvas { background: transparent !important; }
+
+/* ========== 通用：金/青文字工具类 ========== */
+.sp-gold { color: var(--sp-gold); }
+.sp-cyan { color: var(--sp-cyan); }
+
+/* 细分隔线 */
+.sp-rule {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--sp-line), transparent);
+}
+
+/* 尊重减弱动效偏好 */
+@media (prefers-reduced-motion: reduce) {
+  .sp-rise, .sp-fade, .sp-sweep, .sp-stagger > *, .sp-pulse { animation: none !important; }
+}

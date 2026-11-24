@@ -1,0 +1,59 @@
+# ============================================================
+# 电影盒子（主项目）
+# ============================================================
+
+# ---------- 通用 ----------
+.env
+__pycache__/
+*.py[cod]
+*.egg-info/
+.idea/
+.vscode/
+*.bak
+*.log
+.DS_Store
+Thumbs.db
+
+# Local copies of external datasets; the target repository already tracks its datasets.
+/Douban-Movie-Review-Dataset-master/
+/豆瓣电影数据集12万+用户影评40万+爬虫程序(可做推荐系统)/
+
+# ---------- 本地工作区（记忆/截图/诊断，属个人文件，不入库） ----------
+.workbuddy/
+
+# ---------- Python 虚拟环境 ----------
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+
+# ---------- 数据湖 ----------
+# raw / 各源原始采集产物：体积大、可重新采集，不入库
+data_lake/raw/
+data_lake/imdb_datasets/
+data_lake/imdb_datasets_demo/
+# Kaggle 数据集原始文件（66 MB 起，随时可重新下载）
+data_lake/kaggle_reviews/
+data_lake/kaggle_reviews_demo/
+
+# 2026-11-17 全量数据入库：别人 clone 后 docker build 必须有数据可导，
+# 否则 entrypoint 静默跳过导入 → ES 0 条 → 页面全空（实测踩坑）。
+# ★ git 规则：父目录用 dir/ 整目录忽略时，内部子文件的 ! 例外不生效；
+#   必须写成 dir/* 再逐文件放行。
+data_lake/processed/*
+!data_lake/processed/movies.jsonl
+!data_lake/processed/reviews.jsonl
+# interim 里 run_index 的三个 fallback 源（news / 院线热映 / 预告片合计 <1MB），
+# 缺了别人就少三块数据；其余 interim 大文件仍不入库。
+data_lake/interim/*
+!data_lake/interim/news.jsonl
+!data_lake/interim/douban_nowplaying.jsonl
+!data_lake/interim/tmdb_videos.jsonl
+# analysis 的 4 个 json 早已入库；逐条打分明细是 /insights 的数据源，一并放行
+!data_lake/analysis/reviews_scored.jsonl
+!data_lake/**/.gitkeep
+
+# ---------- 前端 ----------
+node_modules/
+frontend/dist/
+frontend/.vite/

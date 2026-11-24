@@ -1,0 +1,45 @@
+{
+  "_note": "Wikidata SPARQL GEO_QUERY 的响应固件。tt0137523 的两行（?loc=Q65『洛杉矶』、?coord=Point(-118.24368 34.05223)）是 2026-10-14 在 query.wikidata.org 实测的**原始响应逐字拷贝**，并且刻意保留了两行重复 —— 真实端点确实会返回重复行，用来验证『拍摄地去重』。?kind 字段由查询里的 BIND(\"filming\" AS ?kind) 产生，实测时那一版查询没有加 BIND，故按同一绑定结构补上。tt9000001 / Q9000002 为合成条目，用来覆盖『有地点但无坐标』分支。",
+  "head": {
+    "vars": ["film", "prop", "key", "loc", "locLabel", "coord", "kind"]
+  },
+  "results": {
+    "bindings": [
+      {
+        "film": {"type": "uri", "value": "http://www.wikidata.org/entity/Q190050"},
+        "prop": {"type": "uri", "value": "http://www.wikidata.org/prop/direct/P345"},
+        "key": {"type": "literal", "value": "tt0137523"},
+        "loc": {"type": "uri", "value": "http://www.wikidata.org/entity/Q65"},
+        "locLabel": {"xml:lang": "zh-hans", "type": "literal", "value": "洛杉矶"},
+        "coord": {"datatype": "http://www.opengis.net/ont/geosparql#wktLiteral", "type": "literal", "value": "Point(-118.24368 34.05223)"},
+        "kind": {"type": "literal", "value": "filming"}
+      },
+      {
+        "film": {"type": "uri", "value": "http://www.wikidata.org/entity/Q190050"},
+        "prop": {"type": "uri", "value": "http://www.wikidata.org/prop/direct/P345"},
+        "key": {"type": "literal", "value": "tt0137523"},
+        "loc": {"type": "uri", "value": "http://www.wikidata.org/entity/Q65"},
+        "locLabel": {"xml:lang": "zh-hans", "type": "literal", "value": "洛杉矶"},
+        "coord": {"datatype": "http://www.opengis.net/ont/geosparql#wktLiteral", "type": "literal", "value": "Point(-118.24368 34.05223)"},
+        "kind": {"type": "literal", "value": "filming"}
+      },
+      {
+        "film": {"type": "uri", "value": "http://www.wikidata.org/entity/Q190050"},
+        "prop": {"type": "uri", "value": "http://www.wikidata.org/prop/direct/P345"},
+        "key": {"type": "literal", "value": "tt0137523"},
+        "loc": {"type": "uri", "value": "http://www.wikidata.org/entity/Q1297"},
+        "locLabel": {"xml:lang": "zh-hans", "type": "literal", "value": "纽约"},
+        "coord": {"datatype": "http://www.opengis.net/ont/geosparql#wktLiteral", "type": "literal", "value": "Point(-74.006 40.7127)"},
+        "kind": {"type": "literal", "value": "narrative"}
+      },
+      {
+        "film": {"type": "uri", "value": "http://www.wikidata.org/entity/Q9000001"},
+        "prop": {"type": "uri", "value": "http://www.wikidata.org/prop/direct/P345"},
+        "key": {"type": "literal", "value": "tt9000001"},
+        "loc": {"type": "uri", "value": "http://www.wikidata.org/entity/Q9000002"},
+        "locLabel": {"xml:lang": "zh-hans", "type": "literal", "value": "示例取景地（无坐标）"},
+        "kind": {"type": "literal", "value": "filming"}
+      }
+    ]
+  }
+}

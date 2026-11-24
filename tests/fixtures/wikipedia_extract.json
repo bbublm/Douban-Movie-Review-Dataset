@@ -1,0 +1,33 @@
+{
+  "_note": "MediaWiki action=query&prop=extracts 的响应固件，结构为 formatversion=2 的真实格式（pages 为数组、缺失条目为 {title, ns, missing:true}）。条目标题『搏击俱乐部』与 fullurl 取自 Wikidata 实测返回的 zhwiki sitelink。extract 正文为**示例文本**（不是维基百科原文拷贝），只用于验证解析、截断与映射逻辑。『肖申克』是被请求的别名，通过 redirects 表映射到『肖申克的救赎』，用来验证别名解析。",
+  "batchcomplete": true,
+  "query": {
+    "normalized": [
+      {"from": "搏击俱乐部 ", "to": "搏击俱乐部"}
+    ],
+    "redirects": [
+      {"from": "肖申克", "to": "肖申克的救赎"}
+    ],
+    "pages": [
+      {
+        "pageid": 1234567,
+        "ns": 0,
+        "title": "搏击俱乐部",
+        "extract": "《搏击俱乐部》是一部 1999 年上映的美国剧情片，由大卫·芬奇执导，改编自恰克·帕拉尼克的同名小说。影片讲述一位失眠的白领与肥皂商人泰勒·德登相识后，共同创立地下搏击俱乐部的故事。影片上映初期票房与口碑平平，后通过影碟发行成为 cult 经典，被广泛讨论其关于消费主义、男性身份与自我毁灭的主题。",
+        "fullurl": "https://zh.wikipedia.org/wiki/%E6%90%8F%E5%87%BB%E4%BF%B1%E4%B9%90%E9%83%A8"
+      },
+      {
+        "pageid": 2345678,
+        "ns": 0,
+        "title": "肖申克的救赎",
+        "extract": "《肖申克的救赎》是一部 1994 年上映的美国剧情片，由弗兰克·德拉邦特执导，改编自斯蒂芬·金的中篇小说。影片讲述银行家安迪被误判谋杀妻子而入狱，在肖申克监狱中凭借智慧与坚韧生存并最终越狱重获自由的故事。影片长期位居各类影史榜单前列。",
+        "fullurl": "https://zh.wikipedia.org/wiki/%E8%82%96%E7%94%B3%E5%85%8B%E7%9A%84%E6%95%91%E8%B5%8E"
+      },
+      {
+        "ns": 0,
+        "title": "不存在的条目XYZ",
+        "missing": true
+      }
+    ]
+  }
+}

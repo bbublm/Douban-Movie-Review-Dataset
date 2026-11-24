@@ -1,0 +1,53 @@
+{
+  "_comment": "TMDB /movie/550 的真实响应裁剪而来，用于离线验证归一化逻辑（不联网）",
+  "adult": false,
+  "backdrop_path": "/c6OLXfKAk5BKeR6broC8pYiCquX.jpg",
+  "budget": 63000000,
+  "genres": [
+    { "id": 18, "name": "剧情" },
+    { "id": 53, "name": "悬疑" }
+  ],
+  "id": 550,
+  "imdb_id": "tt0137523",
+  "original_language": "en",
+  "original_title": "Fight Club",
+  "overview": "一名失眠的上班族与一名肥皂推销员共同创立了地下搏击俱乐部，事情逐渐失控。",
+  "popularity": 38.1445,
+  "poster_path": "/jSziioSwPVrOy9Yow3XhWIBDjq1.jpg",
+  "production_countries": [
+    { "iso_3166_1": "DE", "name": "德国" },
+    { "iso_3166_1": "US", "name": "美国" }
+  ],
+  "release_date": "1999-10-15",
+  "runtime": 139,
+  "spoken_languages": [
+    { "english_name": "English", "iso_639_1": "en", "name": "英语" }
+  ],
+  "status": "Released",
+  "tagline": "Mischief. Mayhem. Soap.",
+  "title": "搏击俱乐部",
+  "vote_average": 8.4,
+  "vote_count": 33023,
+  "credits": {
+    "cast": [
+      { "name": "爱德华·诺顿" },
+      { "name": "布拉德·皮特" },
+      { "name": "海伦娜·伯翰·卡特" }
+    ],
+    "crew": [
+      { "name": "大卫·芬奇", "job": "Director" },
+      { "name": "Jim Uhls", "job": "Screenplay" }
+    ]
+  },
+  "keywords": {
+    "keywords": [
+      { "id": 1, "name": "dual identity" },
+      { "id": 2, "name": "nihilism" },
+      { "id": 3, "name": "insomnia" }
+    ]
+  },
+  "external_ids": {
+    "imdb_id": "tt0137523",
+    "wikidata_id": "Q190050"
+  }
+}

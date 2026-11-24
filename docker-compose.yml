@@ -1,0 +1,148 @@
+## ============================================================
+## 电影盒子 · 全栈编排（阶段 7）
+##
+## 一键部署：
+##   docker-compose up -d            # ES + 后端 + 前端，首次启动自动导索引
+##   打开 http://localhost:8080      # 前端（nginx 托管 + /api 反代）
+##   http://localhost:8000/docs      # 后端 Swagger 文档
+##
+## 组件关系：
+##   frontend(nginx:80) --/api--> backend(uvicorn:8000) --> elasticsearch:9200
+##   三个服务同在 yjzs-net 网络里，用服务名互相寻址。
+##
+## 其他常用命令：
+##   docker-compose ps                     看容器与健康状态
+##   docker-compose logs -f backend        跟后端日志（含索引导入进度）
+##   docker-compose --profile tools up -d  额外起 Kibana（5601）
+##   docker-compose down                   停容器，保留 ES 数据卷
+##   docker-compose down -v                停容器 + 删数据卷（清库，下次启动重新导）
+##   docker-compose build                  改了代码/Dockerfile 后重建镜像
+##
+## 注意：ES_HOSTS 在这里**硬编码**为 http://elasticsearch:9200，
+## 不读宿主 .env 的值 —— 容器网络里 ES 的地址是 compose 服务名，
+## 而本机开发 .env 里写的是 127.0.0.1:9200，直接透传会连错。
+## ============================================================
+
+name: yingjian-zhisou
+
+services:
+  # ------------------------------------------------------------
+  # Elasticsearch 8.x 单节点（IK 中文分词写进镜像，见 docker/elasticsearch）
+  # ------------------------------------------------------------
+  elasticsearch:
+    build:
+      context: ./docker/elasticsearch
+      args:
+        ES_VERSION: ${ES_VERSION:-8.15.3}
+        IK_VERSION: ${IK_VERSION:-8.15.3}
+    image: yingjian-zhisou/es-ik:${ES_VERSION:-8.15.3}
+    container_name: yjzs-es
+    environment:
+      - node.name=yjzs-es01
+      - cluster.name=yjzs-cluster
+      - discovery.type=single-node
+      # Windows / Docker Desktop(WSL2) 下磁盘 IO 抖动大，关掉内存锁更稳
+      - bootstrap.memory_lock=false
+      - xpack.security.enabled=false
+      - xpack.security.http.ssl.enabled=false
+      - xpack.security.transport.ssl.enabled=false
+      - ingest.geoip.downloader.enabled=false
+      - ES_JAVA_OPTS=${ES_JAVA_OPTS:--Xms1g -Xmx1g}
+      - TZ=Asia/Shanghai
+    ulimits:
+      nofile:
+        soft: 65536
+        hard: 65536
+    volumes:
+      - es_data:/usr/share/elasticsearch/data
+    ports:
+      - "9200:9200"
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fs http://localhost:9200/_cluster/health || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 30
+      start_period: 40s
+    restart: unless-stopped
+    networks:
+      - yjzs
+
+  # ------------------------------------------------------------
+  # 后端：FastAPI + uvicorn
+  # 入口（docker/backend/entrypoint.sh）等 ES 就绪 → 索引缺失自动导入 → 起服务
+  # 镜像里已打进 processed 数据与 analysis 产物，首次启动即可用
+  # ------------------------------------------------------------
+  backend:
+    build:
+      context: .
+      dockerfile: docker/backend/Dockerfile
+    image: yingjian-zhisou/backend:1.0.0
+    container_name: yjzs-backend
+    environment:
+      # 容器网络内 ES 地址 = compose 服务名（上面注释解释过为什么不透传宿主 .env）
+      - ES_HOSTS=http://elasticsearch:9200
+      - API_PORT=8000
+      # 前端经 nginx 同源反代，CORS 本不触发；这里仍显式放行 8080 直连场景
+      - CORS_ORIGINS=http://localhost:8080,http://127.0.0.1:8080
+      # 海报代理（image.tmdb.org 出网）：默认直连。
+      # 宿主机跑代理时，在 .env 里设 IMAGE_FETCH_PROXY_DOCKER=http://host.docker.internal:12001
+      # （注意：容器里 127.0.0.1 是容器自己，不是宿主机；extra_hosts 已放行 host-gateway）
+      - IMAGE_FETCH_PROXY=${IMAGE_FETCH_PROXY_DOCKER:-}
+      - TZ=Asia/Shanghai
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    ports:
+      - "8000:8000"
+    depends_on:
+      elasticsearch:
+        condition: service_healthy
+    restart: unless-stopped
+    networks:
+      - yjzs
+
+  # ------------------------------------------------------------
+  # 前端：多阶段构建（node 构建 → nginx 托管），SPA fallback + /api 反代
+  # 等 backend healthy 再起：nginx 启动时要解析 backend 服务名
+  # ------------------------------------------------------------
+  frontend:
+    build:
+      context: .
+      dockerfile: docker/frontend/Dockerfile
+    image: yingjian-zhisou/frontend:1.0.0
+    container_name: yjzs-frontend
+    ports:
+      - "8080:80"
+    depends_on:
+      backend:
+        condition: service_healthy
+    restart: unless-stopped
+    networks:
+      - yjzs
+
+  # ------------------------------------------------------------
+  # Kibana：tools profile，默认不启动（需要时 --profile tools）
+  # ------------------------------------------------------------
+  kibana:
+    image: docker.elastic.co/kibana/kibana:${ES_VERSION:-8.15.3}
+    container_name: yjzs-kibana
+    profiles: ["tools"]
+    environment:
+      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
+      - I18N_LOCALE=zh-CN
+      - TZ=Asia/Shanghai
+    ports:
+      - "5601:5601"
+    depends_on:
+      elasticsearch:
+        condition: service_healthy
+    networks:
+      - yjzs
+
+volumes:
+  es_data:
+    name: yjzs_es_data
+
+networks:
+  yjzs:
+    name: yjzs-net
+    driver: bridge
